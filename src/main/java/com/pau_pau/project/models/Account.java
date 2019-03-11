@@ -1,6 +1,5 @@
 package com.pau_pau.project.models;
 
-import javax.persistence.Id;
 import javax.persistence.*;
 
 @Entity
@@ -15,13 +14,14 @@ public class Account {
     private String name;
 
     @Column(nullable = false, unique = true)
-    private String login;
+    private String username;
 
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "permissions_level")
-    private int permissionsLevel;
+    private Role permissionsLevel;
 
     public Account() {
         super();
@@ -35,13 +35,6 @@ public class Account {
         this.name = name;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
 
     public String getPassword() {
         return password;
@@ -60,11 +53,19 @@ public class Account {
         this.id = id;
     }
 
-    public int getPermissionsLevel() {
+    public Role getPermissionsLevel() {
         return permissionsLevel;
     }
 
-    public void setPermissionsLevel(int permissionsLevel) {
+    public void setPermissionsLevel(Role permissionsLevel) {
         this.permissionsLevel = permissionsLevel;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
