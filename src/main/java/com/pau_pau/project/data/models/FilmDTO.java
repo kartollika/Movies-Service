@@ -1,53 +1,39 @@
 package com.pau_pau.project.data.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-@Table(name = "films")
-public class Film {
+public class FilmDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    public static FilmDTO fromFilmModel(Film film) {
+        FilmDTO filmDTO = new FilmDTO();
+        filmDTO.id = film.getId();
+        filmDTO.title = film.getTitle();
+        filmDTO.year = film.getYear();
+        filmDTO.country = film.getCountry();
+        for (Director director : film.getDirectors()) {
+            filmDTO.directors.add(DirectorDTO.fromDirectorModel(director));
+        }
+        filmDTO.budget = film.getBudget();
+        filmDTO.release = film.getRelease();
+        return filmDTO;
+    }
+
     private int id;
 
-    @Column
     private String title;
 
-    @Column
-    @CreationTimestamp
     private Timestamp year;
 
-    @Column
     private String country;
 
-    @Column
-    @ManyToMany
-    @JoinTable(
-            name = "films_directors",
-            joinColumns = @JoinColumn(name = "film_id"),
-            inverseJoinColumns = @JoinColumn(name = "director_id")
-    )
-    private Set<Director> directors = new HashSet<>();
+    private Set<DirectorDTO> directors = new HashSet<>();
 
-    @Column
     private String genre;
 
-    @Column(name = "release")
-    @CreationTimestamp
     private Timestamp release;
 
-    @Column
     private float budget;
 
     public int getId() {
@@ -82,11 +68,11 @@ public class Film {
         this.country = country;
     }
 
-    public Set<Director> getDirectors() {
+    public Set<DirectorDTO> getDirectors() {
         return directors;
     }
 
-    public void setDirectors(Set<Director> directors) {
+    public void setDirectors(Set<DirectorDTO> directors) {
         this.directors = directors;
     }
 

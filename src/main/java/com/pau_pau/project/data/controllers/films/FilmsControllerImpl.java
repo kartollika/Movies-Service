@@ -2,7 +2,8 @@ package com.pau_pau.project.data.controllers.films;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.data.models.Film;
-import com.pau_pau.project.data.repository.films.FilmsRepository;
+import com.pau_pau.project.data.models.FilmDTO;
+import com.pau_pau.project.data.services.FilmsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class FilmsControllerImpl {
 
     @Autowired
-    private FilmsRepository filmsRepository;
+    private FilmsServiceImpl filmsService;
 
     private static final Calendar gregorianCalendarInitial = GregorianCalendar.getInstance();
 
@@ -38,13 +39,13 @@ public class FilmsControllerImpl {
 
 
     @GetMapping
-    public Iterable<Film> getFilms(@RequestParam(defaultValue = DEFAULT_FILM_TITLE) String title,
-                                   @RequestParam(required = false) Optional<Timestamp> year,
-                                   @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
-                                   @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
-                                   @RequestParam(required = false) Optional<Timestamp> releaseDate,
-                                   @RequestParam(required = false) Optional<Float> budget) {
-        return filmsRepository.findFilms(title,
+    public Iterable<FilmDTO> getFilms(@RequestParam(defaultValue = DEFAULT_FILM_TITLE) String title,
+                                      @RequestParam(required = false) Optional<Timestamp> year,
+                                      @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
+                                      @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
+                                      @RequestParam(required = false) Optional<Timestamp> releaseDate,
+                                      @RequestParam(required = false) Optional<Float> budget) {
+        return filmsService.findFilms(title,
                 year.orElse(DEFAULT_FILM_YEAR),
                 country,
                 genre,
@@ -53,8 +54,8 @@ public class FilmsControllerImpl {
     }
 
     @GetMapping(ControllerConstants.FILM_BY_ID)
-    public Film getFilmById(@RequestParam int filmId) {
-        return filmsRepository.findById(filmId).orElseThrow();
+    public FilmDTO getFilmById(@RequestParam int filmId) {
+        return filmsService.findFilmById(filmId);
     }
 
     /* ================================
@@ -63,9 +64,8 @@ public class FilmsControllerImpl {
 
     @PostMapping
     public void addFilm(@ModelAttribute Film film) {
-        filmsRepository.save(film);
+        filmsService.addFilm(film);
     }
-
 
     /* ================================
                  PUT METHODS
@@ -73,8 +73,7 @@ public class FilmsControllerImpl {
 
     @PutMapping
     public void updateFilm(@RequestParam int filmId, @ModelAttribute Film film) {
-        film.setId(filmId);
-        filmsRepository.save(film);
+        filmsService.updateFilm(filmId, film);
     }
 
     /* ================================
@@ -83,8 +82,6 @@ public class FilmsControllerImpl {
 
     @DeleteMapping
     public void deleteFilm(@RequestParam int filmId) {
-        filmsRepository.deleteById(filmId);
+        filmsService.deleteFilmById(filmId);
     }
-
-
 }
