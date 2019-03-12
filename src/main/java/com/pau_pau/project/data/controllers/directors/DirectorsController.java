@@ -1,33 +1,31 @@
 package com.pau_pau.project.data.controllers.directors;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.models.Director;
-import com.pau_pau.project.data.repository.directors.DirectorsRepository;
+import com.pau_pau.project.data.models.DirectorDTO;
+import com.pau_pau.project.data.services.DirectorsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(ControllerConstants.DIRECTORS_URL)
 public class DirectorsController {
 
     @Autowired
-    private DirectorsRepository directorsRepository;
+    private DirectorsServiceImpl directorsService;
 
     /* ================================
                  GET METHODS
      ================================== */
 
     @GetMapping
-    public List<Director> getDirectors(@RequestParam String name,
-                                       @RequestParam String country) {
-        return directorsRepository.findDirectors(name, country);
+    public Iterable<DirectorDTO> getDirectors(@RequestParam String name,
+                                              @RequestParam String country) {
+        return directorsService.findDirectors(name, country);
     }
 
     @GetMapping(ControllerConstants.DIRECTOR_BY_ID)
-    public Director getDirectorById(@RequestParam int directorId) {
-        return directorsRepository.findById(directorId).orElseThrow();
+    public DirectorDTO getDirectorById(@RequestParam int directorId) {
+        return directorsService.findDirectorById(directorId);
     }
 
     /* ================================
@@ -35,8 +33,8 @@ public class DirectorsController {
      ================================== */
 
     @PostMapping
-    public void addDirector(@ModelAttribute Director director) {
-        directorsRepository.save(director);
+    public void addDirector(@ModelAttribute DirectorDTO director) {
+        directorsService.addDirector(director);
     }
 
     /* ================================
@@ -44,9 +42,8 @@ public class DirectorsController {
      ================================== */
 
     @PutMapping
-    public void updateDirector(@RequestParam int directorId, @ModelAttribute Director director) {
-        director.setId(directorId);
-        directorsRepository.save(director);
+    public void updateDirector(@RequestParam int directorId, @ModelAttribute DirectorDTO director) {
+        directorsService.updateDirector(directorId, director);
     }
 
     /* ================================
@@ -55,6 +52,6 @@ public class DirectorsController {
 
     @DeleteMapping
     public void deleteDirector(@RequestParam int directorId) {
-        directorsRepository.deleteById(directorId);
+        directorsService.deleteDirectorById(directorId);
     }
 }

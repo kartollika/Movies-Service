@@ -16,6 +16,20 @@ import java.util.Set;
 @Table(name = "films")
 public class Film {
 
+    public static Film fromFilmDTOModel(FilmDTO filmDTO) {
+        Film film = new Film();
+        film.id = filmDTO.getId();
+        film.title = filmDTO.getTitle();
+        film.year = filmDTO.getYear();
+        film.country = filmDTO.getCountry();
+        for (DirectorDTO director : filmDTO.getDirectors()) {
+            film.directors.add(Director.fromDirectorDTOModel(director));
+        }
+        film.budget = film.getBudget();
+        film.release = film.getRelease();
+        return film;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

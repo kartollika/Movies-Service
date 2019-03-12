@@ -1,7 +1,6 @@
 package com.pau_pau.project.data.controllers.films;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.models.Film;
 import com.pau_pau.project.data.models.FilmDTO;
 import com.pau_pau.project.data.services.FilmsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +53,7 @@ public class FilmsControllerImpl {
     }
 
     @GetMapping(ControllerConstants.FILM_BY_ID)
-    public FilmDTO getFilmById(@RequestParam int filmId) {
+    public FilmDTO getFilmById(@RequestParam(name = "id") int filmId) {
         return filmsService.findFilmById(filmId);
     }
 
@@ -63,7 +62,7 @@ public class FilmsControllerImpl {
      ================================== */
 
     @PostMapping
-    public void addFilm(@ModelAttribute Film film) {
+    public void addFilm(@ModelAttribute FilmDTO film) {
         filmsService.addFilm(film);
     }
 
@@ -72,7 +71,7 @@ public class FilmsControllerImpl {
      ================================== */
 
     @PutMapping
-    public void updateFilm(@RequestParam int filmId, @ModelAttribute Film film) {
+    public void updateFilm(@RequestParam int filmId, @ModelAttribute FilmDTO film) {
         filmsService.updateFilm(filmId, film);
     }
 

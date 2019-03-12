@@ -13,6 +13,14 @@ import java.util.Set;
 @Table(name = "directors")
 public class Director {
 
+    public static Director fromDirectorDTOModel(DirectorDTO directorDTO) {
+        Director director = new Director();
+        director.id = directorDTO.getId();
+        director.name = directorDTO.getName();
+        director.country = directorDTO.getCountry();
+        return director;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

@@ -35,14 +35,14 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public void addFilm(Film film) {
-        filmsRepository.save(film);
+    public void addFilm(FilmDTO filmDTO) {
+        filmsRepository.save(Film.fromFilmDTOModel(filmDTO));
     }
 
     @Override
-    public void updateFilm(int id, Film film) {
-        film.setId(id);
-        filmsRepository.save(film);
+    public void updateFilm(int id, FilmDTO filmDTO) {
+        filmDTO.setId(id);
+        filmsRepository.save(Film.fromFilmDTOModel(filmDTO));
     }
 
     @Override
