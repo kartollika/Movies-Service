@@ -15,6 +15,7 @@ public class FilmDTO {
         for (Director director : film.getDirectors()) {
             filmDTO.directors.add(DirectorDTO.fromDirectorModel(director));
         }
+        filmDTO.genre = film.getGenre();
         filmDTO.budget = film.getBudget();
         filmDTO.release = film.getRelease();
         return filmDTO;
@@ -53,7 +54,7 @@ public class FilmDTO {
     }
 
     public Timestamp getYear() {
-        return (Timestamp) year.clone();
+        return year;
     }
 
     public void setYear(Timestamp year) {
@@ -85,7 +86,7 @@ public class FilmDTO {
     }
 
     public Timestamp getRelease() {
-        return (Timestamp) release.clone();
+        return release;
     }
 
     public void setRelease(Timestamp release) {

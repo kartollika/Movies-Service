@@ -61,8 +61,8 @@ public class FilmsControllerImpl {
                  POST METHODS
      ================================== */
 
-    @PostMapping
-    public void addFilm(@ModelAttribute FilmDTO film) {
+    @PostMapping(consumes = "application/json")
+    public void addFilm(@RequestBody FilmDTO film) {
         filmsService.addFilm(film);
     }
 
@@ -70,8 +70,8 @@ public class FilmsControllerImpl {
                  PUT METHODS
      ================================== */
 
-    @PutMapping
-    public void updateFilm(@RequestParam int filmId, @ModelAttribute FilmDTO film) {
+    @PutMapping(consumes = "application/json")
+    public void updateFilm(@RequestParam int filmId, @RequestBody FilmDTO film) {
         filmsService.updateFilm(filmId, film);
     }
 
