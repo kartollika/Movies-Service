@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(username)
                 .password(account.getPassword())
-                .authorities(account.getPermissionsLevel().name())
+                .roles(account.getPermissionsLevel().name())
                 .accountExpired(false)
                 .accountLocked(false)
                 .credentialsExpired(false)

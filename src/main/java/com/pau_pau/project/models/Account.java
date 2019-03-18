@@ -27,6 +27,12 @@ public class Account {
         super();
     }
 
+    @Override
+    public String toString() {
+        return id + " " + name + " " + username + " " + password + " " + permissionsLevel;
+    }
+
+
     public String getName() {
         return name;
     }

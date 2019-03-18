@@ -1,25 +1,34 @@
 package com.pau_pau.project.security;
 
-import java.io.IOException;
-import java.util.Collections;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import java.io.IOException;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    public JWTLoginFilter(String url, AuthenticationManager authManager) {
+    private UserDetailsService userDetailsService;
+    private TokenAuthenticationService tokenAuthenticationService;
+
+    public JWTLoginFilter(
+            String url,
+            AuthenticationManager authManager,
+            UserDetailsService userDetailsService,
+            TokenAuthenticationService tokenAuthenticationService) {
         super(new AntPathRequestMatcher(url));
         setAuthenticationManager(authManager);
+        this.userDetailsService = userDetailsService;
+        this.tokenAuthenticationService = tokenAuthenticationService;
     }
 
     @Override
@@ -34,8 +43,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         System.out.printf("JWTLoginFilter.attemptAuthentication: username/password= %s,%s", username, password);
         System.out.println();
 
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
         return getAuthenticationManager()
-                .authenticate(new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList()));
+                .authenticate(new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities()));
     }
 
     @Override
@@ -47,7 +58,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         System.out.println("JWTLoginFilter.successfulAuthentication:");
 
         // Write Authorization to Headers of Response.
-        TokenAuthenticationService.addAuthentication(response, authResult.getName());
+        tokenAuthenticationService.addAuthentication(response, authResult.getName());
 
         String authorizationString = response.getHeader("Authorization");
 
