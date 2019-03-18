@@ -10,16 +10,15 @@
 
 //import ex from './slide.vue'
 
-window.onload = function () {
-  Vue.use(VueAwesomeSwiper)
-  new Vue({
-    el: '#app',
+Vue.use(VueAwesomeSwiper)
+new Vue({
+    el: '#movies-swiper',
     components: {
       LocalSwiper: VueAwesomeSwiper.swiper,
       LocalSlide: VueAwesomeSwiper.swiperSlide,
     },
     data: {
-      showLoginModal: false,
+      films: [],
       moviesSwiperOptions: {
         slidesPerView: 3,
         spaceBetween: 30,
@@ -34,7 +33,6 @@ window.onload = function () {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
         }
-
       }
     },
     computed: {
@@ -42,15 +40,16 @@ window.onload = function () {
         return this.$refs.moviesSwiper.swiper
       }
     },
+    mounted() {
+      axios.get('http://localhost:8080/film').then(response => (this.films = response.data));
+    },
     methods: {
       onSetTranslate() {
         console.log('onSetTranslate')
+      },
+      getUrl(url) {
+        return "img/" + url + ".jpg"
       }
     }
   })
 
-  // register modal component
-  Vue.component('modal', {
-    template: '#login-modal'
-  })
-}
