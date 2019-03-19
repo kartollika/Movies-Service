@@ -12,53 +12,58 @@
 </head>
 
 <body>
+    <noscript>
+        <strong>Наш сервис не работает с отключенным JS. Если вы хотите продолжить, включите JS в настройках вашего
+            браузера.</strong>
+    </noscript>
+    <!-- TODO: Настроить сборку страниц -->
     <!-- app -->
     <div id="app">
-            <header>
-                <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                    <a class="navbar-brand" href="#"><img src="img/logo.png" width="185" alt="navbar"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
-                        aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarColor01">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Главная</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Случайный фильм</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Добавить фильм</a>
-                            </li>
-                            <li class="nav-item">
-                                    <a class="nav-link" href="#">Запрос</a>
-                            </li>
-                        </ul>
-                        <a href="#" class="nav-link border border-light rounded" id="show-login-modal" @click="showLoginModal = true"
-                            title="Войти">
-                            <i class="fa fa-sign-in mr-2"></i>Войти</a>
-                    </div>
-                </nav>
-            </header>
-    
-            <div class="menu">
-                    <ul>
-                        <li><a href="#">История просмотров</a></li>
-                        <li><a href="#">Избранное</a></li>
-                        <li><a href="#">Жанры:</a></li>
-                        <li><a href="#">Боевики</a></li>
-                        <li><a href="#">Детективы</a></li>
-                        <li><a href="#">Драма</a></li>
-                        <li><a href="#">Комедия</a></li>
-                        <li><a href="#">Документальный</a></li>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <a class="navbar-brand" href="#"><img src="img/logo.png" width="185" alt="navbar"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Случайный фильм</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Добавить фильм</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Запрос</a>
+                        </li>
                     </ul>
+                    <a href="#" class="nav-link border border-light rounded" id="show-login-modal" @click="showLoginModal = true"
+                        title="Войти">
+                        <i class="fa fa-sign-in mr-2"></i>Войти</a>
                 </div>
-    
-            <!-- template for the modal component -->
-            <script type="text/x-template" id="login-modal">
-                <transition name="modal">
+            </nav>
+        </header>
+
+        <div class="menu">
+            <ul>
+                <li><a href="#">История просмотров</a></li>
+                <li><a href="#">Избранное</a></li>
+                <li><a href="#">Жанры:</a></li>
+                <li><a href="#">Боевики</a></li>
+                <li><a href="#">Детективы</a></li>
+                <li><a href="#">Драма</a></li>
+                <li><a href="#">Комедия</a></li>
+                <li><a href="#">Документальный</a></li>
+            </ul>
+        </div>
+
+        <!-- template for the modal component -->
+        <script type="text/x-template" id="login-modal">
+            <transition name="modal">
                     <div class="modal-mask">
                         <div class="modal-wrapper">
                             <div class="modal-container">
@@ -124,10 +129,10 @@
                     </div>
                 </transition>
             </script>
-            <!-- use the modal component, pass in the prop -->
-            <modal v-if="showLoginModal" @close="showLoginModal = false">
-                <h3 slot="header">Custom header</h3>
-            </modal>
+        <!-- use the modal component, pass in the prop -->
+        <modal v-if="showLoginModal" @close="showLoginModal = false">
+            <h3 slot="header">Custom header</h3>
+        </modal>
     </div>
 
     <div class="modal-content center card text-white bg-dark">
