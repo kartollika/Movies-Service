@@ -1,5 +1,7 @@
 package com.pau_pau.project.data.models;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class DirectorDTO {
 
     public static DirectorDTO fromDirectorModel(Director director) {
@@ -10,6 +12,7 @@ public class DirectorDTO {
         return directorDto;
     }
 
+    @ApiModelProperty(readOnly = true)
     private int id;
 
     private String name;

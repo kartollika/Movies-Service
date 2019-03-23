@@ -1,6 +1,9 @@
 package com.pau_pau.project.data.models;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,11 +24,12 @@ public class FilmDTO {
         return filmDTO;
     }
 
+    @ApiModelProperty(readOnly = true)
     private int id;
 
     private String title;
 
-    private Timestamp year;
+    private Date year;
 
     private String country;
 
@@ -33,7 +37,7 @@ public class FilmDTO {
 
     private String genre;
 
-    private Timestamp release;
+    private Date release;
 
     private float budget;
 
@@ -53,11 +57,11 @@ public class FilmDTO {
         this.title = title;
     }
 
-    public Timestamp getYear() {
+    public Date getYear() {
         return year;
     }
 
-    public void setYear(Timestamp year) {
+    public void setYear(Date year) {
         this.year = year;
     }
 
@@ -85,7 +89,7 @@ public class FilmDTO {
         this.genre = genre;
     }
 
-    public Timestamp getRelease() {
+    public Date getRelease() {
         return release;
     }
 
