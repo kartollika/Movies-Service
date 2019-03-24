@@ -9,5 +9,6 @@ public class ControllerConstants {
     public static final String DIRECTOR_BY_ID = "/director";
 
     public static final String ACCOUNT_URL = "/api/account";
-    public static final String CHANGE_ROLE = "/role";
+    public static final String ACCOUNT_USERNAME = "/{username}";
+    public static final String CHANGE_ROLE = "/role/{username}";
 }

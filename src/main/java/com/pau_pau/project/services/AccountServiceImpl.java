@@ -23,51 +23,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateRole(String username, Role role) {
-        Account updatingAccount = accountsRepository.findByUsername(username);
+    public void updateRole(String username, Role role) throws Exception {
+        Account updatingAccount = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
         updatingAccount.setPermissionsLevel(role);
         accountsRepository.save(updatingAccount);
     }
 
     @Override
-    public Account findByUsername(String username) {
-        return accountsRepository.findByUsername(username);
-    }
-
-    @Override
-    public Account findById(int id) {
-        return accountsRepository.findById(id);
-    }
-
-    // Если найдем способ получше, то будет здорово
-    private Account createNewAccountModelToSave(String oldUsername, Account oldAccountInfo, Account newAccountInfo) {
-        Account newAccountModel = new Account();
-
-        newAccountModel.setId(oldAccountInfo.getId());
-
-        if (newAccountInfo.getName() == null) {
-            newAccountModel.setName(oldAccountInfo.getName());
-        } else {
-            newAccountModel.setName(newAccountInfo.getName());
-        }
-
-        if (newAccountInfo.getUsername() == null) {
-            newAccountModel.setUsername(oldUsername);
-        } else {
-            newAccountModel.setUsername(newAccountInfo.getUsername());
-        }
-
-        if (newAccountInfo.getPassword() == null) {
-            newAccountModel.setPassword(oldAccountInfo.getPassword());
-        } else {
-            newAccountModel.setPassword(passwordEncoderUtil.passwordEncoder().encode(newAccountInfo.getPassword()));
-        }
-
-        if (newAccountInfo.getPermissionsLevel() == null) {
-            newAccountModel.setPermissionsLevel(oldAccountInfo.getPermissionsLevel());
-        } else {
-            newAccountModel.setPermissionsLevel(newAccountInfo.getPermissionsLevel());
-        }
-        return newAccountModel;
+    public Account findByUsername(String username) throws Exception {
+        return accountsRepository.findByUsername(username).orElseThrow(Exception::new);
     }
 }

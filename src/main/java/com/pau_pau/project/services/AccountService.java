@@ -7,9 +7,7 @@ public interface AccountService {
 
     void save(Account account);
 
-    void updateRole(String username, Role role);
+    void updateRole(String username, Role role) throws Exception;
 
-    Account findByUsername(String username);
-
-    Account findById(int id);
+    Account findByUsername(String username) throws Exception;
 }
