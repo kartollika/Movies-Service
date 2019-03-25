@@ -3,8 +3,10 @@ package com.pau_pau.project.database;
 import com.pau_pau.project.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AccountsRepository extends JpaRepository<Account, Long> {
-    Account findByUsername(String username);
+import java.util.Optional;
 
-    Account findById(int id);
+public interface AccountsRepository extends JpaRepository<Account, Long> {
+    Optional<Account> findByUsername(String username);
+
+    Optional<Account> findById(int id);
 }
