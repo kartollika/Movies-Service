@@ -6,6 +6,7 @@ import com.pau_pau.project.data.repository.directors.DirectorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.InstanceNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,23 +27,37 @@ public class DirectorsServiceImpl implements DirectorsService {
     }
 
     @Override
-    public DirectorDTO findDirectorById(int id) {
+    public DirectorDTO findDirectorById(int id) throws InstanceNotFoundException {
+        if (!directorsRepository.existsById(id)) {
+            throw new InstanceNotFoundException();
+        }
         return DirectorDTO.fromDirectorModel(directorsRepository.findById(id).orElseThrow());
     }
 
     @Override
-    public void addDirector(DirectorDTO director) {
-        directorsRepository.save(Director.fromDirectorDTOModel(director));
+    public DirectorDTO addDirector(DirectorDTO director) {
+        Director directorToDB = Director.fromDirectorDTOModel(director);
+        directorsRepository.save(directorToDB);
+        return DirectorDTO.fromDirectorModel(directorToDB);
     }
 
     @Override
-    public void updateDirector(int id, DirectorDTO director) {
+    public DirectorDTO updateDirector(int id, DirectorDTO director) throws InstanceNotFoundException {
+        if (!directorsRepository.existsById(id)) {
+            throw new InstanceNotFoundException();
+        }
         director.setId(id);
         directorsRepository.save(Director.fromDirectorDTOModel(director));
+        return director;
     }
 
     @Override
-    public void deleteDirectorById(int id) {
+    public DirectorDTO deleteDirectorById(int id) throws InstanceNotFoundException {
+        if (!directorsRepository.existsById(id)) {
+            throw new InstanceNotFoundException();
+        }
+        DirectorDTO director = DirectorDTO.fromDirectorModel(directorsRepository.findById(id).get());
         directorsRepository.deleteById(id);
+        return director;
     }
 }

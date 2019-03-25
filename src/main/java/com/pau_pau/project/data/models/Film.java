@@ -2,10 +2,9 @@ package com.pau_pau.project.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +24,9 @@ public class Film {
         for (DirectorDTO director : filmDTO.getDirectors()) {
             film.directors.add(Director.fromDirectorDTOModel(director));
         }
-        film.budget = film.getBudget();
-        film.release = film.getRelease();
+        film.genre = filmDTO.getGenre();
+        film.budget = filmDTO.getBudget();
+        film.release = filmDTO.getRelease();
         return film;
     }
 
@@ -39,8 +39,8 @@ public class Film {
     private String title;
 
     @Column
-    @CreationTimestamp
-    private Timestamp year;
+//    @CreationTimestamp
+    private Date year;
 
     @Column
     private String country;
@@ -58,8 +58,8 @@ public class Film {
     private String genre;
 
     @Column(name = "release")
-    @CreationTimestamp
-    private Timestamp release;
+//    @CreationTimestamp
+    private Date release;
 
     @Column
     private float budget;
@@ -80,11 +80,11 @@ public class Film {
         this.title = title;
     }
 
-    public Timestamp getYear() {
-        return (Timestamp) year.clone();
+    public Date getYear() {
+        return year;
     }
 
-    public void setYear(Timestamp year) {
+    public void setYear(Date year) {
         this.year = year;
     }
 
@@ -112,11 +112,11 @@ public class Film {
         this.genre = genre;
     }
 
-    public Timestamp getRelease() {
-        return (Timestamp) release.clone();
+    public Date getRelease() {
+        return release;
     }
 
-    public void setRelease(Timestamp release) {
+    public void setRelease(Date release) {
         this.release = release;
     }
 
