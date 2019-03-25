@@ -27,7 +27,7 @@ public class DirectorsServiceImpl implements DirectorsService {
 
     @Override
     public DirectorDTO findDirectorById(int id) {
-        return DirectorDTO.fromDirectorModel(directorsRepository.findById(id).orElse(null));
+        return DirectorDTO.fromDirectorModel(directorsRepository.findById(id).orElseThrow());
     }
 
     @Override

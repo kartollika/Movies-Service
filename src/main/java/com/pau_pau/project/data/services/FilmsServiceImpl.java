@@ -31,7 +31,7 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public FilmDTO findFilmById(int id) {
-        return FilmDTO.fromFilmModel(filmsRepository.findById(id).orElse(null));
+        return FilmDTO.fromFilmModel(filmsRepository.findById(id).orElseThrow());
     }
 
     @Override

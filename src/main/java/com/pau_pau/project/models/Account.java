@@ -29,7 +29,11 @@ public class Account {
 
     @Override
     public String toString() {
-        return id + " " + name + " " + username + " " + password + " " + permissionsLevel;
+        return "id: " + id +
+                "\nname:  " + name +
+                "\nusername: " + username +
+                "\npassword: Not allowed" +
+                "\npermissionLevel: " + permissionsLevel;
     }
 
 
