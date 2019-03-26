@@ -3,11 +3,9 @@ package com.pau_pau.project.services;
 import com.pau_pau.project.database.AccountsRepository;
 import com.pau_pau.project.models.Account;
 import com.pau_pau.project.models.Role;
+import com.pau_pau.project.utils.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class AccountServiceImpl implements AccountService {
@@ -15,25 +13,24 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountsRepository accountsRepository;
 
-
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoderUtil passwordEncoderUtil;
 
     @Override
     public void save(Account account) {
-        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
-        // everyone is user after registration
-        account.setPermissionsLevel(Role.USER);
+        account.setPassword(passwordEncoderUtil.passwordEncoder().encode(account.getPassword()));
         accountsRepository.save(account);
     }
 
     @Override
-    public Account findByUsername(String username) {
-        return accountsRepository.findByUsername(username);
+    public void updateRole(String username, Role role) throws Exception {
+        Account updatingAccount = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
+        updatingAccount.setPermissionsLevel(role);
+        accountsRepository.save(updatingAccount);
     }
 
     @Override
-    public Account findById(int id) {
-        return accountsRepository.findById(id);
+    public Account findByUsername(String username) throws Exception {
+        return accountsRepository.findByUsername(username).orElseThrow(Exception::new);
     }
 }

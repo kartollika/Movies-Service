@@ -1,57 +1,16 @@
 package com.pau_pau.project.data.controllers.directors;
 
-import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.data.models.DirectorDTO;
-import com.pau_pau.project.data.services.DirectorsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping(ControllerConstants.DIRECTORS_URL)
-public class DirectorsController {
+public interface DirectorsController {
 
-    @Autowired
-    private DirectorsServiceImpl directorsService;
+    Iterable<DirectorDTO> getDirectors(String name, String country);
 
-    /* ================================
-                 GET METHODS
-     ================================== */
+    DirectorDTO getDirectorById(int directorId);
 
-    @GetMapping
-    public Iterable<DirectorDTO> getDirectors(@RequestParam String name,
-                                              @RequestParam String country) {
-        return directorsService.findDirectors(name, country);
-    }
+    DirectorDTO addDirector(DirectorDTO director);
 
-    @GetMapping(ControllerConstants.DIRECTOR_BY_ID)
-    public DirectorDTO getDirectorById(@RequestParam int directorId) {
-        return directorsService.findDirectorById(directorId);
-    }
+    DirectorDTO updateDirector(int directorId, DirectorDTO director);
 
-    /* ================================
-                 POST METHODS
-     ================================== */
-
-    @PostMapping
-    public void addDirector(@ModelAttribute DirectorDTO director) {
-        directorsService.addDirector(director);
-    }
-
-    /* ================================
-                 PUT METHODS
-     ================================== */
-
-    @PutMapping
-    public void updateDirector(@RequestParam int directorId, @ModelAttribute DirectorDTO director) {
-        directorsService.updateDirector(directorId, director);
-    }
-
-    /* ================================
-                 DELETE METHODS
-     ================================== */
-
-    @DeleteMapping
-    public void deleteDirector(@RequestParam int directorId) {
-        directorsService.deleteDirectorById(directorId);
-    }
+    DirectorDTO deleteDirector(int directorId);
 }

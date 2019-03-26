@@ -14,13 +14,19 @@ import org.springframework.web.filter.GenericFilterBean;
 
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
+    private TokenAuthenticationService tokenAuthenticationService;
+
+    JWTAuthenticationFilter(TokenAuthenticationService tokenAuthenticationService){
+        this.tokenAuthenticationService = tokenAuthenticationService;
+    }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
         System.out.println("JWTAuthenticationFilter.doFilter");
 
-        Authentication authentication = TokenAuthenticationService
+        Authentication authentication = tokenAuthenticationService
                 .getAuthentication((HttpServletRequest) servletRequest);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

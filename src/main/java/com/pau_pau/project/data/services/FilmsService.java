@@ -2,22 +2,24 @@ package com.pau_pau.project.data.services;
 
 import com.pau_pau.project.data.models.FilmDTO;
 
-import java.sql.Timestamp;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import java.util.Date;
 
 public interface FilmsService {
 
     Iterable<FilmDTO> findFilms(String title,
-                                Timestamp year,
+                                Date year,
                                 String country,
                                 String genre,
-                                Timestamp releaseDate,
+                                Date releaseDate,
                                 Float budget);
 
-    FilmDTO findFilmById(int id);
+    FilmDTO findFilmById(int id) throws InstanceNotFoundException;
 
-    void addFilm(FilmDTO film);
+    FilmDTO addFilm(FilmDTO film);
 
-    void updateFilm(int id, FilmDTO film);
+    FilmDTO updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException;
 
-    void deleteFilmById(int id);
+    FilmDTO deleteFilmById(int id) throws InstanceNotFoundException;
 }

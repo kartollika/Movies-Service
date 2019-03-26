@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Repository
 public interface FilmsRepository extends CrudRepository<Film, Integer> {
@@ -20,9 +20,9 @@ public interface FilmsRepository extends CrudRepository<Film, Integer> {
             "upper(f.genre) like concat('%', upper(:genre), '%') " +
             "and f.budget >= :budget")
     Iterable<Film> findFilms(@Param("title") String title,
-                             @Param("year") Timestamp year,
+                             @Param("year") Date year,
                              @Param("country") String country,
                              @Param("genre") String genre,
-                             @Param("release") Timestamp release,
+                             @Param("release") Date release,
                              @Param("budget") float budget);
 }
