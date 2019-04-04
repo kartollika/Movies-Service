@@ -29,13 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //  Тут мы пишем права доступа к адресам
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
+        http.cors().and().csrf().disable().authorizeRequests()
                 // No need authentication.
+
                 .antMatchers("/").permitAll() //
                 .antMatchers(HttpMethod.POST, "/login").permitAll() //
                 .antMatchers(HttpMethod.GET, "/login").permitAll() // For Test on Browser
                 // Need authentication.
-
+/*
                 .antMatchers("/accounts").hasRole("ADMIN")
                 .antMatchers("/api/account/role").hasAuthority("ADMIN")
                 //.antMatchers("/swagger-ui.html").permitAll()
@@ -44,10 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/swagger-ui.html",
                         "/webjars/**" ,
-                        /*Probably not needed*/ "/swagger.json")
+                        *//*Probably not needed*//* "/swagger.json")
                 .permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().authenticated()*/
                 //
+                .anyRequest().permitAll()
                 .and()
                 //
                 // Add Filter 1 - JWTLoginFilter

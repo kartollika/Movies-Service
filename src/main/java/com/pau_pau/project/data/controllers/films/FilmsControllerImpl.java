@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+@CrossOrigin
 @Api(tags = "Movies", value = "Films", description = "Api for operations with films")
 @RestController
 @RequestMapping(ControllerConstants.FILMS_URL)

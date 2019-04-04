@@ -10,4 +10,8 @@ public interface AccountService {
     void updateRole(String username, Role role) throws Exception;
 
     Account findByUsername(String username) throws Exception;
+
+    void addInWishlist(String username, int filmId) throws Exception;
+
+    void deleteFromWishlist(String username, int filmId) throws Exception;
 }

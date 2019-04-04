@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.management.InstanceNotFoundException;
 
 @RestController
+@CrossOrigin
 @Api(tags = "Directors", value = "Directors", description = "Api for operations with directors")
 @RequestMapping(ControllerConstants.DIRECTORS_URL)
 public class DirectorsControllerImpl implements DirectorsController {

@@ -2,6 +2,7 @@ package com.pau_pau.project.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -47,6 +48,7 @@ public class Film {
 
     @Column
     @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),
