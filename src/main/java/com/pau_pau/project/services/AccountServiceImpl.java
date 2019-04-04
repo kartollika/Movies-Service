@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addInWishlist(String username, int filmId) throws Exception {
+    public void addToWishlist(String username, int filmId) throws Exception {
         Account holder = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
         Film filmById = Film.fromFilmDTOModel(filmsService.findFilmById(filmId));
         holder.getWishlist().add(filmById);

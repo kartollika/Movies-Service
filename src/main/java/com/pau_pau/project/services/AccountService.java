@@ -11,7 +11,7 @@ public interface AccountService {
 
     Account findByUsername(String username) throws Exception;
 
-    void addInWishlist(String username, int filmId) throws Exception;
+    void addToWishlist(String username, int filmId) throws Exception;
 
     void deleteFromWishlist(String username, int filmId) throws Exception;
 }
