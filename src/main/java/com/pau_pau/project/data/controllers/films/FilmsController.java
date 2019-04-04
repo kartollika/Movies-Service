@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static com.pau_pau.project.data.controllers.ControllerConstants.FILM_PATH_ID;
+
 public interface FilmsController {
 
     String DEFAULT_FILM_TITLE = "";
@@ -33,7 +35,7 @@ public interface FilmsController {
 
     @ApiOperation(value = "Get film by id ", response = FilmDTO.class)
     @GetMapping(value = ControllerConstants.FILM_BY_ID, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    FilmDTO getFilmById(@PathVariable(name = "id") int filmId);
+    FilmDTO getFilmById(@PathVariable(name = FILM_PATH_ID) int filmId);
 
     @ApiOperation(value = "Add new film", response = FilmDTO.class)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -41,9 +43,9 @@ public interface FilmsController {
 
     @ApiOperation(value = "Update existing film", response = FilmDTO.class)
     @PutMapping(value = ControllerConstants.FILM_BY_ID, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    FilmDTO updateFilm(@PathVariable(name = "id") int filmId, @RequestBody FilmDTO film);
+    FilmDTO updateFilm(@PathVariable(name = FILM_PATH_ID) int filmId, @RequestBody FilmDTO film);
 
     @ApiOperation(value = "Delete existing film", response = FilmDTO.class)
     @DeleteMapping(value = ControllerConstants.FILM_BY_ID)
-    FilmDTO deleteFilm(@PathVariable(name = "id") int filmId);
+    FilmDTO deleteFilm(@PathVariable(name = FILM_PATH_ID) int filmId);
 }
