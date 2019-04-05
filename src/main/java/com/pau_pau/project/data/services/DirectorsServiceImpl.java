@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,46 +16,42 @@ public class DirectorsServiceImpl implements DirectorsService {
     private DirectorsRepository directorsRepository;
 
     @Override
-    public Iterable<DirectorDTO> findDirectors(String name, String country) {
-        Iterable<Director> directorsDatabase = directorsRepository.findDirectors(name, country);
-        List<DirectorDTO> directorDTOList = new ArrayList<>();
-        for (Director director : directorsDatabase) {
-            directorDTOList.add(DirectorDTO.fromDirectorModel(director));
-        }
-        return directorDTOList;
+    public List<Director> findDirectors(String name, String country) {
+        return directorsRepository.findDirectors(name, country);
     }
 
     @Override
-    public DirectorDTO findDirectorById(int id) throws InstanceNotFoundException {
+    public Director findDirectorById(int id) throws InstanceNotFoundException {
         if (!directorsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        return DirectorDTO.fromDirectorModel(directorsRepository.findById(id).orElse(null));
+        return directorsRepository.findById(id).orElse(null);
     }
 
     @Override
-    public DirectorDTO addDirector(DirectorDTO director) {
+    public Director addDirector(DirectorDTO director) {
         Director directorToDB = Director.fromDirectorDTOModel(director);
         directorsRepository.save(directorToDB);
-        return DirectorDTO.fromDirectorModel(directorToDB);
+        return directorToDB;
     }
 
     @Override
-    public DirectorDTO updateDirector(int id, DirectorDTO director) throws InstanceNotFoundException {
+    public Director updateDirector(int id, DirectorDTO directorDTO) throws InstanceNotFoundException {
         if (!directorsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        director.setId(id);
-        directorsRepository.save(Director.fromDirectorDTOModel(director));
+        directorDTO.setId(id);
+        Director director = Director.fromDirectorDTOModel(directorDTO);
+        directorsRepository.save(director);
         return director;
     }
 
     @Override
-    public DirectorDTO deleteDirectorById(int id) throws InstanceNotFoundException {
+    public Director deleteDirectorById(int id) throws InstanceNotFoundException {
         if (!directorsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        DirectorDTO director = DirectorDTO.fromDirectorModel(directorsRepository.findById(id).get());
+        Director director = directorsRepository.findById(id).get();
         directorsRepository.deleteById(id);
         return director;
     }
