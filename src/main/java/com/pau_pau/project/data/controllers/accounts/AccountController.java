@@ -1,10 +1,10 @@
 package com.pau_pau.project.data.controllers.accounts;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.models.Account;
-import com.pau_pau.project.models.AccountDto;
-import com.pau_pau.project.models.Role;
-import com.pau_pau.project.services.AccountService;
+import com.pau_pau.project.data.models.accounts.Account;
+import com.pau_pau.project.data.models.accounts.AccountDto;
+import com.pau_pau.project.data.models.accounts.Role;
+import com.pau_pau.project.data.services.accounts.AccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

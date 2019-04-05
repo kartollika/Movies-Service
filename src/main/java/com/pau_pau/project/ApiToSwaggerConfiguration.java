@@ -1,4 +1,4 @@
-package com.pau_pau.project.data;
+package com.pau_pau.project;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;

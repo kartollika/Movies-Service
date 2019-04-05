@@ -1,7 +1,7 @@
-package com.pau_pau.project.services;
+package com.pau_pau.project.data.services.accounts;
 
-import com.pau_pau.project.models.Account;
-import com.pau_pau.project.models.Role;
+import com.pau_pau.project.data.models.accounts.Account;
+import com.pau_pau.project.data.models.accounts.Role;
 
 public interface AccountService {
 

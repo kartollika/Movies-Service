@@ -1,7 +1,7 @@
-package com.pau_pau.project.data.services;
+package com.pau_pau.project.data.services.directors;
 
-import com.pau_pau.project.data.models.Director;
-import com.pau_pau.project.data.models.DirectorDTO;
+import com.pau_pau.project.data.models.directors.Director;
+import com.pau_pau.project.data.models.directors.DirectorDTO;
 import com.pau_pau.project.data.repository.directors.DirectorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

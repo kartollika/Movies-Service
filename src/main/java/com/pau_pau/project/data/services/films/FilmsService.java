@@ -1,6 +1,6 @@
-package com.pau_pau.project.data.services;
+package com.pau_pau.project.data.services.films;
 
-import com.pau_pau.project.data.models.FilmDTO;
+import com.pau_pau.project.data.models.films.FilmDTO;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;

@@ -1,6 +1,6 @@
 package com.pau_pau.project.data.controllers.films;
 
-import com.pau_pau.project.data.models.FilmDTO;
+import com.pau_pau.project.data.models.films.FilmDTO;
 
 import java.util.Date;
 import java.util.List;

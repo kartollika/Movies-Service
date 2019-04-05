@@ -1,7 +1,7 @@
 package com.pau_pau.project.security;
 
 
-import com.pau_pau.project.utils.PasswordEncoderUtil;
+import com.pau_pau.project.common.utils.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

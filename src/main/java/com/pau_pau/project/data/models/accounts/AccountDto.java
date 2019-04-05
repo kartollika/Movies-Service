@@ -1,4 +1,4 @@
-package com.pau_pau.project.models;
+package com.pau_pau.project.data.models.accounts;
 
 public class AccountDto {
 

@@ -1,7 +1,7 @@
-package com.pau_pau.project.data.services;
+package com.pau_pau.project.data.services.films;
 
-import com.pau_pau.project.data.models.Film;
-import com.pau_pau.project.data.models.FilmDTO;
+import com.pau_pau.project.data.models.films.Film;
+import com.pau_pau.project.data.models.films.FilmDTO;
 import com.pau_pau.project.data.repository.films.FilmsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

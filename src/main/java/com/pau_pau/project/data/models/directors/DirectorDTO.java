@@ -1,4 +1,4 @@
-package com.pau_pau.project.data.models;
+package com.pau_pau.project.data.models.directors;
 
 import io.swagger.annotations.ApiModelProperty;
 

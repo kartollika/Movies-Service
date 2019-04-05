@@ -1,6 +1,6 @@
 package com.pau_pau.project.data.controllers.directors;
 
-import com.pau_pau.project.data.models.DirectorDTO;
+import com.pau_pau.project.data.models.directors.DirectorDTO;
 
 public interface DirectorsController {
 
