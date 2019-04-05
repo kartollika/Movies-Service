@@ -5,9 +5,12 @@ import com.pau_pau.project.models.Account;
 import com.pau_pau.project.models.AccountDto;
 import com.pau_pau.project.models.Role;
 import com.pau_pau.project.services.AccountService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,6 +18,7 @@ import java.util.Optional;
 
 
 @RestController
+@Api(tags = "Accounts", value = "Accounts", description = "Api for operations with accounts")
 @RequestMapping(ControllerConstants.ACCOUNT_URL)
 
 public class AccountController {
@@ -22,9 +26,10 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @ApiOperation(value = "Get account information", response = AccountDto.class)
     @GetMapping(value = ControllerConstants.ACCOUNT_USERNAME, consumes = "application/json")
-    public AccountDto getAccountInfo(@PathVariable Optional<String> username,
-                                     Authentication authentication) {
+    public AccountDto getAccountInfo(@PathVariable Optional<String> username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = username.orElse(authentication.getName());
         try {
             return AccountDto.dtoFromAccount(accountService.findByUsername(name));
@@ -36,7 +41,9 @@ public class AccountController {
 
     }
 
+    @ApiOperation(value = "Account registration")
     @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
     public void registration(@RequestBody AccountDto accountDto) {
         accountDto.setPermissionsLevel(Role.USER);
         try {
@@ -47,7 +54,9 @@ public class AccountController {
         }
     }
 
+    @ApiOperation(value = "Update account role")
     @PutMapping(value = ControllerConstants.CHANGE_ROLE, consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
     public void updateAccountRole(@PathVariable String username,
                                   @RequestParam Role newRole) {
         try {
