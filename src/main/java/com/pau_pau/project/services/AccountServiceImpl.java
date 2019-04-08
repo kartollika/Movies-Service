@@ -55,13 +55,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Film> deleteFromWishlist(String username, int filmId) throws Exception {
+    public Film deleteFromWishlist(String username, int filmId) throws Exception {
         Account holder = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
         Map<Boolean, List<Film>> partitionById = holder.getWishlist().stream()
                 .collect(Collectors.partitioningBy((Film f) -> f.getId() == filmId));
         holder.setWishlist(partitionById.get(false));
         accountsRepository.save(holder);
-        return partitionById.get(true);
+
+        List<Film> filmToDelete = partitionById.get(true);
+        if (filmToDelete.isEmpty()) {
+            throw new Exception();
+        } else {
+            return filmToDelete.get(0);
+        }
+
     }
 
 

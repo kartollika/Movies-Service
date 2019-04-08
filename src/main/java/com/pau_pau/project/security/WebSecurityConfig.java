@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest().authenticated()*/
                 //
-                .anyRequest().permitAll()
+
                 .and()
                 //
                 // Add Filter 1 - JWTLoginFilter

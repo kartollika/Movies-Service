@@ -110,12 +110,12 @@ public class AccountControllerImpl implements AccountController {
                  DELETE METHODS
      ================================== */
 
-    public List<FilmDTO> deteleFromWishlistByAuthentication(@RequestParam int filmId) {
+    public FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try {
-            List<Film> films = accountService.deleteFromWishlist(username, filmId);
-            return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
+            return FilmDTO.fromFilmModel(
+                    accountService.deleteFromWishlist(username, filmId));
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);

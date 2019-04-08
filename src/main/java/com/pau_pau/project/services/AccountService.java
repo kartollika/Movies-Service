@@ -16,5 +16,5 @@ public interface AccountService {
 
     Film addToWishlist(String username, int filmId) throws Exception;
 
-    List<Film> deleteFromWishlist(String username, int filmId) throws Exception;
+    Film deleteFromWishlist(String username, int filmId) throws Exception;
 }

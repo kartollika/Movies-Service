@@ -16,11 +16,13 @@ public interface AccountController {
     @ApiOperation(value = "Get account information by authentication token", response = AccountDto.class)
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     AccountDto getAccountInfoByAuthentication();
 
     @ApiOperation(value = "[ADMIN] Get account information by username ", response = AccountDto.class)
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @GetMapping(value = ControllerConstants.ACCOUNT_USERNAME)
+    @ResponseStatus(HttpStatus.OK)
     AccountDto getAccountInfoByUsername(@PathVariable String username);
 
     @ApiOperation(value = "Get user's wish list by authentication", response = FilmDTO.class, responseContainer = "List")
@@ -52,6 +54,6 @@ public interface AccountController {
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
-    List<FilmDTO> deteleFromWishlistByAuthentication(@RequestParam int filmId);
+    FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId);
 
 }
