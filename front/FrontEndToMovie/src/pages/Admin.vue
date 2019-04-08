@@ -1,15 +1,26 @@
 <template>
-    <Header />
+  <DefaultLayout>
+    <template v-slot:header>
+      <Header/>
+    </template>
+    <template v-slot:sidebar>
+      <Sidebar/>
+    </template>
+  </DefaultLayout>
 </template>
 
 <script>
-import Header from '../components/Header.vue'
+import DefaultLayout from "../components/DefaultLayout.vue"
+import Header from "../components/Header.vue";
+import Sidebar from "../components/Sidebar.vue"
 
 export default {
   components: {
-    Header
+    DefaultLayout,
+    Header,
+    Sidebar,
   }
-}
+};
 </script>
 
 <style>

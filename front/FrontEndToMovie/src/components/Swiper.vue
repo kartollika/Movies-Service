@@ -1,5 +1,5 @@
 <template>
-  <div class="col-lg-10 mb-lg-auto align-items-center container">
+  <div class="mb-lg-auto align-items-center container">
     <md-card>
       <md-card-media>
         <!-- swiper -->
@@ -24,9 +24,9 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        slidesPerGroup: 3,
+        slidesPerView: 4,
+        spaceBetween: 60,
+        slidesPerGroup: 2,
         loop: true,
         loopFillGroupWithBlank: true,
         pagination: {
@@ -48,6 +48,7 @@ export default {
   width: 100%
 }
 img {
-  width: inherit
+  width: inherit ;
+  width: 80%;
 }
 </style>

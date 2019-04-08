@@ -18,12 +18,13 @@
             <small>Войти через</small>
           </div>
           <div class="btn-wrapper text-center">
-            <base-button type="neutral">
+            <base-button type="neutral" onClick="window.location='http://github.com'">
               <img slot="icon" src="img/icons/common/github.svg">
               Github
             </base-button>
 
-            <base-button type="neutral">
+            <base-button type="neutral" 
+            onclick="window.location='https://accounts.google.com/signin/v2/identifier?hl=ru&continue=https%3A%2F%2Fwww.google.com%2F&flowName=GlifWebSignIn&flowEntry=AddSession'">
               <img slot="icon" src="img/icons/common/google.svg">
               Google
             </base-button>
@@ -46,7 +47,6 @@
               placeholder="Пароль"
               addon-left-icon="ni ni-lock-circle-open"
             ></base-input>
-            <base-checkbox>Запомнить меня</base-checkbox>
             <div class="text-center">
               <base-button type="primary" class="my-4">Войти</base-button>
             </div>
