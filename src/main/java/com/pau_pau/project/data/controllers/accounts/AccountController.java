@@ -32,26 +32,26 @@ public interface AccountController {
     @ApiOperation(value = "Account registration")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    void registration(@RequestBody AccountDto accountDto);
+    AccountDto registration(@RequestBody AccountDto accountDto);
 
     @ApiOperation(value = "Update account role")
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @PutMapping(value = ControllerConstants.CHANGE_ROLE)
     @ResponseStatus(HttpStatus.OK)
-    void updateAccountRole(@PathVariable String username,
+    AccountDto updateAccountRole(@PathVariable String username,
                            @RequestParam Role newRole);
 
     @ApiOperation(value = "Add film in wish list by authentication")
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @PutMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.CREATED)
-    void addToWishlistByAuthentication(@RequestParam int filmId);
+    FilmDTO addToWishlistByAuthentication(@RequestParam int filmId);
 
 
     @ApiOperation(value = "Delete film from wish list by authentication")
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
-    void deteleFromWishlistByAuthentication(@RequestParam int filmId);
+    List<FilmDTO> deteleFromWishlistByAuthentication(@RequestParam int filmId);
 
 }

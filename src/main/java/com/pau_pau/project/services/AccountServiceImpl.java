@@ -9,6 +9,8 @@ import com.pau_pau.project.utils.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,16 +26,18 @@ public class AccountServiceImpl implements AccountService {
     private PasswordEncoderUtil passwordEncoderUtil;
 
     @Override
-    public void save(Account account) {
+    public Account save(Account account) {
         account.setPassword(passwordEncoderUtil.passwordEncoder().encode(account.getPassword()));
         accountsRepository.save(account);
+        return account;
     }
 
     @Override
-    public void updateRole(String username, Role role) throws Exception {
+    public Account updateRole(String username, Role role) throws Exception {
         Account updatingAccount = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
         updatingAccount.setPermissionsLevel(role);
         accountsRepository.save(updatingAccount);
+        return updatingAccount;
     }
 
     @Override
@@ -42,20 +46,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addToWishlist(String username, int filmId) throws Exception {
+    public Film addToWishlist(String username, int filmId) throws Exception {
         Account holder = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
         Film filmById = Film.fromFilmDTOModel(filmsService.findFilmById(filmId));
         holder.getWishlist().add(filmById);
         accountsRepository.save(holder);
+        return filmById;
     }
 
     @Override
-    public void deleteFromWishlist(String username, int filmId) throws Exception {
+    public List<Film> deleteFromWishlist(String username, int filmId) throws Exception {
         Account holder = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
-        holder.setWishlist(holder.getWishlist().stream()
-                .filter((Film f) -> f.getId() != filmId)
-                .collect(Collectors.toList()));
+        Map<Boolean, List<Film>> partitionById = holder.getWishlist().stream()
+                .collect(Collectors.partitioningBy((Film f) -> f.getId() == filmId));
+        holder.setWishlist(partitionById.get(false));
         accountsRepository.save(holder);
+        return partitionById.get(true);
     }
 
 

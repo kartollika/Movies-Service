@@ -1,17 +1,20 @@
 package com.pau_pau.project.services;
 
+import com.pau_pau.project.data.models.Film;
 import com.pau_pau.project.models.Account;
 import com.pau_pau.project.models.Role;
 
+import java.util.List;
+
 public interface AccountService {
 
-    void save(Account account);
+    Account save(Account account);
 
-    void updateRole(String username, Role role) throws Exception;
+    Account updateRole(String username, Role role) throws Exception;
 
     Account findByUsername(String username) throws Exception;
 
-    void addToWishlist(String username, int filmId) throws Exception;
+    Film addToWishlist(String username, int filmId) throws Exception;
 
-    void deleteFromWishlist(String username, int filmId) throws Exception;
+    List<Film> deleteFromWishlist(String username, int filmId) throws Exception;
 }

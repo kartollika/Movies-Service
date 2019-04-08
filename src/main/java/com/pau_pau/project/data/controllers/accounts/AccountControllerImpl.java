@@ -1,6 +1,7 @@
 package com.pau_pau.project.data.controllers.accounts;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
+import com.pau_pau.project.data.models.Film;
 import com.pau_pau.project.data.models.FilmDTO;
 import com.pau_pau.project.models.Account;
 import com.pau_pau.project.models.AccountDto;
@@ -67,10 +68,11 @@ public class AccountControllerImpl implements AccountController {
                  POST METHODS
      ================================== */
 
-    public void registration(@RequestBody AccountDto accountDto) {
+    public AccountDto registration(@RequestBody AccountDto accountDto) {
         accountDto.setPermissionsLevel(Role.USER);
         try {
-            accountService.save(prepareAccountModelFromDtoWithRole(accountDto));
+            Account savedAccountModel = accountService.save(prepareAccountModelFromDtoWithRole(accountDto));
+            return AccountDto.dtoFromAccount(savedAccountModel);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
@@ -81,21 +83,23 @@ public class AccountControllerImpl implements AccountController {
                  PUT METHODS
      ================================== */
 
-    public void updateAccountRole(@PathVariable String username,
-                                  @RequestParam Role newRole) {
+    public AccountDto updateAccountRole(@PathVariable String username,
+                                        @RequestParam Role newRole) {
         try {
-            accountService.updateRole(username, newRole);
+            Account account = accountService.updateRole(username, newRole);
+            return AccountDto.dtoFromAccount(account);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
     }
 
-    public void addToWishlistByAuthentication(@RequestParam int filmId) {
+    public FilmDTO addToWishlistByAuthentication(@RequestParam int filmId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try {
-            accountService.addToWishlist(username, filmId);
+            Film savedFilm = accountService.addToWishlist(username, filmId);
+            return FilmDTO.fromFilmModel(savedFilm);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
@@ -106,11 +110,12 @@ public class AccountControllerImpl implements AccountController {
                  DELETE METHODS
      ================================== */
 
-    public void deteleFromWishlistByAuthentication(@RequestParam int filmId) {
+    public List<FilmDTO> deteleFromWishlistByAuthentication(@RequestParam int filmId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try {
-            accountService.deleteFromWishlist(username, filmId);
+            List<Film> films = accountService.deleteFromWishlist(username, filmId);
+            return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
