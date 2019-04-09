@@ -115,7 +115,7 @@ public class FilmsControllerImpl implements FilmsController {
 
     @Override
     @ApiOperation(value = "Delete existing film", response = FilmDTO.class)
-    @DeleteMapping(consumes = "application/json")
+    @DeleteMapping(ControllerConstants.FILM_BY_ID)
     public FilmDTO deleteFilm(@RequestParam int filmId) {
         try {
             return filmsService.deleteFilmById(filmId);
