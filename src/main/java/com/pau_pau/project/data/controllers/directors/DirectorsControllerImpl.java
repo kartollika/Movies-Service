@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 @Api(tags = "Directors", value = "Directors", description = "Api for operations with directors")
 @RequestMapping(ControllerConstants.DIRECTORS_URL)
 public class DirectorsControllerImpl implements DirectorsController {

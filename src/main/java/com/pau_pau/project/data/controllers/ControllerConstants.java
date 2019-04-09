@@ -16,4 +16,6 @@ public class ControllerConstants {
     public static final String ACCOUNT_URL = "/api/account";
     public static final String ACCOUNT_USERNAME = "/{username}";
     public static final String CHANGE_ROLE = "/role/{username}";
+
+    public static final String WISHLIST_WITH_AUTHENTICATION = "/wishlist";
 }
