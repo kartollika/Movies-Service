@@ -2,16 +2,14 @@ package com.pau_pau.project.data.controllers.films;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.data.models.FilmDTO;
+import com.pau_pau.project.data.models.api.EntityNotFoundException;
 import com.pau_pau.project.data.services.FilmsServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.management.InstanceNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -73,13 +71,8 @@ public class FilmsControllerImpl implements FilmsController {
     @Override
     @ApiOperation(value = "Get film by id ", response = FilmDTO.class)
     @GetMapping(ControllerConstants.FILM_BY_ID)
-    public FilmDTO getFilmById(@RequestParam(name = "id") int filmId) {
-        try {
-            return filmsService.findFilmById(filmId);
-        } catch (InstanceNotFoundException e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
+    public FilmDTO getFilmById(@RequestParam(name = "id") int filmId) throws EntityNotFoundException {
+        return filmsService.findFilmById(filmId);
     }
 
     /* ================================
@@ -100,13 +93,8 @@ public class FilmsControllerImpl implements FilmsController {
     @Override
     @ApiOperation(value = "Update existing film", response = FilmDTO.class)
     @PutMapping(consumes = "application/json")
-    public FilmDTO updateFilm(@RequestParam int filmId, @RequestBody FilmDTO film) {
-        try {
-            return filmsService.updateFilm(filmId, film);
-        } catch (InstanceNotFoundException e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
+    public FilmDTO updateFilm(@RequestParam int filmId, @RequestBody FilmDTO film) throws EntityNotFoundException {
+        return filmsService.updateFilm(filmId, film);
     }
 
     /* ================================
@@ -115,13 +103,8 @@ public class FilmsControllerImpl implements FilmsController {
 
     @Override
     @ApiOperation(value = "Delete existing film", response = FilmDTO.class)
-    @DeleteMapping(consumes = "application/json")
-    public FilmDTO deleteFilm(@RequestParam int filmId) {
-        try {
-            return filmsService.deleteFilmById(filmId);
-        } catch (InstanceNotFoundException e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
+    @DeleteMapping
+    public FilmDTO deleteFilm(@RequestParam int filmId) throws EntityNotFoundException {
+        return filmsService.deleteFilmById(filmId);
     }
 }

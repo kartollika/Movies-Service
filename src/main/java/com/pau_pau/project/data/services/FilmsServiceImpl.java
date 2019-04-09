@@ -2,15 +2,16 @@ package com.pau_pau.project.data.services;
 
 import com.pau_pau.project.data.models.Film;
 import com.pau_pau.project.data.models.FilmDTO;
+import com.pau_pau.project.data.models.api.EntityNotFoundException;
 import com.pau_pau.project.data.repository.films.FilmsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.InstanceNotFoundException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class FilmsServiceImpl implements FilmsService {
@@ -32,9 +33,9 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public FilmDTO findFilmById(int id) throws InstanceNotFoundException {
+    public FilmDTO findFilmById(int id) throws EntityNotFoundException {
         if (!filmsRepository.existsById(id)) {
-            throw new InstanceNotFoundException();
+            throw new EntityNotFoundException();
         }
         return FilmDTO.fromFilmModel(filmsRepository.findById(id).orElseThrow());
     }
@@ -47,9 +48,9 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public FilmDTO updateFilm(int id, FilmDTO filmDTO) throws InstanceNotFoundException {
+    public FilmDTO updateFilm(int id, FilmDTO filmDTO) throws EntityNotFoundException {
         if (!filmsRepository.existsById(id)) {
-            throw new InstanceNotFoundException();
+            throw new EntityNotFoundException();
         }
 
         Film film = Film.fromFilmDTOModel(filmDTO);
@@ -59,11 +60,7 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public FilmDTO deleteFilmById(int id) throws InstanceNotFoundException {
-        if (!filmsRepository.existsById(id)) {
-            throw new InstanceNotFoundException();
-        }
-
+    public FilmDTO deleteFilmById(int id) throws NoSuchElementException {
         FilmDTO film = FilmDTO.fromFilmModel(filmsRepository.findById(id).get());
         filmsRepository.deleteById(id);
         return film;

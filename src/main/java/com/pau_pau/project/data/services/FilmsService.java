@@ -1,6 +1,7 @@
 package com.pau_pau.project.data.services;
 
 import com.pau_pau.project.data.models.FilmDTO;
+import com.pau_pau.project.data.models.api.EntityNotFoundException;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
@@ -15,11 +16,11 @@ public interface FilmsService {
                                 Date releaseDate,
                                 Float budget);
 
-    FilmDTO findFilmById(int id) throws InstanceNotFoundException;
+    FilmDTO findFilmById(int id) throws InstanceNotFoundException, EntityNotFoundException;
 
     FilmDTO addFilm(FilmDTO film);
 
-    FilmDTO updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException;
+    FilmDTO updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException, EntityNotFoundException;
 
-    FilmDTO deleteFilmById(int id) throws InstanceNotFoundException;
+    FilmDTO deleteFilmById(int id) throws InstanceNotFoundException, EntityNotFoundException;
 }
