@@ -1,6 +1,6 @@
 package com.pau_pau.project.data.repository.directors;
 
-import com.pau_pau.project.data.models.directors.Director;
+import com.pau_pau.project.models.directors.Director;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

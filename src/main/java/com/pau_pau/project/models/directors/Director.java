@@ -1,8 +1,8 @@
-package com.pau_pau.project.data.models.directors;
+package com.pau_pau.project.models.directors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.pau_pau.project.data.models.films.Film;
+import com.pau_pau.project.models.films.Film;
 
 import javax.persistence.*;
 import java.util.Set;

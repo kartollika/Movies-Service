@@ -1,8 +1,8 @@
 package com.pau_pau.project.data.controllers.films;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.models.films.FilmDTO;
 import com.pau_pau.project.data.services.films.FilmsServiceImpl;
+import com.pau_pau.project.models.films.FilmDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

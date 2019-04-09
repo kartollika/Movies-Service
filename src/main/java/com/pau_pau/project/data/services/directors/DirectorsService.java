@@ -1,6 +1,6 @@
 package com.pau_pau.project.data.services.directors;
 
-import com.pau_pau.project.data.models.directors.DirectorDTO;
+import com.pau_pau.project.models.directors.DirectorDTO;
 
 import javax.management.InstanceNotFoundException;
 

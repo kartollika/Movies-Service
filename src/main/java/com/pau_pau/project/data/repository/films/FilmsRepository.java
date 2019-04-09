@@ -1,6 +1,6 @@
 package com.pau_pau.project.data.repository.films;
 
-import com.pau_pau.project.data.models.films.Film;
+import com.pau_pau.project.models.films.Film;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
