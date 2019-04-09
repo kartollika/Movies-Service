@@ -24,8 +24,7 @@ public interface FilmsController {
     GregorianCalendar DEFAULT_FILM_RELEASE_DATE = new GregorianCalendar(0, Calendar.JANUARY, 0);
     float DEFAULT_FILM_BUDGET = 0f;
 
-    @ApiOperation(value = "Get list of Movies ", response = FilmDTO.class, responseContainer = "List",
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Get list of Movies ", response = FilmDTO.class, responseContainer = "List")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     List<FilmDTO> getFilms(@RequestParam(defaultValue = DEFAULT_FILM_TITLE) String title,
@@ -36,7 +35,7 @@ public interface FilmsController {
                            @RequestParam(required = false) Float budget);
 
     @ApiOperation(value = "Get film by id ", response = FilmDTO.class)
-    @GetMapping(value = ControllerConstants.FILM_URL_BY_ID, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO getFilmById(@PathVariable(name = FILM_PATH_ID) int filmId);
 
@@ -46,7 +45,7 @@ public interface FilmsController {
     FilmDTO addFilm(@RequestBody FilmDTO film);
 
     @ApiOperation(value = "Update existing film", response = FilmDTO.class)
-    @PutMapping(value = ControllerConstants.FILM_URL_BY_ID, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO updateFilm(@PathVariable(name = FILM_PATH_ID) int filmId, @RequestBody FilmDTO film);
 
