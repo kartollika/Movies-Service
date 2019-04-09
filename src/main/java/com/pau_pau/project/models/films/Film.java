@@ -140,7 +140,7 @@ public class Film {
 
         //TODO are you sure that this is right (above)? If you can improve, do it
         boolean res = true;
-        res = res && this.country.equals(otherObj.getCountry());
+        res = res && this.country.equals(otherObj.country);
         double eps = 10e-10;
         res = res && (Math.abs(this.budget - otherObj.budget) <= eps);
         res = res && (this.genre.equals(otherObj.genre));

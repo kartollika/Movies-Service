@@ -38,6 +38,7 @@ public class FilmDTO {
 
     private String country;
 
+    @ApiModelProperty(hidden = true)
     private Set<DirectorDTO> directors = new HashSet<>();
 
     private String genre;

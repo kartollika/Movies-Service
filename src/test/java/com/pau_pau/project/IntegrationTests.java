@@ -1,8 +1,10 @@
 package com.pau_pau.project;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pau_pau.project.data.controllers.films.FilmsControllerImpl;
-import com.pau_pau.project.data.models.Film;
+import com.pau_pau.project.models.directors.Director;
+import com.pau_pau.project.models.films.Film;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +24,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletContext;
 import java.sql.Timestamp;
@@ -46,10 +47,28 @@ public class IntegrationTests extends Assert{
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    private String prepareTimestamp(String str){
+    private static String prepareTimestamp(String str){
         return str.replaceAll("T", " ")
                 .replaceAll("\\+", "");
+    }
+
+    private Director makeDirectorFromJSON(String stringJSON) throws Exception{
+        Director director = new Director();
+        JSONObject obj = new JSONObject(stringJSON);
+        //director.setId(obj.getInt("id"));
+        director.setName(obj.optString("name"));
+        director.setCountry(obj.getString("country"));
+        // TODO films Hashset
+
+        return director;
     }
 
     private Film makeFilmFromJSON(String stringJSON) throws Exception{
@@ -84,7 +103,7 @@ public class IntegrationTests extends Assert{
     @Sql(scripts={"classpath:data_find_by_id_2.sql"})
     @Test
     public void getFilmById_GetExistingFilm_NameGreenBook() throws Exception{
-        MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8080/api/films/film?id=2"))
+        MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8080/api/films/film/2"))
                 .andReturn();
         String content = mvcResult.getResponse().getContentAsString();
         System.out.println(content);
@@ -105,7 +124,7 @@ public class IntegrationTests extends Assert{
     @Sql(scripts = {"classpath:empty_films_table.sql"})
     @Test
     public void getFilmById_FindNonExistingFilm_ContentEqualsEmptyStringStatus204() throws Exception{
-        MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8080/api/films/film?id=1"))
+        MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8080/api/films/film/1"))
                 .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
                 .andReturn();
         String content = mvcResult.getResponse().getContentAsString();
@@ -117,23 +136,15 @@ public class IntegrationTests extends Assert{
     @Sql(scripts = {"classpath:empty_films_table.sql"})
     @Test
     public void deleteFilm_deleteRowInEmptyTable_Status500() throws Exception{
-        this.mockMvc.perform(delete("http://localhost:8080/api/films/film?id=1"))
-                .andExpect(status().is(HttpStatus.METHOD_NOT_ALLOWED.value()));
+        this.mockMvc.perform(delete("http://localhost:8080/api/films/film/1"))
+                .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 //                .andExpect(status().is(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()));
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Sql(scripts={"classpath:data_deleteFilm_id_5.sql"})
     @Test
     public void deleteFilm_DeleteExistingRow_StatusOk() throws Exception{
-        this.mockMvc.perform(delete("http://localhost:8080/api/films?id=5"))
+        this.mockMvc.perform(delete("http://localhost:8080/api/films/film/5"))
                 .andExpect(status().isOk());
 
     }
@@ -143,7 +154,6 @@ public class IntegrationTests extends Assert{
     public void addFilm_AddNonexistingFilm_StatusOk() throws Exception{
         Film film = new Film();
         film.setTitle("Yellow Book");
-        film.setId(2);
         film.setGenre("Comedy");
         film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
@@ -151,7 +161,7 @@ public class IntegrationTests extends Assert{
         film.setCountry("USA");
 
         this.mockMvc.perform(post("http://localhost:8080/api/films/").content(asJsonString(film)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().is(HttpStatus.CREATED.value()));
 //                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
     }
 
@@ -162,14 +172,14 @@ public class IntegrationTests extends Assert{
     public void updateFilm_EditAllFieldsOfFilm_StatusOk() throws Exception{
         Film film = new Film();
         film.setTitle("Yellow Book");
-        film.setId(2);
+        //film.setId(2);
         film.setGenre("Comedy");
         film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
 
-        this.mockMvc.perform(put("http://localhost:8080/api/films?filmId=5").content(asJsonString(film)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(put("http://localhost:8080/api/films/film/5").content(asJsonString(film)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -185,9 +195,52 @@ public class IntegrationTests extends Assert{
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
 
-        this.mockMvc.perform(put("http://localhost:8080/api/films?filmId=1").content(asJsonString(film)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(put("http://localhost:8080/api/films/film/1").content(asJsonString(film)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Sql(scripts = {"classpath:directors_Empty.sql"})
+    @Test
+    public void addDirector_InEmptyTable() throws Exception{
+        Director director = new Director();
+        director.setName("Christopher Nolan");
+        director.setCountry("USA");
+
+        this.mockMvc.perform(post("http://localhost:8080/api/directors").content(asJsonString(director)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(HttpStatus.CREATED.value()));
+    }
+
+    @Sql(scripts = {"classpath:directors_id_1.sql"})
+    @Test
+    public void getDirectorById_GetExistingDirector() throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8080/api/directors/director/1"))
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        System.out.println(content);
+
+        Director directorObj = makeDirectorFromJSON(content);
+        Director director = new Director();
+        director.setName("Christopher Nolan");
+        director.setCountry("USA");
+        Assert.assertEquals(director, directorObj);
+    }
+
+    @Sql(scripts = {"classpath:directors_Empty.sql"})
+    @Test
+    public void getDirectorById_FindNonExistingDirector_ContentEqualsEmptyStringStatus204() throws Exception{
+        MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8080/api/directors/director/1"))
+                .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        System.out.println(content);
+        Assert.assertEquals(content, "");
+
+    }
+
+
+
+
+
 
 
    /*
