@@ -39,7 +39,6 @@ public class Film {
     private String title;
 
     @Column
-//    @CreationTimestamp
     private Date year;
 
     @Column
@@ -58,7 +57,6 @@ public class Film {
     private String genre;
 
     @Column(name = "release")
-//    @CreationTimestamp
     private Date release;
 
     @Column
