@@ -1,5 +1,7 @@
-package com.pau_pau.project.data.models;
+package com.pau_pau.project.models.films;
 
+import com.pau_pau.project.models.directors.Director;
+import com.pau_pau.project.models.directors.DirectorDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;

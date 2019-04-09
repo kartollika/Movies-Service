@@ -1,7 +1,7 @@
 package com.pau_pau.project.security;
 
 
-import com.pau_pau.project.utils.PasswordEncoderUtil;
+import com.pau_pau.project.common.utils.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,17 +29,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //  Тут мы пишем права доступа к адресам
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
+        http.cors().and().csrf().disable().authorizeRequests()
                 // No need authentication.
+
                 .antMatchers("/").permitAll() //
                 .antMatchers(HttpMethod.POST, "/login").permitAll() //
                 .antMatchers(HttpMethod.GET, "/login").permitAll() // For Test on Browser
                 // Need authentication.
-
+/*
                 .antMatchers("/accounts").hasRole("ADMIN")
                 .antMatchers("/api/account/role").hasAuthority("ADMIN")
-                .anyRequest().permitAll()
+                //.antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**" ,
+                        *//*Probably not needed*//* "/swagger.json")
+                .permitAll()
+                .anyRequest().authenticated()*/
                 //
+
                 .and()
                 //
                 // Add Filter 1 - JWTLoginFilter

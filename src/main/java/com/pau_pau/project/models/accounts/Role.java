@@ -1,4 +1,4 @@
-package com.pau_pau.project.models;
+package com.pau_pau.project.models.accounts;
 
 
 public enum Role {

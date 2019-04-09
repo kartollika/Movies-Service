@@ -1,7 +1,10 @@
-package com.pau_pau.project.data.models;
+package com.pau_pau.project.models.films;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pau_pau.project.models.directors.Director;
+import com.pau_pau.project.models.directors.DirectorDTO;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -47,6 +50,7 @@ public class Film {
 
     @Column
     @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),

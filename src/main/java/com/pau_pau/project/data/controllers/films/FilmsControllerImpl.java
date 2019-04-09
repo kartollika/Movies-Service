@@ -1,12 +1,13 @@
 package com.pau_pau.project.data.controllers.films;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.models.Film;
-import com.pau_pau.project.data.models.FilmDTO;
-import com.pau_pau.project.data.services.FilmsServiceImpl;
+import com.pau_pau.project.data.services.films.FilmsServiceImpl;
+import com.pau_pau.project.models.films.Film;
+import com.pau_pau.project.models.films.FilmDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @Api(tags = "Movies", value = "Films", description = "Api for operations with films")
 @RestController
 @RequestMapping(ControllerConstants.FILMS_URL)
@@ -77,7 +79,7 @@ public class FilmsControllerImpl implements FilmsController {
         }
     }
 
-    /* ================================
+    /* ================================7
                  DELETE METHODS
      ================================== */
 
