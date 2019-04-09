@@ -38,7 +38,7 @@ public class AccountControllerImpl implements AccountController {
         return getAccountInfoByUsername(name);
     }
 
-    public AccountDto getAccountInfoByUsername(@PathVariable String username) {
+    public AccountDto getAccountInfoByUsername(String username) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             return AccountDto.dtoFromAccount(accountService.findByUsername(username));
@@ -68,7 +68,7 @@ public class AccountControllerImpl implements AccountController {
                  POST METHODS
      ================================== */
 
-    public AccountDto registration(@RequestBody AccountDto accountDto) {
+    public AccountDto registration(AccountDto accountDto) {
         accountDto.setPermissionsLevel(Role.USER);
         try {
             Account savedAccountModel = accountService.save(prepareAccountModelFromDtoWithRole(accountDto));
@@ -83,8 +83,8 @@ public class AccountControllerImpl implements AccountController {
                  PUT METHODS
      ================================== */
 
-    public AccountDto updateAccountRole(@PathVariable String username,
-                                        @RequestParam Role newRole) {
+    public AccountDto updateAccountRole(String username,
+                                        Role newRole) {
         try {
             Account account = accountService.updateRole(username, newRole);
             return AccountDto.dtoFromAccount(account);
@@ -94,7 +94,7 @@ public class AccountControllerImpl implements AccountController {
         }
     }
 
-    public FilmDTO addToWishlistByAuthentication(@RequestParam int filmId) {
+    public FilmDTO addToWishlistByAuthentication(int filmId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try {
@@ -110,7 +110,7 @@ public class AccountControllerImpl implements AccountController {
                  DELETE METHODS
      ================================== */
 
-    public FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId) {
+    public FilmDTO deteleFromWishlistByAuthentication(int filmId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try {
