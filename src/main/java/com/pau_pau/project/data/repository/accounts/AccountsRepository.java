@@ -1,6 +1,6 @@
-package com.pau_pau.project.database;
+package com.pau_pau.project.data.repository.accounts;
 
-import com.pau_pau.project.models.Account;
+import com.pau_pau.project.models.accounts.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

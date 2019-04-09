@@ -1,8 +1,8 @@
 package com.pau_pau.project.data.controllers.directors;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.models.DirectorDTO;
-import com.pau_pau.project.data.services.DirectorsServiceImpl;
+import com.pau_pau.project.data.services.directors.DirectorsServiceImpl;
+import com.pau_pau.project.models.directors.DirectorDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

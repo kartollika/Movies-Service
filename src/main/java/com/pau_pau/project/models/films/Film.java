@@ -1,7 +1,9 @@
-package com.pau_pau.project.data.models;
+package com.pau_pau.project.models.films;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pau_pau.project.models.directors.Director;
+import com.pau_pau.project.models.directors.DirectorDTO;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;

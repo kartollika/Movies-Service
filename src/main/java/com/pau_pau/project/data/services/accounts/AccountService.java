@@ -1,10 +1,8 @@
-package com.pau_pau.project.services;
+package com.pau_pau.project.data.services.accounts;
 
-import com.pau_pau.project.data.models.Film;
-import com.pau_pau.project.models.Account;
-import com.pau_pau.project.models.Role;
-
-import java.util.List;
+import com.pau_pau.project.models.accounts.Account;
+import com.pau_pau.project.models.accounts.Role;
+import com.pau_pau.project.models.films.Film;
 
 public interface AccountService {
 

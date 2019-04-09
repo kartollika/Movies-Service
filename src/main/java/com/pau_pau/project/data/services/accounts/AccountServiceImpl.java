@@ -1,11 +1,11 @@
-package com.pau_pau.project.services;
+package com.pau_pau.project.data.services.accounts;
 
-import com.pau_pau.project.data.models.Film;
-import com.pau_pau.project.data.services.FilmsService;
-import com.pau_pau.project.database.AccountsRepository;
-import com.pau_pau.project.models.Account;
-import com.pau_pau.project.models.Role;
-import com.pau_pau.project.utils.PasswordEncoderUtil;
+import com.pau_pau.project.common.utils.PasswordEncoderUtil;
+import com.pau_pau.project.data.repository.accounts.AccountsRepository;
+import com.pau_pau.project.data.services.films.FilmsService;
+import com.pau_pau.project.models.accounts.Account;
+import com.pau_pau.project.models.accounts.Role;
+import com.pau_pau.project.models.films.Film;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
