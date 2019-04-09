@@ -1,4 +1,4 @@
-package com.pau_pau.project.utils;
+package com.pau_pau.project.common.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

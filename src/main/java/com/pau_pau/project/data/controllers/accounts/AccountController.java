@@ -1,9 +1,9 @@
 package com.pau_pau.project.data.controllers.accounts;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.models.FilmDTO;
-import com.pau_pau.project.models.AccountDto;
-import com.pau_pau.project.models.Role;
+import com.pau_pau.project.models.accounts.AccountDto;
+import com.pau_pau.project.models.accounts.Role;
+import com.pau_pau.project.models.films.FilmDTO;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -41,7 +41,7 @@ public interface AccountController {
     @PutMapping(value = ControllerConstants.CHANGE_ROLE)
     @ResponseStatus(HttpStatus.OK)
     AccountDto updateAccountRole(@PathVariable String username,
-                           @RequestParam Role newRole);
+                                 @RequestParam Role newRole);
 
     @ApiOperation(value = "Add film in wish list by authentication")
     @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")

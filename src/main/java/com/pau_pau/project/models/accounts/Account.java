@@ -1,6 +1,6 @@
-package com.pau_pau.project.models;
+package com.pau_pau.project.models.accounts;
 
-import com.pau_pau.project.data.models.Film;
+import com.pau_pau.project.models.films.Film;
 
 import javax.persistence.*;
 import java.util.List;

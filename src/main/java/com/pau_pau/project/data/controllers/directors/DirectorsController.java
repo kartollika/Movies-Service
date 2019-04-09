@@ -1,7 +1,7 @@
 package com.pau_pau.project.data.controllers.directors;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.models.DirectorDTO;
+import com.pau_pau.project.models.directors.DirectorDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
