@@ -1,6 +1,9 @@
 package com.pau_pau.project.models.accounts;
 
+import com.pau_pau.project.data.models.Film;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
@@ -23,6 +26,14 @@ public class Account {
     @Column(nullable = false, name = "permissions_level")
     private Role permissionsLevel;
 
+    @ManyToMany
+    @JoinTable(
+        name = "wishlist",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id")
+    )
+    private List<Film> wishlist;
+
     public Account() {
         super();
     }
@@ -44,7 +55,6 @@ public class Account {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getPassword() {
         return password;
@@ -75,7 +85,16 @@ public class Account {
         return username;
     }
 
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Film> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<Film> wishlist) {
+        this.wishlist = wishlist;
     }
 }

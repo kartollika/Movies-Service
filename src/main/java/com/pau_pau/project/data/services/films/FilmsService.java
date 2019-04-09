@@ -1,5 +1,6 @@
 package com.pau_pau.project.data.services.films;
 
+import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -8,18 +9,18 @@ import java.util.Date;
 
 public interface FilmsService {
 
-    Iterable<FilmDTO> findFilms(String title,
-                                Date year,
-                                String country,
-                                String genre,
-                                Date releaseDate,
-                                Float budget);
+    Iterable<Film> findFilms(String title,
+                             Date year,
+                             String country,
+                             String genre,
+                             Date releaseDate,
+                             Float budget);
 
-    FilmDTO findFilmById(int id) throws InstanceNotFoundException;
+    Film findFilmById(int id) throws InstanceNotFoundException;
 
-    FilmDTO addFilm(FilmDTO film);
+    Film addFilm(FilmDTO film);
 
-    FilmDTO updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException;
+    Film updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException;
 
-    FilmDTO deleteFilmById(int id) throws InstanceNotFoundException;
+    Film deleteFilmById(int id) throws InstanceNotFoundException;
 }

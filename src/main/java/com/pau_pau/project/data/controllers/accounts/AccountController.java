@@ -1,82 +1,59 @@
 package com.pau_pau.project.data.controllers.accounts;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
-import com.pau_pau.project.data.services.accounts.AccountService;
-import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.AccountDto;
 import com.pau_pau.project.models.accounts.Role;
-import io.swagger.annotations.Api;
+import com.pau_pau.project.models.films.FilmDTO;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
+import java.util.List;
 
+public interface AccountController {
 
-@RestController
-@Api(tags = "Accounts", value = "Accounts", description = "Api for operations with accounts")
-@RequestMapping(ControllerConstants.ACCOUNT_URL)
+    @ApiOperation(value = "Get account information by authentication token", response = AccountDto.class)
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    AccountDto getAccountInfoByAuthentication();
 
-public class AccountController {
+    @ApiOperation(value = "[ADMIN] Get account information by username ", response = AccountDto.class)
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    @GetMapping(value = ControllerConstants.ACCOUNT_USERNAME)
+    @ResponseStatus(HttpStatus.OK)
+    AccountDto getAccountInfoByUsername(@PathVariable String username);
 
-    @Autowired
-    private AccountService accountService;
-
-    @ApiOperation(value = "Get account information", response = AccountDto.class)
-    @GetMapping(value = ControllerConstants.ACCOUNT_USERNAME, consumes = "application/json")
-    public AccountDto getAccountInfo(@PathVariable Optional<String> username) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = username.orElse(authentication.getName());
-        try {
-            return AccountDto.dtoFromAccount(accountService.findByUsername(name));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
-
-    }
+    @ApiOperation(value = "Get user's wish list by authentication", response = FilmDTO.class, responseContainer = "List")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    @GetMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getWishlistByAuthentication();
 
     @ApiOperation(value = "Account registration")
-    @PostMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public void registration(@RequestBody AccountDto accountDto) {
-        accountDto.setPermissionsLevel(Role.USER);
-        try {
-            accountService.save(prepareAccountModelFromDtoWithRole(accountDto));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
-    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    AccountDto registration(@RequestBody AccountDto accountDto);
 
     @ApiOperation(value = "Update account role")
-    @PutMapping(value = ControllerConstants.CHANGE_ROLE, consumes = "application/json")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    @PutMapping(value = ControllerConstants.CHANGE_ROLE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateAccountRole(@PathVariable String username,
-                                  @RequestParam Role newRole) {
-        try {
-            accountService.updateRole(username, newRole);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
+    AccountDto updateAccountRole(@PathVariable String username,
+                                 @RequestParam Role newRole);
 
-    }
+    @ApiOperation(value = "Add film in wish list by authentication")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    @PutMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
+    @ResponseStatus(HttpStatus.CREATED)
+    FilmDTO addToWishlistByAuthentication(@RequestParam int filmId);
 
-    private Account prepareAccountModelFromDtoWithRole(AccountDto accountDto) {
-        Account account = new Account();
-        account.setName(accountDto.getName());
-        account.setUsername(accountDto.getUsername());
-        account.setPassword(accountDto.getPassword());
-        account.setPermissionsLevel(accountDto.getPermissionsLevel());
-        return account;
 
-    }
-
+    @ApiOperation(value = "Delete film from wish list by authentication")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
+    @ResponseStatus(HttpStatus.OK)
+    FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId);
 
 }
