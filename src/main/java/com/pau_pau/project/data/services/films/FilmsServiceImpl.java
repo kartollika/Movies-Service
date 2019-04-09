@@ -32,7 +32,7 @@ public class FilmsServiceImpl implements FilmsService {
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        return filmsRepository.findById(id).orElseThrow();
+        return filmsRepository.findById(id).orElse(null);
     }
 
     @Override

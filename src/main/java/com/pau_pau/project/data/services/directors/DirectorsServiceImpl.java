@@ -25,7 +25,7 @@ public class DirectorsServiceImpl implements DirectorsService {
         if (!directorsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        return directorsRepository.findById(id).orElseThrow();
+        return directorsRepository.findById(id).orElse(null);
     }
 
     @Override

@@ -22,6 +22,7 @@ public class Film {
         Film film = new Film();
         film.id = filmDTO.getId();
         film.title = filmDTO.getTitle();
+        film.genre = filmDTO.getGenre();
         film.year = filmDTO.getYear();
         film.country = filmDTO.getCountry();
         for (DirectorDTO director : filmDTO.getDirectors()) {
@@ -130,4 +131,36 @@ public class Film {
         this.budget = budget;
     }
 
+    @Override
+    public boolean equals(Object other){
+        if (this == other) return true;
+        if (other == null) return false;
+        if(this.getClass() != other.getClass()) return false;
+        Film otherObj = (Film) other;
+
+        //TODO are you sure that this is right (above)? If you can improve, do it
+        boolean res = true;
+        res = res && this.country.equals(otherObj.country);
+        double eps = 10e-10;
+        res = res && (Math.abs(this.budget - otherObj.budget) <= eps);
+        res = res && (this.genre.equals(otherObj.genre));
+        res = res && (this.title.equals(otherObj.title));
+        //TODO need to fix different hours
+//        res = res && (this.release.equals(otherObj.release));
+//        System.out.println(this.release + " \n" + otherObj.release);
+//        System.out.println("res4 = " + res);
+//        res = res && (this.year.equals(otherObj.year));
+//        System.out.println(this.year + "\n" + otherObj.year);
+//        System.out.println("res6 = " + res);
+//        res = res && (this.directors.equals(otherObj.directors));
+//        System.out.println("res7 = " + res);
+        return res;
+    }
+
+    //TODO need improvement?
+    @Override
+    public int hashCode()
+    {
+        return 76+133*id;
+    }
 }

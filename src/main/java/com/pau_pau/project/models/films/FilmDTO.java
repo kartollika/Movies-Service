@@ -12,11 +12,14 @@ import java.util.Set;
 public class FilmDTO {
 
     public static FilmDTO fromFilmModel(Film film) {
+        if (film == null)
+            return null;
         FilmDTO filmDTO = new FilmDTO();
         filmDTO.id = film.getId();
         filmDTO.title = film.getTitle();
         filmDTO.year = film.getYear();
         filmDTO.country = film.getCountry();
+        filmDTO.genre = film.getGenre();
         for (Director director : film.getDirectors()) {
             filmDTO.directors.add(DirectorDTO.fromDirectorModel(director));
         }
@@ -35,6 +38,7 @@ public class FilmDTO {
 
     private String country;
 
+    @ApiModelProperty(hidden = true)
     private Set<DirectorDTO> directors = new HashSet<>();
 
     private String genre;
