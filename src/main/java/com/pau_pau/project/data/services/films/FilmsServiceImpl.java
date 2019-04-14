@@ -1,5 +1,6 @@
 package com.pau_pau.project.data.services.films;
 
+import com.pau_pau.project.common.utils.FilmValidator;
 import com.pau_pau.project.data.repository.films.FilmsRepository;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
@@ -17,6 +18,9 @@ public class FilmsServiceImpl implements FilmsService {
     @Autowired
     private FilmsRepository filmsRepository;
 
+    @Autowired
+    private FilmValidator filmValidator;
+
     @Override
     public List<Film> findFilms(String title,
                                 Date year,
@@ -24,6 +28,7 @@ public class FilmsServiceImpl implements FilmsService {
                                 String genre,
                                 Date releaseDate,
                                 Float budget) {
+        filmValidator.validate(title, year, country, genre, releaseDate, budget);
         return filmsRepository.findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget);
     }
 
@@ -37,6 +42,8 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public Film addFilm(FilmDTO filmDTO) {
+        filmValidator.validate(filmDTO);
+
         Film film = Film.fromFilmDTOModel(filmDTO);
         filmsRepository.save(film);
         return film;
@@ -47,6 +54,8 @@ public class FilmsServiceImpl implements FilmsService {
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
+
+        filmValidator.validate(filmDTO);
 
         filmDTO.setId(id);
         Film film = Film.fromFilmDTOModel(filmDTO);

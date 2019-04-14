@@ -1,5 +1,6 @@
 package com.pau_pau.project.data.services.directors;
 
+import com.pau_pau.project.common.utils.DirectorValidator;
 import com.pau_pau.project.data.repository.directors.DirectorsRepository;
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
@@ -15,8 +16,12 @@ public class DirectorsServiceImpl implements DirectorsService {
     @Autowired
     private DirectorsRepository directorsRepository;
 
+    @Autowired
+    private DirectorValidator directorValidator;
+
     @Override
     public List<Director> findDirectors(String name, String country) {
+        directorValidator.validate(name, country);
         return directorsRepository.findDirectors(name, country);
     }
 
@@ -30,6 +35,8 @@ public class DirectorsServiceImpl implements DirectorsService {
 
     @Override
     public Director addDirector(DirectorDTO director) {
+        directorValidator.validate(director);
+
         Director directorToDB = Director.fromDirectorDTOModel(director);
         directorsRepository.save(directorToDB);
         return directorToDB;
@@ -40,6 +47,9 @@ public class DirectorsServiceImpl implements DirectorsService {
         if (!directorsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
+
+        directorValidator.validate(directorDTO);
+
         directorDTO.setId(id);
         Director director = Director.fromDirectorDTOModel(directorDTO);
         directorsRepository.save(director);
