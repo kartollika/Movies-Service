@@ -4,7 +4,6 @@ import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -95,7 +94,7 @@ public class FilmDTO {
         return release;
     }
 
-    public void setRelease(Timestamp release) {
+    public void setRelease(Date release) {
         this.release = release;
     }
 
