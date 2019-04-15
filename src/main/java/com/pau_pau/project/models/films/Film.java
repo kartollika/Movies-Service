@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -30,6 +32,7 @@ public class Film {
         film.genre = filmDTO.getGenre();
         film.budget = filmDTO.getBudget();
         film.release = filmDTO.getRelease();
+        film.setCreationDate(filmDTO.getCreationDate());
         return film;
     }
 
@@ -65,6 +68,10 @@ public class Film {
 
     @Column
     private float budget;
+
+    @Column
+    @Generated(GenerationTime.INSERT)
+    private Date creationDate;
 
     public int getId() {
         return id;
@@ -130,4 +137,11 @@ public class Film {
         this.budget = budget;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

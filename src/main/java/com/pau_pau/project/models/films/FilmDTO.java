@@ -4,7 +4,6 @@ import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +22,7 @@ public class FilmDTO {
         filmDTO.genre = film.getGenre();
         filmDTO.budget = film.getBudget();
         filmDTO.release = film.getRelease();
+        filmDTO.setCreationDate(film.getCreationDate());
         return filmDTO;
     }
 
@@ -42,6 +42,9 @@ public class FilmDTO {
     private Date release;
 
     private float budget;
+
+    @ApiModelProperty(readOnly = true)
+    private Date creationDate;
 
     public int getId() {
         return id;
@@ -91,14 +94,6 @@ public class FilmDTO {
         this.genre = genre;
     }
 
-    public Date getRelease() {
-        return release;
-    }
-
-    public void setRelease(Timestamp release) {
-        this.release = release;
-    }
-
     public float getBudget() {
         return budget;
     }
@@ -107,4 +102,19 @@ public class FilmDTO {
         this.budget = budget;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getRelease() {
+        return release;
+    }
+
+    public void setRelease(Date release) {
+        this.release = release;
+    }
 }
