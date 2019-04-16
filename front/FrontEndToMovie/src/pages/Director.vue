@@ -2,7 +2,8 @@
     <div>
         <Header></Header>
         <div class="content">
-            <div class="director-info">
+            <card class="film-card">
+                <div class="director-info">
                 <h3>{{director.name}}</h3>
                 <img class="poster-lg" src="../../public/img/posters/Марсианин.jpg">
                 <div class="description">
@@ -11,6 +12,7 @@
                     <div class="description-item"><b>Фильмы: </b></div><hr>
                 </div>
             </div>
+            </card>
         </div>
     </div>
 </template>

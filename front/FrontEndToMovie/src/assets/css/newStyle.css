@@ -1,14 +1,42 @@
+body {
+    //background-color: #f6f9fc;
+    //background-color: #e9ecef;
+    //background-color: #dee2e6;
+    background-color: #ced4da;
+    //background-color: #adb5bd;
+    //background-color: #8898aa;
+    //background-color: #525f7f;
+    //background-color: #32325d;
+    //background-color: #212529;
+}
+.film-card {
+    background-color: #f6f9fc;
+    /*border: 1px solid #32325d;*/
+    margin: 1px;
+}
 .content {
-    background-color: #f4f5f7;
+    /*background-color: #f4f5f7;*/
+    //background-color: #f6f9fc;
+    background-color: #e9ecef;
+    //background-color: #dee2e6;
+    //background-color: #ced4da;
+    //background-color: #adb5bd;
+    //background-color: #8898aa;
+    //background-color: #525f7f;
+    //background-color: #32325d;
+    //background-color: #212529;
     width: 60%;
     min-height: 100vh;
     margin: auto;
     padding: 50px;
-    color: #32325d
+    color: #32325d;
+    border-left: 1px solid #adb5bd;
+    border-right: 1px solid #adb5bd;
 }
-
 .poster-sm {
+    position: relative;
     width: 90px;
+    float: left;
 }
 
 .poster-lg {
@@ -17,14 +45,10 @@
     float: left;
     margin-right: 20px;
 }
-
 .search-item-title {
-    position: absolute;
-    left: 31%;
-    margin-top: -9%;
+    padding-left: 100px;
 }
-
-.search-item-title a {
+.search-item-title a b{
     color: #32325d;
     text-decoration: underline;
 }
@@ -36,13 +60,12 @@ hr {
 
 .search-result .description-item {
     font-size: 13px;
-    padding: 1px;
+    padding-left: 100px;
 }
 
 .search-description {
-    position: absolute;
-    left: 31%;
-    margin-top: -7%;
+    position: relative;
+    margin-top: 10px;
 }
 
 
