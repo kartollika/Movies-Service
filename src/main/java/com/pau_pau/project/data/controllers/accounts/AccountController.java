@@ -31,6 +31,12 @@ public interface AccountController {
     @ResponseStatus(HttpStatus.OK)
     List<FilmDTO> getWishlistByAuthentication();
 
+    @ApiOperation(value = "Get user's history by authentication", response = FilmDTO.class, responseContainer = "List")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
+    @GetMapping(value = ControllerConstants.HISTORY_WITH_AUTHENTICATION)
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getHistoryByAuthentication();
+
     @ApiOperation(value = "Account registration")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -18,4 +18,8 @@ public class ControllerConstants {
     public static final String CHANGE_ROLE = "/role/{username}";
 
     public static final String WISHLIST_WITH_AUTHENTICATION = "/wishlist";
+
+    public static final String HISTORY_WITH_AUTHENTICATION = "/history";
+
+    public static final int MAX_HISTORY_SIZE = 15;
 }
