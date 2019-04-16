@@ -5,10 +5,11 @@ import com.pau_pau.project.models.films.Film;
 import javax.persistence.*;
 import java.util.List;
 
+import static com.pau_pau.project.data.controllers.ControllerConstants.MAX_HISTORY_SIZE;
+
 @Entity
 @Table(name = "accounts")
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -33,6 +34,14 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "film_id")
     )
     private List<Film> wishlist;
+
+    @ManyToMany
+    @JoinTable(
+            name = "history",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id")
+    )
+    private List<Film> history;
 
     public Account() {
         super();
@@ -96,5 +105,21 @@ public class Account {
 
     public void setWishlist(List<Film> wishlist) {
         this.wishlist = wishlist;
+    }
+
+    public List<Film> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<Film> history) {
+        this.history = history;
+    }
+
+    public void addFilmToHistory(Film film){
+        int size = history.size();
+        history.add(1, film);
+        if (size == MAX_HISTORY_SIZE){
+            history.remove(0);
+        }
     }
 }

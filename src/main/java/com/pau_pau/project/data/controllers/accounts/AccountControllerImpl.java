@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,7 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@CrossOrigin
 @RestController
 @Api(tags = "Accounts", value = "Accounts", description = "Api for operations with accounts")
 @RequestMapping(ControllerConstants.ACCOUNT_URL)
@@ -40,7 +41,6 @@ public class AccountControllerImpl implements AccountController {
     }
 
     public AccountDto getAccountInfoByUsername(String username) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             return AccountDto.dtoFromAccount(accountService.findByUsername(username));
         } catch (Exception e) {
@@ -60,6 +60,22 @@ public class AccountControllerImpl implements AccountController {
                     .map(FilmDTO::fromFilmModel)
                     .collect(Collectors.toList());
         } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    public List<FilmDTO> getHistoryByAuthentication(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        try{
+            return accountService
+                    .findByUsername(username)
+                    .getHistory()
+                    .stream()
+                    .map(FilmDTO::fromFilmModel)
+                    .collect(Collectors.toList());
+        }catch (Exception e){
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
