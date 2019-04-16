@@ -10,8 +10,7 @@ import BaseSlider from "../components/Base/BaseSlider";
 import BaseSwitch from "../components/Base/BaseSwitch";
 import Card from "../components/Base/Card";
 import Icon from "../components/Base/Icon";
-import Header from "../components/Header"
-import Sidebar from "../components/Sidebar"
+import Header from "../components/Header/Header"
 
 export default {
   install(Vue) {
@@ -28,6 +27,5 @@ export default {
     Vue.component(Card.name, Card);
     Vue.component(Icon.name, Icon);
     Vue.component(Header.name, Header);
-    Vue.component(Sidebar.name, Sidebar);
   }
 };

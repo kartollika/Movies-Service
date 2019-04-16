@@ -5,16 +5,23 @@
             <div v-if="!this.filmsEmpty">
                 <h4>Фильмы жанра <b>{{genre}}</b>:</h4>
                 <div class="search-result">
-                    <div v-for="film in films">
-                        <img class="poster-sm" src="../../public/img/posters/Марсианин.jpg">
-                        <div class="search-item-title"><a :href="/film/ + film.id"><b>{{film.title}}</b></a></div>
-                        <div class="search-description">
-                            <div class="description-item"><b>Год:</b> {{film.year}}</div>
-                            <div class="description-item"><b>Страна:</b> {{film.country}}</div>
-                            <div class="description-item"><b>Жанр:</b> {{film.genre}}</div>
-                            <div class="description-item"><b>Режиссер:</b></div>
+                    <div v-for="film in films" :key="film.id">
+                        <card class="film-card">
+                        <div>
+                            <div>
+                                <img class="poster-sm" src="../../public/img/posters/Марсианин.jpg">
+                            </div>
+                            <div class="search-item-title">
+                                <a :href="/film/ + film.id"><b>{{film.title}}</b></a>
+                            </div>
+                            <div class="search-description">
+                                <div class="description-item"><b>Год:</b> {{film.year}}</div>
+                                <div class="description-item"><b>Страна:</b> {{film.country}}</div>
+                                <div class="description-item"><b>Жанр:</b> {{film.genre}}</div>
+                                <div class="description-item"><b>Режиссер:</b></div>
+                            </div>
                         </div>
-                        <hr>
+                        </card>
                     </div>
                 </div>
             </div>

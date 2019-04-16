@@ -3,10 +3,11 @@ import Router from "vue-router";
 
 import Home from "@/pages/Home.vue"
 import Admin from "@/pages/Admin.vue"
-import SearchPage from "@/pages/SearchPage.vue"
+import SearchPage from "@/pages/Search.vue"
 import Film from "../src/pages/Film"
 import Director from "../src/pages/Director"
 import Genre from "../src/pages/Genre"
+import WishList from "./pages/WishList";
 
 Vue.use(Router);
 
@@ -39,6 +40,10 @@ export default new Router({
         {
             path: '/genre/:name',
             component: Genre
+        },
+        {
+            path: '/wishlist',
+            component: WishList
         }
     ]
 })

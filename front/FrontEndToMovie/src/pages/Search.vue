@@ -7,16 +7,28 @@
             <div class="search-result">
                 <div v-show="!this.filmsEmpty">
                     <h4>Фильмы:</h4>
-                    <div v-for="(film, index) in films" v-if="index < size">
-                        <img class="poster-sm" src="../../public/img/posters/Марсианин.jpg">
-                        <div class="search-item-title"><a :href="/film/ + film.id"><b>{{film.title}}</b></a></div>
-                        <div class="search-description">
-                            <div class="description-item"><b>Год:</b> {{film.year}}</div>
-                            <div class="description-item"><b>Страна:</b> {{film.country}}</div>
-                            <div class="description-item"><b>Жанр:</b> {{film.genre}}</div>
-                            <div class="description-item"><b>Режиссер:</b></div>
+                    <div>
+                        <div v-for="(film, index) in films" :key="film.id">
+                            <div v-if="index < size">
+                                <card class="film-card">
+                                <div>
+                                    <div>
+                                        <img class="poster-sm"
+                                             src="../../public/img/posters/Марсианин.jpg">
+                                    </div>
+                                    <div class="search-item-title">
+                                        <a :href="/film/ + film.id"><b>{{film.title}}</b></a>
+                                    </div>
+                                    <div class="search-description">
+                                        <div class="description-item"><b>Год:</b> {{film.year}}</div>
+                                        <div class="description-item"><b>Страна:</b> {{film.country}}</div>
+                                        <div class="description-item"><b>Жанр:</b> {{film.genre}}</div>
+                                        <div class="description-item"><b>Режиссер:</b></div>
+                                    </div>
+                                </div>
+                                </card>
+                            </div>
                         </div>
-                        <hr>
                     </div>
                     <div v-show="films.length > size">
                         <base-button style="float: right" size="sm" outline type="primary" @click="size=films.length">
@@ -26,16 +38,21 @@
                 </div>
                 <div v-show="!this.directorsEmpty">
                     <h4>Режиссеры:</h4>
-                    <div v-for="director in directors">
-                        <div><img class="poster-sm" src="../../public/img/posters/Марсианин.jpg">
-                            <div class="search-item-title"><a :href="/director/ + director.id"><b>{{director.name}}</b></a>
+                    <div v-for="director in directors" :key="director.id">
+                        <card class="film-card">
+                        <div>
+                            <div>
+                                <img class="poster-sm" src="../../public/img/posters/Марсианин.jpg">
+                            </div>
+                            <div class="search-item-title">
+                                <a :href="/director/ + director.id"><b>{{director.name}}</b></a>
                             </div>
                             <div class="search-description">
                                 <div class="description-item"><b>Страна:</b> {{director.country}}</div>
                                 <div class="description-item"><b>Фильмы:</b></div>
                             </div>
-                            <hr>
                         </div>
+                        </card>
                     </div>
                 </div>
             </div>
@@ -45,7 +62,6 @@
 
 <script>
     import axios from 'axios'
-
     export default {
         name: "SearchPage",
         data() {
