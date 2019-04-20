@@ -80,7 +80,7 @@
                 Authorization: this.authorization
             };
 
-            axios.get("http://localhost:8080/api/films", {
+            axios.get(this.url + "/api/films", {
                 params: {
                     title: this.$route.params.query,
                 }
@@ -95,7 +95,7 @@
                 });
             });
 
-            axios.get("http://localhost:8080/api/directors", {
+            axios.get(this.url + "/api/directors", {
                 params: {
                     name: this.$route.params.query,
                 }

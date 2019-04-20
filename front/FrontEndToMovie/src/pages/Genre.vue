@@ -52,7 +52,7 @@
             };
 
             this.genre = this.$route.params.name[0].toUpperCase() + this.$route.params.name.slice(1);
-            axios.get("http://localhost:8080/api/films", {
+            axios.get(this.url + "/api/films", {
                 params: {
                     genre: this.$route.params.name,
                 }

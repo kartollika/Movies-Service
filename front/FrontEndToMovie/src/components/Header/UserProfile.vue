@@ -35,11 +35,11 @@
                     Authorization: this.authorization
                 };
 
-                axios.get("http://localhost:8080/api/account").then((response) => {
+                axios.get(this.url + "/api/account").then((response) => {
                     this.user = response.data;
                 });
 
-                axios.get("http://localhost:8080/api/account/wishlist").then((response) => {
+                axios.get(this.url + "/api/account/wishlist").then((response) => {
                     let serialObj = JSON.stringify(response.data)
                     localStorage.setItem("wishlist", serialObj);
                 });

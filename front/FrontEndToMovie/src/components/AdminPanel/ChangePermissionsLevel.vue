@@ -44,7 +44,7 @@
                     Authorization: this.authorization
                 };
 
-                axios.get("http://localhost:8080/api/account/" + this.username).then((response) => {
+                axios.get(this.url + "/api/account/" + this.username).then((response) => {
                     if (response.status === 204) {
                         this.info = "Пользователь " + this.username + " не найден";
                     } else {
