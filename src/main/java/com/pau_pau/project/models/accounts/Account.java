@@ -97,4 +97,8 @@ public class Account {
     public void setWishlist(List<Film> wishlist) {
         this.wishlist = wishlist;
     }
+
+    public boolean containsInWishlist(Film film){
+        return wishlist.contains(film);
+    }
 }
