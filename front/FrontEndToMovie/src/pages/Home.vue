@@ -15,6 +15,11 @@
     export default {
         components: {
             Swiper
+        },
+        data() {
+            return {
+                host: ''
+            }
         }
     }
 </script>

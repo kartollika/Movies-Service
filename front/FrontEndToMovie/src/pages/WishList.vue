@@ -59,7 +59,7 @@
         },
         methods: {
             delWish(id) {
-                axios.delete("http://localhost:8080/api/account/wishlist", {
+                axios.delete(this.url + "/api/account/wishlist", {
                     params: {
                         filmId: id
                     }
@@ -69,7 +69,7 @@
             },
 
             getWishList() {
-                axios.get("http://localhost:8080/api/account/wishlist").then((response) => {
+                axios.get(this.url + "/api/account/wishlist").then((response) => {
                     this.films = response.data;
                     if (this.films.length !== 0) {
                         this.wishListEmpty = false;

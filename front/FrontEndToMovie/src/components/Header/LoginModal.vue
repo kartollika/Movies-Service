@@ -157,7 +157,7 @@
         methods: {
             loginForm() {
                 this.error = false;
-                axios.get("http://localhost:8080/login", {
+                axios.get(this.url + "/login", {
                     params: {
                         username: this.username,
                         password: this.password
@@ -186,7 +186,7 @@
                 } else if (this.newUser.password === '') {
                     this.passwordError = true;
                 } else {
-                    axios.post("http://localhost:8080/api/account", this.newUser).then((response) => {
+                    axios.post(this.url + "/api/account", this.newUser).then((response) => {
                         this.username = this.newUser.username;
                         this.password = this.newUser.password;
                         if (response.status === 201) {

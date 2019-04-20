@@ -33,7 +33,7 @@
                 'Content-Type': 'application/json',
                 Authorization: this.authorization
             };
-            axios.get("http://localhost:8080/api/directors/director/" + this.$route.params.id).then((response) => {
+            axios.get(this.url + "/api/directors/director/" + this.$route.params.id).then((response) => {
                 this.director = response.data;
             })
         }

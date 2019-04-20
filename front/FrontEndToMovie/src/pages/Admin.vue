@@ -37,7 +37,7 @@
             }
         },
         mounted() {
-            axios.get("http://localhost:8080/api/account").then((response) => {
+            axios.get(this.url + "/api/account").then((response) => {
                 this.userRole = response.data.permissionsLevel;
             });
         }

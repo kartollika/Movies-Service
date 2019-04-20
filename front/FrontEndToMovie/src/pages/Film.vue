@@ -56,12 +56,11 @@
             }
         },
         mounted() {
-
             axios.defaults.headers = {
                 'Content-Type': 'application/json',
                 Authorization: this.authorization
             };
-            axios.get("http://localhost:8080/api/films/film/" + this.$route.params.id).then((response) => {
+            axios.get(this.url + "/api/films/film/" + this.$route.params.id).then((response) => {
                 this.film = response.data;
                 this.film.year = this.film.year.substring(0, 4);
                 this.film.release = this.film.release.substring(0, 10);
@@ -79,7 +78,7 @@
         },
         methods: {
             delWish() {
-                axios.delete("http://localhost:8080/api/account/wishlist", {
+                axios.delete(this.url + "/api/account/wishlist", {
                     params: {
                         filmId: this.film.id
                     }
@@ -89,7 +88,7 @@
             },
 
             addWish() {
-                axios.put("http://localhost:8080/api/account/wishlist?filmId=" + this.film.id).then(() => {
+                axios.put(this.url + "/api/account/wishlist?filmId=" + this.film.id).then(() => {
                     this.wishList = true;
                 });
             }
