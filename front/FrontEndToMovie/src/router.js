@@ -8,6 +8,7 @@ import Film from "../src/pages/Film"
 import Director from "../src/pages/Director"
 import Genre from "../src/pages/Genre"
 import WishList from "./pages/WishList";
+import History from "./pages/History";
 
 Vue.use(Router);
 
@@ -44,6 +45,11 @@ export default new Router({
         {
             path: '/wishlist',
             component: WishList
+        },
+        {
+            path: '/history',
+            component: History
         }
+        
     ]
 })
