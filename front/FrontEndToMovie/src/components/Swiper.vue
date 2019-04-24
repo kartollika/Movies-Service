@@ -1,7 +1,5 @@
 <template>
-  <div class="mb-lg-auto align-items-center container">
-    <md-card>
-      <md-card-media>
+  <div class="col-lg-10 mb-lg-auto align-items-center container">
         <!-- swiper -->
         <swiper :options="swiperOption">
           <swiper-slide><img src="img/posters/Джон Уик.jpg"></swiper-slide>
@@ -14,8 +12,6 @@
           <div class="swiper-button-prev" slot="button-prev"></div>
           <div class="swiper-button-next" slot="button-next"></div>
         </swiper>
-      </md-card-media>
-    </md-card>
   </div>
 </template>
 
@@ -24,9 +20,9 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 4,
-        spaceBetween: 60,
-        slidesPerGroup: 2,
+        slidesPerView: 5,
+        spaceBetween: 15,
+        slidesPerGroup: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         pagination: {
@@ -48,7 +44,6 @@ export default {
   width: 100%
 }
 img {
-  width: inherit ;
-  width: 80%;
+  width: inherit;
 }
 </style>

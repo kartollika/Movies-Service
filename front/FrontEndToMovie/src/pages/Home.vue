@@ -1,33 +1,32 @@
 <template>
-  <DefaultLayout>
-    <template v-slot:header>
-      <Header/>
-    </template>
-    <template v-slot:sidebar>
-      <Sidebar/>
-    </template>
-    <template v-slot:content>
-      <Swiper/>
-    </template>
-  </DefaultLayout>
+    <div>
+        <Header/>
+        <div class="content">
+            <h3>Новинки</h3>
+            <Swiper class="swiper"></Swiper>
+        </div>
+
+    </div>
 </template>
 
-
 <script>
-import DefaultLayout from '../components/DefaultLayout.vue'
-import Header from '../components/Header.vue'
-import Sidebar from '../components/Sidebar.vue'
-import Swiper from '../components/Swiper.vue'
+    import DefaultLayout from '../components/DefaultLayout.vue'
+    import Swiper from '../components/Swiper.vue'
+    import Sidebar from '../components/Sidebar.vue'
 
-export default {
-  components: {
-    DefaultLayout,
-    Header,
-    Sidebar,
-    Swiper
-  }
-}
+    export default {
+        components: {
+            Swiper,
+            Sidebar,
+            DefaultLayout
+        }
+    }
 </script>
 
 <style>
+    .swiper {
+    }
+    .sidebar {
+        float: left;
+    }
 </style>

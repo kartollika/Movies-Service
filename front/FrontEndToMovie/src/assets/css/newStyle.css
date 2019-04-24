@@ -1,0 +1,48 @@
+.content {
+    background-color: #f4f5f7;
+    width: 60%;
+    min-height: 100vh;
+    margin: auto;
+    padding: 50px;
+    color: #32325d
+}
+
+.poster-sm {
+    width: 90px;
+}
+
+.poster-lg {
+    width: 200px;
+    margin-top: 10px;
+    float: left;
+    margin-right: 20px;
+}
+
+.search-item-title {
+    position: absolute;
+    left: 31%;
+    margin-top: -9%;
+}
+
+.search-item-title a {
+    color: #32325d;
+    text-decoration: underline;
+}
+
+hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.search-result .description-item {
+    font-size: 13px;
+    padding: 1px;
+}
+
+.search-description {
+    position: absolute;
+    left: 31%;
+    margin-top: -7%;
+}
+
+
