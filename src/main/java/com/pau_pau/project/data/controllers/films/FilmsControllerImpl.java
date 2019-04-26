@@ -61,7 +61,7 @@ public class FilmsControllerImpl implements FilmsController {
      ================================== */
 
     @Override
-    public FilmDTO addFilm(FilmDTO film) {
+    public FilmDTO addFilm(FilmDTO film) throws Exception {
         return FilmDTO.fromFilmModel(filmsService.addFilm(film));
     }
 
@@ -91,5 +91,15 @@ public class FilmsControllerImpl implements FilmsController {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @Override
+    public FilmDTO publishFilm(int filmId) throws Exception {
+        return FilmDTO.fromFilmModel(filmsService.publishFilm(filmId));
+    }
+
+    @Override
+    public FilmDTO rejectFilm(int filmId) throws Exception {
+        return FilmDTO.fromFilmModel(filmsService.rejectFilm(filmId));
     }
 }

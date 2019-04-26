@@ -5,6 +5,8 @@ public class ControllerConstants {
     public static final String FILM_URL = "/film/";
     public static final String FILM_PATH_ID = "id";
     public static final String FILM_URL_BY_ID = FILM_URL + "{" + FILM_PATH_ID + "}";
+    public static final String FILM_PUBLISH = "/api/films/publish/{id}";
+    public static final String FILM_REJECT = "/api/films/reject/{id}";
 
 
     public static final String DIRECTORS_URL = "/api/directors";

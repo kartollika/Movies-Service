@@ -42,7 +42,7 @@ public interface FilmsController {
     @ApiOperation(value = "Add new film", response = FilmDTO.class)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    FilmDTO addFilm(@RequestBody FilmDTO film);
+    FilmDTO addFilm(@RequestBody FilmDTO film) throws Exception;
 
     @ApiOperation(value = "Update existing film", response = FilmDTO.class)
     @PutMapping(value = ControllerConstants.FILM_URL_BY_ID)
@@ -53,4 +53,14 @@ public interface FilmsController {
     @DeleteMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deleteFilm(@PathVariable(name = FILM_PATH_ID) int filmId);
+
+    @ApiOperation(value = "Publish the film by ID", response = FilmDTO.class)
+    @PutMapping(value = ControllerConstants.FILM_PUBLISH)
+    @ResponseStatus(HttpStatus.OK)
+    FilmDTO publishFilm(@PathVariable(name = FILM_PATH_ID) int filmId) throws Exception;
+
+    @ApiOperation(value = "Rejects the film to be added to common list", response = FilmDTO.class)
+    @PutMapping(value = ControllerConstants.FILM_REJECT)
+    @ResponseStatus(HttpStatus.OK)
+    FilmDTO rejectFilm(@PathVariable(name = FILM_PATH_ID) int filmId) throws Exception;
 }
