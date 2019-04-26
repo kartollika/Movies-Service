@@ -30,6 +30,9 @@ public class Film {
         film.genre = filmDTO.getGenre();
         film.budget = filmDTO.getBudget();
         film.release = filmDTO.getRelease();
+        film.actors = filmDTO.getActors();
+        film.description = filmDTO.getDescription();
+        film.poster = filmDTO.getPoster();
         return film;
     }
 
@@ -65,6 +68,15 @@ public class Film {
 
     @Column
     private float budget;
+
+    @Column
+    private String poster;
+
+    @Column
+    private String actors;
+
+    @Column
+    private String description;
 
     public int getId() {
         return id;
@@ -130,4 +142,27 @@ public class Film {
         this.budget = budget;
     }
 
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

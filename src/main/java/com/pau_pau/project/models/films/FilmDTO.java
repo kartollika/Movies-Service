@@ -23,6 +23,9 @@ public class FilmDTO {
         filmDTO.genre = film.getGenre();
         filmDTO.budget = film.getBudget();
         filmDTO.release = film.getRelease();
+        filmDTO.actors = film.getActors();
+        filmDTO.description = film.getDescription();
+        filmDTO.poster = film.getPoster();
         return filmDTO;
     }
 
@@ -40,6 +43,13 @@ public class FilmDTO {
     private String genre;
 
     private Date release;
+
+    private String poster;
+
+    private String actors;
+
+    private String description;
+
 
     private float budget;
 
@@ -107,4 +117,27 @@ public class FilmDTO {
         this.budget = budget;
     }
 
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
