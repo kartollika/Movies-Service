@@ -3,6 +3,7 @@ package com.pau_pau.project.data.controllers.films;
 import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.models.films.FilmDTO;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,17 +40,17 @@ public interface FilmsController {
     @ResponseStatus(HttpStatus.OK)
     FilmDTO getFilmById(@PathVariable(name = FILM_PATH_ID) int filmId);
 
-    @ApiOperation(value = "Add new film", response = FilmDTO.class)
+    @ApiOperation(value = "Add new film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     FilmDTO addFilm(@RequestBody FilmDTO film) throws Exception;
 
-    @ApiOperation(value = "Update existing film", response = FilmDTO.class)
+    @ApiOperation(value = "Update existing film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO updateFilm(@PathVariable(name = FILM_PATH_ID) int filmId, @RequestBody FilmDTO film);
 
-    @ApiOperation(value = "Delete existing film", response = FilmDTO.class)
+    @ApiOperation(value = "Delete existing film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @DeleteMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deleteFilm(@PathVariable(name = FILM_PATH_ID) int filmId);
