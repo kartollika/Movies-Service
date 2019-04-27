@@ -1,15 +1,20 @@
 package com.pau_pau.omdb_client;
 
-import com.pau_pau.omdb_client.http.Endpoints;
+import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import java.text.ParseException;
 
 @SpringBootApplication
 public class OmdbClientApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OmdbClientApplication.class, args);
-		System.out.println(Endpoints.OMDB_API_WITH_KEY);
+	public static void main(String[] args) throws ParseException, InterruptedException {
+		ConfigurableApplicationContext run = SpringApplication.run(OmdbClientApplication.class, args);
+		run.getBean(TransferService.class).run();
+		int exit = SpringApplication.exit(run, (ExitCodeGenerator) () -> 0);
+		System.exit(exit);
 	}
 
 }

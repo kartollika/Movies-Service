@@ -4,5 +4,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Endpoints {
-    public static String OMDB_API = "http://img.omdbapi.com/";
+    public static String OMDB_API = "http://omdbapi.com/";
+    public static String TMDB_API = "https://api.themoviedb.org/3/movie/";
 }
