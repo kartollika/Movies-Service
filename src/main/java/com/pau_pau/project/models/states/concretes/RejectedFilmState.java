@@ -4,8 +4,17 @@ import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.states.Commentable;
 import com.pau_pau.project.models.states.FilmState;
+import com.pau_pau.project.models.states.FilmStatus;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("rejected")
 public class RejectedFilmState extends FilmState implements Commentable {
+
+    public RejectedFilmState() {
+    }
 
     public RejectedFilmState(FilmState oldState) {
         super(oldState);
@@ -24,5 +33,10 @@ public class RejectedFilmState extends FilmState implements Commentable {
 
     @Override
     public void reject(Account account) {
+    }
+
+    @Override
+    public FilmStatus getStatusName() {
+        return FilmStatus.REJECTED;
     }
 }

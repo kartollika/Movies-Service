@@ -6,6 +6,8 @@ import com.pau_pau.project.models.films.Film;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "state_type")
 @Table(name = "states")
 public abstract class FilmState {
 
@@ -15,10 +17,13 @@ public abstract class FilmState {
     protected int id;
 
     @Column(name = "whose_id")
-    protected int ownerId;
+    int ownerId;
 
     @OneToOne(mappedBy = "state")
     protected Film film;
+
+    public FilmState() {
+    }
 
     public FilmState(int ownerId) {
         this.ownerId = ownerId;
@@ -35,4 +40,6 @@ public abstract class FilmState {
     public abstract void publish(Account account) throws Exception;
 
     public abstract void reject(Account account);
+
+    public abstract FilmStatus getStatusName();
 }

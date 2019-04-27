@@ -55,12 +55,12 @@ public interface FilmsController {
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deleteFilm(@PathVariable(name = FILM_PATH_ID) int filmId);
 
-    @ApiOperation(value = "Publish the film by ID", response = FilmDTO.class)
+    @ApiOperation(value = "Publish the film by ID", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.FILM_PUBLISH)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO publishFilm(@PathVariable(name = FILM_PATH_ID) int filmId) throws Exception;
 
-    @ApiOperation(value = "Rejects the film to be added to common list", response = FilmDTO.class)
+    @ApiOperation(value = "Rejects the film to be added to common list", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.FILM_REJECT)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO rejectFilm(@PathVariable(name = FILM_PATH_ID) int filmId) throws Exception;
