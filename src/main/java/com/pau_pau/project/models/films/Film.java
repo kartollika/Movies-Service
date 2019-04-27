@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
-import com.pau_pau.project.models.states.State;
+import com.pau_pau.project.models.states.FilmState;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -69,7 +69,7 @@ public class Film {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "state_id", referencedColumnName = "id")
-    private State state;
+    private FilmState state;
 
     public int getId() {
         return id;
@@ -135,11 +135,11 @@ public class Film {
         this.budget = budget;
     }
 
-    public State getState() {
+    public FilmState getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(FilmState state) {
         this.state = state;
     }
 }

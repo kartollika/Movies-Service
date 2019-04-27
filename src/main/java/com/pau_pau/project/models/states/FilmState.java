@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "states")
-public abstract class State {
+public abstract class FilmState {
 
     @Id
     @Column
@@ -15,16 +15,20 @@ public abstract class State {
     protected int id;
 
     @Column(name = "whose_id")
-    private int ownerId;
+    protected int ownerId;
 
     @OneToOne(mappedBy = "state")
     protected Film film;
 
-    public State(Account account) {
+    public FilmState(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public FilmState(Account account) {
         ownerId = account.getId();
     }
 
-    public State(State oldState) {
+    public FilmState(FilmState oldState) {
         ownerId = oldState.ownerId;
     }
 

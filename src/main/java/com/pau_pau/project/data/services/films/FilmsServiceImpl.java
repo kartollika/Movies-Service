@@ -5,8 +5,8 @@ import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
-import com.pau_pau.project.models.states.ModifiedState;
-import com.pau_pau.project.models.states.NewlyState;
+import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
+import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,7 +50,7 @@ public class FilmsServiceImpl implements FilmsService {
         String username = auth.getName();
 
         Film film = Film.fromFilmDTOModel(filmDTO);
-        film.setState(new NewlyState(accountService.findByUsername(username)));
+        film.setState(new NewlyFilmState(accountService.findByUsername(username)));
         filmsRepository.save(film);
         return film;
     }
@@ -63,7 +63,7 @@ public class FilmsServiceImpl implements FilmsService {
 
         filmDTO.setId(id);
         Film film = Film.fromFilmDTOModel(filmDTO);
-        film.setState(new ModifiedState(film.getState()));
+        film.setState(new ModifiedFilmState(film.getState()));
         filmsRepository.save(film);
         return film;
     }
@@ -81,7 +81,7 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public Film publishFilm(int id) throws Exception {
-        Account account = getAccount();
+        Account account = accountService.getAccount();
 
         Film film = filmsRepository.findById(id).get();
         film.getState().publish(account);
@@ -92,17 +92,12 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public Film rejectFilm(int id) throws Exception {
-        Account account = getAccount();
+        Account account = accountService.getAccount();
 
         Film film = filmsRepository.findById(id).get();
         film.getState().reject(account);
         filmsRepository.save(film);
 
         return film;
-    }
-
-    private Account getAccount() throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return accountService.findByUsername(authentication.getName());
     }
 }

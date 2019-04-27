@@ -2,9 +2,9 @@ package com.pau_pau.project.models.films;
 
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
+import com.pau_pau.project.models.states.FilmStateDTO;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +23,7 @@ public class FilmDTO {
         filmDTO.genre = film.getGenre();
         filmDTO.budget = film.getBudget();
         filmDTO.release = film.getRelease();
+        filmDTO.state = FilmStateDTO.fromFilmModel(film.getState());
         return filmDTO;
     }
 
@@ -42,6 +43,9 @@ public class FilmDTO {
     private Date release;
 
     private float budget;
+
+    @ApiModelProperty(readOnly = true)
+    private FilmStateDTO state;
 
     public int getId() {
         return id;
@@ -95,7 +99,7 @@ public class FilmDTO {
         return release;
     }
 
-    public void setRelease(Timestamp release) {
+    public void setRelease(Date release) {
         this.release = release;
     }
 
@@ -107,4 +111,11 @@ public class FilmDTO {
         this.budget = budget;
     }
 
+    public FilmStateDTO getState() {
+        return state;
+    }
+
+    public void setState(FilmStateDTO state) {
+        this.state = state;
+    }
 }
