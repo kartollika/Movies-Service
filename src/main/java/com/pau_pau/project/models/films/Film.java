@@ -28,7 +28,6 @@ public class Film {
             film.directors.add(Director.fromDirectorDTOModel(director));
         }
         film.genre = filmDTO.getGenre();
-        film.budget = filmDTO.getBudget();
         film.release = filmDTO.getRelease();
         film.actors = filmDTO.getActors();
         film.description = filmDTO.getDescription();
@@ -65,9 +64,6 @@ public class Film {
 
     @Column(name = "release")
     private Date release;
-
-    @Column
-    private float budget;
 
     @Column
     private String poster;
@@ -132,14 +128,6 @@ public class Film {
 
     public void setRelease(Date release) {
         this.release = release;
-    }
-
-    public float getBudget() {
-        return budget;
-    }
-
-    public void setBudget(float budget) {
-        this.budget = budget;
     }
 
     public String getPoster() {
