@@ -41,7 +41,7 @@ public class FilmsServiceImpl implements FilmsService {
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        Film film = filmsRepository.findById(id).orElse(null);
+        Film film = filmsRepository.findById(id).orElseThrow();
         if (film != null){
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
