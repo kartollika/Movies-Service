@@ -5,6 +5,7 @@ import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
+import com.pau_pau.project.models.states.FilmStatus;
 import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
 import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import javax.management.InstanceNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FilmsServiceImpl implements FilmsService {
@@ -33,7 +35,11 @@ public class FilmsServiceImpl implements FilmsService {
                                 String genre,
                                 Date releaseDate,
                                 Float budget) {
-        return filmsRepository.findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget);
+        return filmsRepository
+                .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget)
+                .stream()
+                .filter(film -> film.getState().getStatusName().equals(FilmStatus.APPROVED))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -91,11 +97,11 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public Film rejectFilm(int id) throws Exception {
+    public Film rejectFilm(int id, String comment) throws Exception {
         Account account = accountService.getAccount();
 
         Film film = filmsRepository.findById(id).get();
-        film.getState().reject(account);
+        film.getState().reject(account, comment);
         filmsRepository.save(film);
 
         return film;

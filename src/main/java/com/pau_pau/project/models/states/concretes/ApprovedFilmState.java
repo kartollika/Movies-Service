@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("approved")
 public class ApprovedFilmState extends FilmState {
 
+    private String comment;
+
     public ApprovedFilmState() {
     }
 
@@ -24,9 +26,9 @@ public class ApprovedFilmState extends FilmState {
     }
 
     @Override
-    public void reject(Account account) {
+    public void reject(Account account, String comment) {
         if (account.getPermissionsLevel().equals(Role.ADMIN)) {
-            film.setState(new RejectedFilmState(film.getState()));
+            film.setState(new RejectedFilmState(film.getState(), comment));
         }
     }
 

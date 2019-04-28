@@ -6,7 +6,7 @@ public class FilmStateDTO {
         FilmStateDTO filmStateDTO = new FilmStateDTO();
         filmStateDTO.ownerId = state.ownerId;
         if (state instanceof Commentable) {
-            filmStateDTO.comment = ((Commentable) state).comment;
+            filmStateDTO.comment = ((Commentable) state).getComment();
         }
         filmStateDTO.status = state.getStatusName();
         return filmStateDTO;

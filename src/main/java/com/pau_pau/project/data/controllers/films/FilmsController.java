@@ -63,5 +63,5 @@ public interface FilmsController {
     @ApiOperation(value = "Rejects the film to be added to common list", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.FILM_REJECT)
     @ResponseStatus(HttpStatus.OK)
-    FilmDTO rejectFilm(@PathVariable(name = FILM_PATH_ID) int filmId) throws Exception;
+    FilmDTO rejectFilm(@PathVariable(name = FILM_PATH_ID) int filmId, @RequestParam(name = "comment") String comment) throws Exception;
 }

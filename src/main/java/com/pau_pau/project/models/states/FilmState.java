@@ -13,13 +13,13 @@ public abstract class FilmState {
 
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected int id;
+    @GeneratedValue
+    int id;
 
     @Column(name = "whose_id")
     int ownerId;
 
-    @OneToOne(mappedBy = "state")
+    @OneToOne(mappedBy = "state", cascade = CascadeType.ALL)
     protected Film film;
 
     public FilmState() {
@@ -34,12 +34,13 @@ public abstract class FilmState {
     }
 
     public FilmState(FilmState oldState) {
+        id = oldState.id;
         ownerId = oldState.ownerId;
     }
 
     public abstract void publish(Account account) throws Exception;
 
-    public abstract void reject(Account account);
+    public abstract void reject(Account account, String comment);
 
     public abstract FilmStatus getStatusName();
 }

@@ -6,6 +6,7 @@ import com.pau_pau.project.models.states.Commentable;
 import com.pau_pau.project.models.states.FilmState;
 import com.pau_pau.project.models.states.FilmStatus;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -13,11 +14,19 @@ import javax.persistence.Entity;
 @DiscriminatorValue("rejected")
 public class RejectedFilmState extends FilmState implements Commentable {
 
+    @Column
+    String comment = null;
+
     public RejectedFilmState() {
     }
 
-    public RejectedFilmState(FilmState oldState) {
+    RejectedFilmState(FilmState oldState) {
         super(oldState);
+    }
+
+    public RejectedFilmState(FilmState oldState, String comment) {
+        super(oldState);
+        this.comment = comment;
     }
 
     @Override
@@ -32,11 +41,21 @@ public class RejectedFilmState extends FilmState implements Commentable {
     }
 
     @Override
-    public void reject(Account account) {
+    public void reject(Account account, String comment) {
     }
 
     @Override
     public FilmStatus getStatusName() {
         return FilmStatus.REJECTED;
+    }
+
+    @Override
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public String getComment() {
+        return comment;
     }
 }

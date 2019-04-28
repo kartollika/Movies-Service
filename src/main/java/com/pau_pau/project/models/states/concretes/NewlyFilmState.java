@@ -21,13 +21,19 @@ public class NewlyFilmState extends FilmState {
 
     @Override
     public void publish(Account account) {
-        if (account.getPermissionsLevel().equals(Role.ADMIN)) {
+        Role permissionLevel = account.getPermissionsLevel();
+
+        if (permissionLevel.equals(Role.ADMIN)) {
             film.setState(new ApprovedFilmState(film.getState()));
+        }
+
+        if (permissionLevel.equals(Role.EDITOR)) {
+            film.setState(new ModifiedFilmState(film.getState()));
         }
     }
 
     @Override
-    public void reject(Account account) {
+    public void reject(Account account, String comment) {
     }
 
     @Override

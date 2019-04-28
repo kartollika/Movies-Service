@@ -99,7 +99,7 @@ public class FilmsControllerImpl implements FilmsController {
     }
 
     @Override
-    public FilmDTO rejectFilm(int filmId) throws Exception {
-        return FilmDTO.fromFilmModel(filmsService.rejectFilm(filmId));
+    public FilmDTO rejectFilm(int filmId, String comment) throws Exception {
+        return FilmDTO.fromFilmModel(filmsService.rejectFilm(filmId, comment));
     }
 }
