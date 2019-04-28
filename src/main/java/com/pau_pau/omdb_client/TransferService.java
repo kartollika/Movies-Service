@@ -18,6 +18,8 @@ public class TransferService {
     private OmdbClient client;
     @Autowired
     private FilmRepository repo;
+    @Autowired
+    private DirectorsRepository directorsRepository;
 
 
     public void run() throws ParseException, InterruptedException {
@@ -47,7 +49,7 @@ public class TransferService {
         }
     }
 
-    private FilmToMoviesService prepare(FilmFromOmdb film) throws ParseException {
+    private FilmToMoviesService prepare(FilmFromOmdb film) throws InterruptedException, ParseException {
         FilmToMoviesService movie = new FilmToMoviesService();
         movie.setTitle(film.getTitle());
         // иначе никак :)
@@ -62,7 +64,16 @@ public class TransferService {
         movie.setPoster(film.getPoster());
         movie.setActors(film.getActors());
         movie.setDescription(film.getPlot());
-        movie.getDirectors().add(new Director(film.getDirector(), film.getCountry()));
+        Director director = directorsRepository.getDirectorByName(film.getDirector());
+        if (director != null) {
+            movie.getDirectors().add(director);
+        } else {
+            Director d = new Director(film.getDirector(), film.getCountry().split(",")[0]);
+            Director save = directorsRepository.save(d);
+            movie.getDirectors().add(save);
+
+    }
+
         return movie;
     }
 }

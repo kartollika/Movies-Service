@@ -47,7 +47,7 @@ public class OmdbClient {
 
     public List<String> getIds() throws InterruptedException {
         List<String> tmbdIds = new ArrayList<>();
-        for (int i = 1; i < 30; ++i) {
+        for (int i = 1; i < 20; ++i) {
 
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Endpoints.TMDB_API + "top_rated")
                     .queryParam("page", i)
@@ -64,7 +64,7 @@ public class OmdbClient {
             }
 
 
-            Thread.sleep(1000);
+            Thread.sleep(100);
 
         }
 

@@ -6,6 +6,9 @@ import java.util.Set;
 @Entity
 @Table(name = "directors")
 public class Director {
+    public Director() {
+    }
+
     public Director(String name, String country) {
         this.name = name;
         this.country = country;
@@ -21,7 +24,8 @@ public class Director {
     @Column
     private String country;
 
-    @ManyToMany(mappedBy = "directors")
+    @ManyToMany(fetch = FetchType.LAZY,
+            mappedBy = "directors")
     private Set<FilmToMoviesService> films;
 
 

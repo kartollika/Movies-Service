@@ -30,8 +30,7 @@ public class FilmToMoviesService {
     @Column
     private String description;
     @Column
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @ManyToMany( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),
