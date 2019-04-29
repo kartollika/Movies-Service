@@ -61,7 +61,7 @@ public class FilmsControllerImpl implements FilmsController {
      ================================== */
 
     @Override
-    public FilmDTO addFilm(FilmDTO film) {
+    public FilmDTO addFilm(FilmDTO film) throws InstanceNotFoundException {
         return FilmDTO.fromFilmModel(filmsService.addFilm(film));
     }
 

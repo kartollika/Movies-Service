@@ -1,6 +1,7 @@
 package com.pau_pau.project.data.services.films;
 
 import com.pau_pau.project.data.repository.films.FilmsRepository;
+import com.pau_pau.project.data.services.directors.DirectorsService;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Autowired
     private FilmsRepository filmsRepository;
+
+    @Autowired
+    private DirectorsService directorsService;
 
     @Override
     public List<Film> findFilms(String title,
@@ -35,8 +39,11 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public Film addFilm(FilmDTO filmDTO) {
+    public Film addFilm(FilmDTO filmDTO) throws InstanceNotFoundException {
         Film film = Film.fromFilmDTOModel(filmDTO);
+        for(Integer directorId: film.getDirectorsId()) {
+            film.getDirectors().add(directorsService.findDirectorById(directorId));
+        }
         filmsRepository.save(film);
         return film;
     }
@@ -49,6 +56,9 @@ public class FilmsServiceImpl implements FilmsService {
 
         filmDTO.setId(id);
         Film film = Film.fromFilmDTOModel(filmDTO);
+        for(Integer directorId: film.getDirectorsId()) {
+            film.getDirectors().add(directorsService.findDirectorById(directorId));
+        }
         filmsRepository.save(film);
         return film;
     }

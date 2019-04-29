@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -43,7 +44,7 @@ public interface FilmsController {
     @ApiOperation(value = "Add new film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    FilmDTO addFilm(@RequestBody FilmDTO film);
+    FilmDTO addFilm(@RequestBody FilmDTO film) throws InstanceNotFoundException;
 
     @ApiOperation(value = "Update existing film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.FILM_URL_BY_ID)
