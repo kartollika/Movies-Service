@@ -9,6 +9,7 @@ import Director from "../src/pages/Director"
 import Genre from "../src/pages/Genre"
 import WishList from "./pages/WishList";
 import History from "./pages/History";
+import Random from "./pages/Random";
 
 Vue.use(Router);
 
@@ -49,6 +50,10 @@ export default new Router({
         {
             path: '/history',
             component: History
+        },
+        {
+            path: '/random',
+            component: Random
         }
         
     ]

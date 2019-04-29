@@ -10,7 +10,7 @@
                             <a class="nav-link nav-link-icon" href="/">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-icon" href="#">Случайный фильм</a>
+                            <a class="nav-link nav-link-icon" href="/random/">Случайный фильм</a>
                         </li>
                         <li class="nav-item">
                             <genre-dropdown/>
