@@ -35,7 +35,6 @@ public interface AccountController {
     AccountDto registration(@RequestBody AccountDto accountDto);
 
     @ApiOperation(value = "Update account role. " + AVAILABLE_ADMIN, response = AccountDto.class, authorizations = @Authorization(value = "Bearer"))
-    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @PutMapping(value = ControllerConstants.CHANGE_ROLE)
     @Secured({"ROLE_ADMIN"})
     @ResponseStatus(HttpStatus.OK)
@@ -43,20 +42,17 @@ public interface AccountController {
                                  @RequestParam Role newRole);
 
     @ApiOperation(value = "Get user's wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class, responseContainer = "List")
-    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @GetMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
     List<FilmDTO> getWishlistByAuthentication();
 
     @ApiOperation(value = "Add film in wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
-    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @PutMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.CREATED)
     FilmDTO addToWishlistByAuthentication(@RequestParam int filmId);
 
 
     @ApiOperation(value = "Delete film from wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class)
-    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class, example = "Bearer access_token")
     @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId);
