@@ -42,7 +42,7 @@ public class FilmsControllerImpl implements FilmsController {
             budget = DEFAULT_FILM_BUDGET;
         }
 
-        List<Film> films = filmsService.findFilms(title, year, country, genre, releaseDate, budget);
+        List<Film> films = filmsService.findFilms(title, year, country, genre, releaseDate);
         return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
     }
 
