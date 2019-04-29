@@ -17,9 +17,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin
 @Api(tags = "Movies", value = "Films", description = "Api for operations with films")
 @RestController
+@CrossOrigin
 @RequestMapping(ControllerConstants.FILMS_URL)
 public class FilmsControllerImpl implements FilmsController {
 
