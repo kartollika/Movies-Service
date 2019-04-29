@@ -18,4 +18,9 @@ public class ControllerConstants {
     public static final String CHANGE_ROLE = "/role/{username}";
 
     public static final String WISHLIST_WITH_AUTHENTICATION = "/wishlist";
+
+    // Describing availability
+    public static final String AVAILABLE_EDITOR_ADMIN = "Available for Editor and Admin";
+    public static final String AVAILABLE_ADMIN = "Available for Admin";
+    public static final String AVAILABLE_EVERYONE = "Available for everyone";
 }
