@@ -22,4 +22,6 @@ public interface FilmsService {
     Film updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException;
 
     Film deleteFilmById(int id) throws InstanceNotFoundException;
+
+    Film getRandomFilm();
 }

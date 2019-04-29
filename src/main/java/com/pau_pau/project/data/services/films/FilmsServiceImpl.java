@@ -63,4 +63,9 @@ public class FilmsServiceImpl implements FilmsService {
         filmsRepository.deleteById(id);
         return film;
     }
+
+    @Override
+    public Film getRandomFilm() {
+        return filmsRepository.getRandomFilm();
+    }
 }

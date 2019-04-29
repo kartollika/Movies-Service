@@ -54,4 +54,8 @@ public interface FilmsController {
     @DeleteMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deleteFilm(@PathVariable(name = FILM_PATH_ID) int filmId);
+
+    @ApiOperation(value = "Get random film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ControllerConstants.FILM_RANDOM)
+    FilmDTO getRandomFilm();
 }

@@ -92,4 +92,9 @@ public class FilmsControllerImpl implements FilmsController {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
     }
+
+    @Override
+    public FilmDTO getRandomFilm() {
+        return FilmDTO.fromFilmModel(filmsService.getRandomFilm());
+    }
 }
