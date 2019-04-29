@@ -35,8 +35,10 @@ public class Film {
             film.directors.add(Director.fromDirectorDTOModel(director));
         }
         film.genre = filmDTO.getGenre();
-        film.budget = filmDTO.getBudget();
         film.release = filmDTO.getRelease();
+        film.actors = filmDTO.getActors();
+        film.description = filmDTO.getDescription();
+        film.poster = filmDTO.getPoster();
         return film;
     }
 
@@ -71,7 +73,13 @@ public class Film {
     private Date release;
 
     @Column
-    private float budget;
+    private String poster;
+
+    @Column
+    private String actors;
+
+    @Column
+    private String description;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "state_id", referencedColumnName = "id")
@@ -133,12 +141,20 @@ public class Film {
         this.release = release;
     }
 
-    public float getBudget() {
-        return budget;
+    public String getPoster() {
+        return poster;
     }
 
-    public void setBudget(float budget) {
-        this.budget = budget;
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
     }
 
     public FilmState getState() {
@@ -166,5 +182,12 @@ public class Film {
         }
 
         throw new NoPermissionException("Denied");
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

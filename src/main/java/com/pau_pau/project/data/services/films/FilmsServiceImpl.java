@@ -29,10 +29,9 @@ public class FilmsServiceImpl implements FilmsService {
                                 Date year,
                                 String country,
                                 String genre,
-                                Date releaseDate,
-                                Float budget) {
+                                Date releaseDate) {
         return filmsRepository
-                .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget)
+                .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()))
                 .stream()
                 .filter(Film::isApproved)
                 .collect(Collectors.toList());

@@ -13,8 +13,7 @@ public interface FilmsService {
                              Date year,
                              String country,
                              String genre,
-                             Date releaseDate,
-                             Float budget);
+                             Date releaseDate);
 
     Iterable<Film> findActiveRequests(String title,
                                       Date year,
