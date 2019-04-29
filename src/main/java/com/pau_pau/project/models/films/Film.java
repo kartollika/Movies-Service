@@ -2,12 +2,17 @@ package com.pau_pau.project.models.films;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pau_pau.project.models.accounts.Account;
+import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
 import com.pau_pau.project.models.states.FilmState;
 import com.pau_pau.project.models.states.FilmStatus;
+import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
+import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.hibernate.annotations.Cascade;
 
+import javax.naming.NoPermissionException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -146,5 +151,20 @@ public class Film {
 
     public boolean isApproved() {
         return state.getStatusName().equals(FilmStatus.APPROVED);
+    }
+
+    public void initFilmState(Account account) throws NoPermissionException {
+        Role permissionsLevel = account.getPermissionsLevel();
+
+        if (permissionsLevel.equals(Role.ADMIN)) {
+            state = new ApprovedFilmState(account);
+            return;
+        }
+
+        if (permissionsLevel.equals(Role.EDITOR)) {
+            state = new NewlyFilmState(account);
+        }
+
+        throw new NoPermissionException("Denied");
     }
 }

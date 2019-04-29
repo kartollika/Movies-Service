@@ -6,10 +6,7 @@ import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
 import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
-import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceNotFoundException;
@@ -60,11 +57,8 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public Film addFilm(FilmDTO filmDTO) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-
         Film film = Film.fromFilmDTOModel(filmDTO);
-        film.setState(new NewlyFilmState(accountService.findByUsername(username)));
+        initFilmState(film);
         filmsRepository.save(film);
         return film;
     }
@@ -112,6 +106,12 @@ public class FilmsServiceImpl implements FilmsService {
         film.getState().reject(account, comment);
         filmsRepository.save(film);
 
+        return film;
+    }
+
+    private Film initFilmState(Film film) throws Exception {
+        Account account = accountService.getAccount();
+        film.initFilmState(account);
         return film;
     }
 }

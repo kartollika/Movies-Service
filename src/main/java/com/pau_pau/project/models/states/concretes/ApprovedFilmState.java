@@ -5,6 +5,7 @@ import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.states.FilmState;
 import com.pau_pau.project.models.states.FilmStatus;
 
+import javax.naming.NoPermissionException;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -12,9 +13,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("approved")
 public class ApprovedFilmState extends FilmState {
 
-    private String comment;
-
     public ApprovedFilmState() {
+    }
+
+    public ApprovedFilmState(Account account) {
+        super(account);
     }
 
     public ApprovedFilmState(FilmState oldState) {
@@ -23,13 +26,16 @@ public class ApprovedFilmState extends FilmState {
 
     @Override
     public void publish(Account account) {
+        causeDeadEndException();
     }
 
     @Override
-    public void reject(Account account, String comment) {
+    public void reject(Account account, String comment) throws NoPermissionException {
         if (account.getPermissionsLevel().equals(Role.ADMIN)) {
             film.setState(new RejectedFilmState(film.getState(), comment));
+            return;
         }
+        throw new NoPermissionException("Denied");
     }
 
     @Override

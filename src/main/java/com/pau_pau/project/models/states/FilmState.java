@@ -3,6 +3,7 @@ package com.pau_pau.project.models.states;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.films.Film;
 
+import javax.naming.NoPermissionException;
 import javax.persistence.*;
 
 @Entity
@@ -40,7 +41,15 @@ public abstract class FilmState {
 
     public abstract void publish(Account account) throws Exception;
 
-    public abstract void reject(Account account, String comment);
+    public abstract void reject(Account account, String comment) throws NoPermissionException;
 
     public abstract FilmStatus getStatusName();
+
+    protected void causeDeniedException() throws NoPermissionException {
+        throw new NoPermissionException("Denied");
+    }
+
+    protected void causeDeadEndException() {
+        throw new DeadEndStateException("Not available to change state");
+    }
 }
