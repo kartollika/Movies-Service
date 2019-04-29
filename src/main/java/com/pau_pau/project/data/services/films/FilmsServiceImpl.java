@@ -5,7 +5,6 @@ import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
-import com.pau_pau.project.models.states.FilmStatus;
 import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
 import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,16 @@ public class FilmsServiceImpl implements FilmsService {
         return filmsRepository
                 .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget)
                 .stream()
-                .filter(film -> film.getState().getStatusName().equals(FilmStatus.APPROVED))
+                .filter(Film::isApproved)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Film> findActiveRequests(String title, Date year, String country, String genre, Date releaseDate, Float budget) {
+        return filmsRepository
+                .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget)
+                .stream()
+                .filter(film -> !film.isApproved())
                 .collect(Collectors.toList());
     }
 

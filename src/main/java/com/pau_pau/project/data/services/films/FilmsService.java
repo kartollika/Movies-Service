@@ -16,6 +16,13 @@ public interface FilmsService {
                              Date releaseDate,
                              Float budget);
 
+    Iterable<Film> findActiveRequests(String title,
+                                      Date year,
+                                      String country,
+                                      String genre,
+                                      Date releaseDate,
+                                      Float budget);
+
     Film findFilmById(int id) throws InstanceNotFoundException;
 
     Film addFilm(FilmDTO film) throws Exception;

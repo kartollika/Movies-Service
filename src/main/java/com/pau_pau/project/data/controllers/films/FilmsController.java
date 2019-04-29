@@ -35,7 +35,18 @@ public interface FilmsController {
                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate,
                            @RequestParam(required = false) Float budget);
 
-    @ApiOperation(value = "Get film by id ", response = FilmDTO.class)
+    @ApiOperation(value = "Get list of active films requests. ", response = FilmDTO.class, responseContainer = "List")
+    @GetMapping(value = ControllerConstants.FILMS_ACTIVE_REQUESTS)
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getActiveRequests(@RequestParam(defaultValue = DEFAULT_FILM_TITLE) String title,
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date year,
+                                    @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
+                                    @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate,
+                                    @RequestParam(required = false) Float budget);
+
+
+    @ApiOperation(value = "Get film by id. Available for everyone. ", response = FilmDTO.class)
     @GetMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO getFilmById(@PathVariable(name = FILM_PATH_ID) int filmId);
@@ -64,4 +75,6 @@ public interface FilmsController {
     @PutMapping(value = ControllerConstants.FILM_REJECT)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO rejectFilm(@PathVariable(name = FILM_PATH_ID) int filmId, @RequestParam(name = "comment") String comment) throws Exception;
+
+
 }

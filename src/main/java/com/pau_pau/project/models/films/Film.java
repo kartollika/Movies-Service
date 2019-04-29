@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
 import com.pau_pau.project.models.states.FilmState;
+import com.pau_pau.project.models.states.FilmStatus;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -141,5 +142,9 @@ public class Film {
 
     public void setState(FilmState state) {
         this.state = state;
+    }
+
+    public boolean isApproved() {
+        return state.getStatusName().equals(FilmStatus.APPROVED);
     }
 }

@@ -47,6 +47,22 @@ public class FilmsControllerImpl implements FilmsController {
     }
 
     @Override
+    public List<FilmDTO> getActiveRequests(String title, Date year, String country, String genre, Date releaseDate, Float budget) {
+        if (year == null) {
+            year = DEFAULT_FILM_YEAR.getTime();
+        }
+        if (releaseDate == null) {
+            releaseDate = DEFAULT_FILM_RELEASE_DATE.getTime();
+        }
+        if (budget == null) {
+            budget = DEFAULT_FILM_BUDGET;
+        }
+
+        List<Film> films = filmsService.findActiveRequests(title, year, country, genre, releaseDate, budget);
+        return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
+    }
+
+    @Override
     public FilmDTO getFilmById(int filmId) {
         try {
             return FilmDTO.fromFilmModel(filmsService.findFilmById(filmId));
