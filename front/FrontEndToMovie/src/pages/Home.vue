@@ -1,11 +1,12 @@
 <template>
     <div>
         <Header/>
-        <div class="content">
+        <div class="content-container">
+            <div class="content">
             <h3>Новинки</h3>
             <Swiper class="swiper"></Swiper>
+            </div>
         </div>
-
     </div>
 </template>
 

@@ -1,43 +1,45 @@
 <template>
     <div>
         <Header></Header>
-        <div class="content">
-            <div>
-                <card class="film-card">
-                <div>
-                <span>
-                    <h3>{{film.title}}</h3>
-                </span>
-                    <span class="wish-button" v-if="wishList">
-                        <base-button size="sm" type="danger" icon="ni ni-favourite-28" @click="delWish">Удалить&nbsp;&nbsp;&nbsp;</base-button>
-                    </span>
-                    <span class="wish-button" v-else>
-                        <base-button size="sm" type="success" icon="ni ni-favourite-28" @click="addWish">В избранное</base-button>
-                    </span>
+        <div class="content-container">
+            <div class="content">
+                <div class="big-item-poster-container">
+                    <img class="big-poster" :src=film.poster>
                 </div>
-              <img class="poster-lg" src="../../public/img/posters/Марсианин.jpg">
-                <div class="description">
-                    <div class="description-item"><b>Год: </b> {{film.year}}</div>
-                    <hr>
-                    <div class="description-item"><b>Страна: </b> {{film.country}}</div>
-                    <hr>
-                    <div class="description-item"><b>Жанр: </b> {{film.genre}}</div>
-                    <hr>
+                <div class="big-item-content">
                     <div>
-                        <div class="description-item"><b>Режиссер: </b>
-                            <span class="film-directors" v-for="(director, index) in film.directors" :key="director.id">
-                                <span v-if="index !== film.directors.length - 1"><a :href="/director/ + director.id">{{director.name}}</a>, </span>
-                                <span v-else><a :href="/director/ + director.id">{{director.name}}</a></span>
-                            </span>
+                        <div>
+                            <h3>{{film.title}}</h3>
+                        </div>
+                        <div class="wish-button" v-if="wishList">
+                            <base-button size="sm" type="danger" icon="ni ni-favourite-28" @click="delWish">Удалить&nbsp;&nbsp;&nbsp;</base-button>
+                        </div>
+                        <div class="wish-button" v-else>
+                            <base-button size="sm" type="success" icon="ni ni-favourite-28"
+                                         @click="addWish">В избранное
+                            </base-button>
                         </div>
                     </div>
-                    <hr>
-                    <div class="description-item"><b>Дата выхода: </b> {{film.release}}</div>
-                    <hr>
-                    <div class="description-item"><b>Бюджет: </b> {{film.budget}}</div>
-                    <hr>
+
+                    <div class="big-item-description">
+                        <div><b>Год: </b> {{film.year}}</div>
+                        <div><b>Страна: </b> {{film.country}}</div>
+                        <div><b>Жанр: </b> {{film.genre}}</div>
+                        <div>
+                            <div><b>Режиссер: </b>
+                                <span class="film-directors" v-for="(director, index) in film.directors"
+                                      :key="director.id">
+                                <span v-if="index !== film.directors.length - 1"><a :href="/director/ + director.id">{{director.name}}</a>,
+                                </span>
+                                <span v-else><a :href="/director/ + director.id">{{director.name}}</a></span>
+                            </span>
+                            </div>
+                        </div>
+                        <div><b>Актеры: </b> {{film.actors}}</div>
+                        <div><b>Дата выхода: </b> {{film.release}}</div>
+                        <div><b>Описание: </b>{{film.description}}</div>
+                    </div>
                 </div>
-                </card>
             </div>
         </div>
     </div>
@@ -95,21 +97,5 @@
         }
     }
 </script>
-
 <style>
-    .description {
-        margin: 20px 10px;
-        font-size: 15px;
-    }
-
-    .wish-button {
-        float: right;
-        margin-top: -35px;
-    }
-
-    .film-directors a {
-        text-decoration: underline;
-        color: #32325d;
-    }
-
 </style>

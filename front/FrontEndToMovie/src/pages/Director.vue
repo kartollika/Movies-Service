@@ -1,18 +1,22 @@
 <template>
     <div>
         <Header></Header>
-        <div class="content">
-            <card class="film-card">
-                <div class="director-info">
-                <h3>{{director.name}}</h3>
-                <img class="poster-lg" src="../../public/img/posters/Марсианин.jpg">
-                <div class="description">
-                    <div class="description-item"><b>Карьера:</b> Режиссёр</div><hr>
-                    <div class="description-item"><b>Страна:</b> {{director.country}}</div><hr>
-                    <div class="description-item"><b>Фильмы: </b></div><hr>
+        <div class="content-container">
+            <div class="content">
+                <div class="big-item-poster-container">
+                    <img class="big-poster" src="../../public/img/posters/Марсианин.jpg">
+                </div>
+                <div class="big-item-content">
+                    <div>
+                        <h3>{{director.name}}</h3>
+                    </div>
+                    <div class="big-item-description">
+                        <div><b>Карьера:</b> Режиссёр</div>
+                        <div><b>Страна:</b> {{director.country}}</div>
+                        <div><b>Фильмы: </b></div>
+                    </div>
                 </div>
             </div>
-            </card>
         </div>
     </div>
 </template>
@@ -41,8 +45,4 @@
 </script>
 
 <style scoped>
-    .director-info .description {
-        margin: 20px;
-        font-size: 15px;
-    }
 </style>

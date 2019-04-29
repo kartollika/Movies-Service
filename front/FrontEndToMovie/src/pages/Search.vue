@@ -1,58 +1,93 @@
 <template>
-    <div class="page">
+    <div>
         <Header></Header>
-        <div class="content">
-            <h3>Результаты поиска по запросу: <b>{{$route.params.query}}</b></h3>
-            <div v-show="filmsEmpty && directorsEmpty">По запросу <b>{{$route.params.query}}</b> ничего не найдено</div>
-            <div class="search-result">
-                <div v-show="!this.filmsEmpty">
-                    <h4>Фильмы:</h4>
-                    <div>
-                        <div v-for="(film, index) in films" :key="film.id">
-                            <div v-if="index < size">
-                                <card class="film-card">
-                                <div>
-                                    <div>
-                                        <img class="poster-sm"
-                                             src="../../public/img/posters/Марсианин.jpg">
-                                    </div>
-                                    <div class="search-item-title">
-                                        <a :href="/film/ + film.id"><b>{{film.title}}</b></a>
-                                    </div>
-                                    <div class="search-description">
-                                        <div class="description-item"><b>Год:</b> {{film.year}}</div>
-                                        <div class="description-item"><b>Страна:</b> {{film.country}}</div>
-                                        <div class="description-item"><b>Жанр:</b> {{film.genre}}</div>
-                                        <div class="description-item"><b>Режиссер:</b></div>
+        <div class="content-container">
+            <div class="content">
+                <h3>Результаты поиска по запросу: <b>{{$route.params.query}}</b></h3>
+                <div v-show="filmsEmpty && directorsEmpty">По запросу <b>{{$route.params.query}}</b> ничего не найдено
+                </div>
+                <div v-show="!filmsEmpty" :class=filmSearchClass>
+                    <h4>Фильмы: <b>(Результатов: {{films.length}})</b></h4>
+                    <div v-for="(film, index) in filmsPaginatedData" :key="film.id">
+                        <div v-if="index < filmsPagination.size">
+                            <div class="item-poster-container">
+                                <a :href="/film/ + film.id">
+                                    <img class="item-poster" :src=film.poster>
+                                </a>
+                            </div>
+                            <div class="item-content">
+                                <div class="item-title">
+                                    <a :href="/film/ + film.id"><b>{{film.title}}</b></a>
+                                </div>
+                                <br><br>
+                                <div class="item-description">
+                                    <div><b>Год:</b> {{film.year}}</div>
+                                    <div><b>Страна:</b> {{film.country}}</div>
+                                    <div><b>Жанр:</b> {{film.genre}}</div>
+                                    <div><b>Режиссер: </b>
+                                        <span class="film-directors" v-for="(director, index) in film.directors" :key="director.id">
+                                            <span v-if="index !== film.directors.length - 1">
+                                                <a :href="/director/ + director.id">{{director.name}}</a>,
+                                            </span>
+                                            <span v-else>
+                                                <a :href="/director/ + director.id">{{director.name}}</a>
+                                            </span>
+                                        </span>
                                     </div>
                                 </div>
-                                </card>
                             </div>
                         </div>
                     </div>
-                    <div v-show="films.length > size">
-                        <base-button style="float: right" size="sm" outline type="primary" @click="size=films.length">
+                    <div v-if="films.length > filmsPagination.size && filmsPagination.size !== 9" class="films-show-all-button">
+                        <base-button size="sm" type="primary" @click="showAllFilms">
                             Показать все
                         </base-button>
                     </div>
+                    <div class="search pagination-container" v-show="filmsPagination.size > 3">
+                        <base-pagination :page-count="Math.ceil(films.length / filmsPagination.size)"
+                                         v-model="filmsPagination.pageNumber" align="center"></base-pagination>
+                        <div class="show-less-button">
+                            <base-button size="sm" type="primary" @click="showLessFilms">
+                                Показать меньше
+                            </base-button>
+                        </div>
+                    </div>
                 </div>
-                <div v-show="!this.directorsEmpty">
-                    <h4>Режиссеры:</h4>
-                    <div v-for="director in directors" :key="director.id">
-                        <card class="film-card">
-                        <div>
-                            <div>
-                                <img class="poster-sm" src="../../public/img/posters/Марсианин.jpg">
+
+                <div v-show="!this.directorsEmpty" :class=directorSearchClass>
+                    <h4>Режиссеры: <b>(Результатов: {{directors.length}})</b></h4>
+                    <div v-for="(director, index) in directorsPaginatedData" :key="director.id">
+                        <div v-if="index < directorsPagination.size">
+                            <div class="item-poster-container">
+                                <a :href="/director/ + director.id">
+                                    <img class="item-poster" src="../../public/img/posters/Марсианин.jpg">
+                                </a>
                             </div>
-                            <div class="search-item-title">
-                                <a :href="/director/ + director.id"><b>{{director.name}}</b></a>
-                            </div>
-                            <div class="search-description">
-                                <div class="description-item"><b>Страна:</b> {{director.country}}</div>
-                                <div class="description-item"><b>Фильмы:</b></div>
+                            <div class="item-content">
+                                <div class="item-title">
+                                    <a :href="/director/ + director.id"><b>{{director.name}}</b></a>
+                                </div>
+                                <br><br>
+                                <div class="item-description">
+                                    <div><b>Страна:</b> {{director.country}}</div>
+                                    <div><b>Фильмы:</b></div>
+                                </div>
                             </div>
                         </div>
-                        </card>
+                    </div>
+                    <div v-if="directors.length > directorsPagination.size && directorsPagination.size !== 9" class="films-show-all-button">
+                        <base-button size="sm" type="primary" @click="showAllDirectors">
+                            Показать все
+                        </base-button>
+                    </div>
+                    <div class="search pagination-container" v-show="directorsPagination.size > 3">
+                        <base-pagination :page-count="Math.ceil(directors.length / directorsPagination.size)"
+                                         v-model="directorsPagination.pageNumber" align="center"></base-pagination>
+                        <div class="show-less-button">
+                            <base-button size="sm" type="primary" @click="showLessDirectors">
+                                Показать меньше
+                            </base-button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,6 +97,7 @@
 
 <script>
     import axios from 'axios'
+
     export default {
         name: "SearchPage",
         data() {
@@ -71,7 +107,16 @@
                 authorization: localStorage.getItem("Authorization"),
                 filmsEmpty: true,
                 directorsEmpty: true,
-                size: 2
+                filmsPagination: {
+                    pageNumber: 1,
+                    size: 3,
+                },
+                directorsPagination: {
+                    pageNumber: 1,
+                    size: 3,
+                },
+                filmSearchClass: 'film-search-less',
+                directorSearchClass: 'director-search-less'
             }
         },
         mounted() {
@@ -105,9 +150,69 @@
                     this.directorsEmpty = false;
                 }
             });
+        },
+        computed: {
+            filmsPaginatedData() {
+                const start = (this.filmsPagination.pageNumber - 1) * this.filmsPagination.size,
+                    end = start + this.filmsPagination.size;
+                return this.films.slice(start, end);
+            },
+
+            directorsPaginatedData() {
+                const start = (this.directorsPagination.pageNumber - 1) * this.directorsPagination.size,
+                    end = start + this.directorsPagination.size;
+                return this.directors.slice(start, end);
+            }
+        },
+        methods: {
+            showAllFilms() {
+                this.filmsPagination.size = 9;
+                this.filmSearchClass = "film-search-all";
+            },
+            showLessFilms() {
+                this.filmsPagination.size = 3;
+                this.filmsPagination.pageNumber = 1;
+                this.filmSearchClass = "film-search-less";
+            },
+
+            showAllDirectors() {
+                this.directorsPagination.size = 9;
+                this.directorSearchClass = "director-search-all";
+            },
+            showLessDirectors() {
+                this.directorsPagination.size = 3;
+                this.directorsPagination.pageNumber = 1;
+                this.directorSearchClass = "director-search-less";
+            }
         }
     }
 </script>
 
 <style scoped>
+    .film-search-all {
+        height: 680px;
+    }
+    .film-search-less {
+        height: 270px;
+    }
+    .director-search-all{
+        height: 750px;
+    }
+    .director-search-less{
+        height: 350px;
+    }
+
+    .films-show-all-button {
+        margin-top: 10px;
+        margin-right: 10px;
+        float: right;
+    }
+    .show-less-button {
+        float: right;
+        margin-top: -45px;
+        margin-right: 10px;
+    }
+    h4 b {
+        font-size: 18px;
+    }
 </style>

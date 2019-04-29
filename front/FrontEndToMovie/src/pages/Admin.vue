@@ -2,7 +2,7 @@
     <div v-show="userRole === 'ADMIN'">
         <div>
             <Header/>
-            <div class="content">
+            <div class="content-container">
                 <div>
                     <span class="admin-menu"><a href="#" @click="currentPage = 'requests'">Запросы на изменения</a></span>
                     <span class="admin-menu"><a href="#" @click="currentPage = 'changeRole'">Измение роли пользователя</a></span>

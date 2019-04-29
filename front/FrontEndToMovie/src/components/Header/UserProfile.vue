@@ -3,7 +3,7 @@
         <div class="username">{{user.name}}</div>
         <base-dropdown position="right">
             <a slot="title">
-                <img class="user-logo" src="../../../public/img/xno-user.jpg.pagespeed.ic.bwzYx3O8_n.jpg">
+                <img class="user-logo" src="../../../public/img/ikonka.png">
             </a>
             <a class="dropdown-item" href="/history/">История просмотров</a>
             <a class="dropdown-item" href="/wishlist/">Список желаний</a><hr>
@@ -59,7 +59,7 @@
     .account-info {
         position: relative;
         float: right;
-        margin-top: 5px;
+        margin-top: 6px;
     }
 
     .user-logo {
@@ -74,6 +74,10 @@
         padding-top: 10px;
         margin-right: 10px;
         float: left;
-        color: #f6f9fc;
+        color: #0E0E0E;
+    }
+    .account-info hr {
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 </style>
