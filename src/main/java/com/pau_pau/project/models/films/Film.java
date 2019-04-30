@@ -182,6 +182,7 @@ public class Film {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
     public FilmState getState() {
         return state;
     }
@@ -204,6 +205,7 @@ public class Film {
 
         if (permissionsLevel.equals(Role.EDITOR)) {
             state = new NewlyFilmState(account);
+            return;
         }
 
         throw new NoPermissionException("Denied");
