@@ -23,6 +23,7 @@ public class FilmDTO {
         filmDTO.genre = film.getGenre();
 
         filmDTO.release = film.getRelease();
+        filmDTO.setCreationDate(film.getCreationDate());
         filmDTO.state = FilmStateDTO.fromFilmModel(film.getState());
         filmDTO.actors = film.getActors();
         filmDTO.description = film.getDescription();
@@ -51,6 +52,9 @@ public class FilmDTO {
 
     private String description;
 
+
+    @ApiModelProperty(readOnly = true)
+    private Date creationDate;
 
     @ApiModelProperty(readOnly = true)
     private FilmStateDTO state;
@@ -138,6 +142,14 @@ public class FilmDTO {
 
     public void setState(FilmStateDTO state) {
         this.state = state;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public void setDescription(String description) {
