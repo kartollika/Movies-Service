@@ -21,13 +21,11 @@ public class FilmsServiceImpl implements FilmsService {
                                 Date year,
                                 String country,
                                 String genre,
-                                Date releaseDate,
-                                Float budget) {
+                                Date releaseDate) {
         List<Film> films = filmsRepository.findFilms(title,
                 Timestamp.from(year.toInstant()),
                 country, genre,
-                Timestamp.from(releaseDate.toInstant()),
-                budget);
+                Timestamp.from(releaseDate.toInstant()));
 
         return getLatestFilmsFirst(films);
     }
@@ -51,6 +49,8 @@ public class FilmsServiceImpl implements FilmsService {
         }
         newsOrderedFilms.addAll(films);
         return newsOrderedFilms;
+                                Date releaseDate) {
+        return filmsRepository.findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()));
     }
 
     @Override
