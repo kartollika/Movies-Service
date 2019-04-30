@@ -2,9 +2,9 @@ package com.pau_pau.project.models.films;
 
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
+import com.pau_pau.project.models.states.FilmStateDTO;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +21,12 @@ public class FilmDTO {
             filmDTO.directors.add(DirectorDTO.fromDirectorModel(director));
         }
         filmDTO.genre = film.getGenre();
-        filmDTO.budget = film.getBudget();
+
         filmDTO.release = film.getRelease();
+        filmDTO.state = FilmStateDTO.fromFilmModel(film.getState());
+        filmDTO.actors = film.getActors();
+        filmDTO.description = film.getDescription();
+        filmDTO.poster = film.getPoster();
         return filmDTO;
     }
 
@@ -41,7 +45,15 @@ public class FilmDTO {
 
     private Date release;
 
-    private float budget;
+    private String poster;
+
+    private String actors;
+
+    private String description;
+
+
+    @ApiModelProperty(readOnly = true)
+    private FilmStateDTO state;
 
     public int getId() {
         return id;
@@ -95,16 +107,40 @@ public class FilmDTO {
         return release;
     }
 
-    public void setRelease(Timestamp release) {
+    public void setRelease(Date release) {
         this.release = release;
     }
 
-    public float getBudget() {
-        return budget;
+
+    public String getPoster() {
+        return poster;
     }
 
-    public void setBudget(float budget) {
-        this.budget = budget;
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public FilmStateDTO getState() {
+        return state;
+    }
+
+    public void setState(FilmStateDTO state) {
+        this.state = state;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
