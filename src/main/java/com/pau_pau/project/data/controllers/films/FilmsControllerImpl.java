@@ -31,18 +31,26 @@ public class FilmsControllerImpl implements FilmsController {
      ================================== */
 
     @Override
-    public List<FilmDTO> getFilms(String title, Date year, String country, String genre, Date releaseDate, Float budget) {
+    public List<FilmDTO> getFilms(String title, Date year, String country, String genre, Date releaseDate) {
         if (year == null) {
             year = DEFAULT_FILM_YEAR.getTime();
         }
         if (releaseDate == null) {
             releaseDate = DEFAULT_FILM_RELEASE_DATE.getTime();
         }
-        if (budget == null) {
-            budget = DEFAULT_FILM_BUDGET;
-        }
-
         List<Film> films = filmsService.findFilms(title, year, country, genre, releaseDate);
+        return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FilmDTO> getActiveRequests(String title, Date year, String country, String genre, Date releaseDate) {
+        if (year == null) {
+            year = DEFAULT_FILM_YEAR.getTime();
+        }
+        if (releaseDate == null) {
+            releaseDate = DEFAULT_FILM_RELEASE_DATE.getTime();
+        }
+        List<Film> films = filmsService.findActiveRequests(title, year, country, genre, releaseDate);
         return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
     }
 
@@ -61,7 +69,7 @@ public class FilmsControllerImpl implements FilmsController {
      ================================== */
 
     @Override
-    public FilmDTO addFilm(FilmDTO film) {
+    public FilmDTO addFilm(FilmDTO film) throws Exception {
         return FilmDTO.fromFilmModel(filmsService.addFilm(film));
     }
 
@@ -91,5 +99,20 @@ public class FilmsControllerImpl implements FilmsController {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
+    }
+
+    @Override
+    public FilmDTO getRandomFilm() {
+        return FilmDTO.fromFilmModel(filmsService.getRandomFilm());
+    }
+
+    @Override
+    public FilmDTO publishFilm(int filmId) throws Exception {
+        return FilmDTO.fromFilmModel(filmsService.publishFilm(filmId));
+    }
+
+    @Override
+    public FilmDTO rejectFilm(int filmId, String comment) throws Exception {
+        return FilmDTO.fromFilmModel(filmsService.rejectFilm(filmId, comment));
     }
 }

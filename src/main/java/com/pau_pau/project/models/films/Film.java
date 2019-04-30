@@ -2,12 +2,19 @@ package com.pau_pau.project.models.films;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pau_pau.project.models.accounts.Account;
+import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
+import com.pau_pau.project.models.states.FilmState;
+import com.pau_pau.project.models.states.FilmStatus;
+import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
+import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
+import javax.naming.NoPermissionException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -80,6 +87,10 @@ public class Film {
     @Column
     @Generated(GenerationTime.INSERT)
     private Date creationDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "state_id", referencedColumnName = "id")
+    private FilmState state;
 
     public int getId() {
         return id;
@@ -160,6 +171,33 @@ public class Film {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+    public FilmState getState() {
+        return state;
+    }
+
+    public void setState(FilmState state) {
+        this.state = state;
+    }
+
+    public boolean isApproved() {
+        return state.getStatusName().equals(FilmStatus.APPROVED);
+    }
+
+    public void initFilmState(Account account) throws NoPermissionException {
+        Role permissionsLevel = account.getPermissionsLevel();
+
+        if (permissionsLevel.equals(Role.ADMIN)) {
+            state = new ApprovedFilmState(account);
+            return;
+        }
+
+        if (permissionsLevel.equals(Role.EDITOR)) {
+            state = new NewlyFilmState(account);
+        }
+
+        throw new NoPermissionException("Denied");
+    }
+
     public String getDescription() {
         return description;
     }
