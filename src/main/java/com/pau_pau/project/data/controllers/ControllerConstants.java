@@ -18,4 +18,5 @@ public class ControllerConstants {
     public static final String CHANGE_ROLE = "/role/{username}";
 
     public static final String WISHLIST_WITH_AUTHENTICATION = "/wishlist";
+    public static final String CONTAINS_IN_WISHLIST = WISHLIST_WITH_AUTHENTICATION + "/contains";
 }

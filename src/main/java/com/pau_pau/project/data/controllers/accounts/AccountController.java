@@ -52,4 +52,8 @@ public interface AccountController {
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId);
 
+    @ApiOperation(value = "Check if wishlist contains film", response = boolean.class, authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ControllerConstants.CONTAINS_IN_WISHLIST)
+    @ResponseStatus(HttpStatus.OK)
+    boolean containsInWishlist(@RequestParam int filmId);
 }
