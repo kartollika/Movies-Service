@@ -49,8 +49,6 @@ public class FilmsServiceImpl implements FilmsService {
         }
         newsOrderedFilms.addAll(films);
         return newsOrderedFilms;
-                                Date releaseDate) {
-        return filmsRepository.findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()));
     }
 
     @Override
