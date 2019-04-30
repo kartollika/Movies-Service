@@ -5,6 +5,10 @@ public class ControllerConstants {
     public static final String FILM_URL = "/film/";
     public static final String FILM_PATH_ID = "id";
     public static final String FILM_URL_BY_ID = FILM_URL + "{" + FILM_PATH_ID + "}";
+    public static final String FILM_PUBLISH = "/publish/{id}";
+    public static final String FILM_REJECT = "/reject/{id}";
+    public static final String FILMS_ACTIVE_REQUESTS = "/requests";
+    public static final String FILM_RANDOM = "/random";
 
 
     public static final String DIRECTORS_URL = "/api/directors";
@@ -22,4 +26,9 @@ public class ControllerConstants {
     public static final String HISTORY_WITH_AUTHENTICATION = "/history";
 
     public static final int MAX_HISTORY_SIZE = 15;
+
+    // Describing availability
+    public static final String AVAILABLE_EDITOR_ADMIN = "Available for Editor and Admin";
+    public static final String AVAILABLE_ADMIN = "Available for Admin";
+    public static final String AVAILABLE_EVERYONE = "Available for everyone";
 }

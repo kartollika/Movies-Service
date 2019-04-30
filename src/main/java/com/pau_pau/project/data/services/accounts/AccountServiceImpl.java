@@ -8,6 +8,8 @@ import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.Film;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -74,7 +76,6 @@ public class AccountServiceImpl implements AccountService {
         } else {
             return filmToDelete.get(0);
         }
-
     }
 
     @Override
@@ -92,4 +93,10 @@ public class AccountServiceImpl implements AccountService {
         accountsRepository.save(account);
         return film;
     }
+    @Override
+    public Account getAccount() throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return findByUsername(authentication.getName());
+    }
+
 }

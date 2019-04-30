@@ -16,5 +16,7 @@ public interface AccountService {
 
     Film deleteFromWishlist(String username, int filmId) throws Exception;
 
+    Account getAccount() throws Exception;
+
     Film addToHistory(String username, int filmId) throws Exception;
 }

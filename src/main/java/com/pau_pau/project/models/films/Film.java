@@ -2,10 +2,19 @@ package com.pau_pau.project.models.films;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pau_pau.project.models.accounts.Account;
+import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
+import com.pau_pau.project.models.states.FilmState;
+import com.pau_pau.project.models.states.FilmStatus;
+import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
+import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
+import javax.naming.NoPermissionException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,11 +34,11 @@ public class Film {
         film.genre = filmDTO.getGenre();
         film.year = filmDTO.getYear();
         film.country = filmDTO.getCountry();
-        for (DirectorDTO director : filmDTO.getDirectors()) {
-            film.directors.add(Director.fromDirectorDTOModel(director));
-        }
+        /* после создания модели из DTO сет директоров БУДЕТ ПУСТОЙ!!! */
+        film.directorsId.addAll(filmDTO.getDirectorsId());
         film.genre = filmDTO.getGenre();
         film.release = filmDTO.getRelease();
+        film.setCreationDate(filmDTO.getCreationDate());
         film.actors = filmDTO.getActors();
         film.description = filmDTO.getDescription();
         film.poster = filmDTO.getPoster();
@@ -60,6 +69,9 @@ public class Film {
     )
     private Set<Director> directors = new HashSet<>();
 
+    @Transient
+    private Set<Integer> directorsId = new HashSet<>();
+
     @Column
     private String genre;
 
@@ -74,6 +86,14 @@ public class Film {
 
     @Column
     private String description;
+
+    @Column
+    @Generated(GenerationTime.INSERT)
+    private Date creationDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "state_id", referencedColumnName = "id")
+    private FilmState state;
 
     public int getId() {
         return id;
@@ -115,6 +135,14 @@ public class Film {
         this.directors = directors;
     }
 
+    public Set<Integer> getDirectorsId() {
+        return directorsId;
+    }
+
+    public void setDirectorsId(Set<Integer> directorsId) {
+        this.directorsId = directorsId;
+    }
+
     public String getGenre() {
         return genre;
     }
@@ -130,6 +158,7 @@ public class Film {
     public void setRelease(Date release) {
         this.release = release;
     }
+
 
     public String getPoster() {
         return poster;
@@ -147,6 +176,40 @@ public class Film {
         this.actors = actors;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+    public FilmState getState() {
+        return state;
+    }
+
+    public void setState(FilmState state) {
+        this.state = state;
+    }
+
+    public boolean isApproved() {
+        return state.getStatusName().equals(FilmStatus.APPROVED);
+    }
+
+    public void initFilmState(Account account) throws NoPermissionException {
+        Role permissionsLevel = account.getPermissionsLevel();
+
+        if (permissionsLevel.equals(Role.ADMIN)) {
+            state = new ApprovedFilmState(account);
+            return;
+        }
+
+        if (permissionsLevel.equals(Role.EDITOR)) {
+            state = new NewlyFilmState(account);
+        }
+
+        throw new NoPermissionException("Denied");
+    }
+
     @Override
     public boolean equals(Object other){
         if (this == other) return true;
@@ -157,8 +220,6 @@ public class Film {
         //TODO are you sure that this is right (above)? If you can improve, do it
         boolean res = true;
         res = res && this.country.equals(otherObj.country);
-        double eps = 10e-10;
-        res = res && (Math.abs(this.budget - otherObj.budget) <= eps);
         res = res && (this.genre.equals(otherObj.genre));
         res = res && (this.title.equals(otherObj.title));
         //TODO need to fix different hours
