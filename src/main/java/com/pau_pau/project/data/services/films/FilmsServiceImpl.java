@@ -1,6 +1,7 @@
 package com.pau_pau.project.data.services.films;
 
 import com.pau_pau.project.data.repository.films.FilmsRepository;
+import com.pau_pau.project.data.services.directors.DirectorsService;
 import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.films.Film;
@@ -19,6 +20,9 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Autowired
     private FilmsRepository filmsRepository;
+
+    @Autowired
+    private DirectorsService directorsService;
 
     @Autowired
     private AccountService accountService;
@@ -83,8 +87,11 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public Film addFilm(FilmDTO filmDTO) throws Exception {
+    public Film addFilm(FilmDTO filmDTO) throws InstanceNotFoundException {
         Film film = Film.fromFilmDTOModel(filmDTO);
+        for(Integer directorId: film.getDirectorsId()) {
+            film.getDirectors().add(directorsService.findDirectorById(directorId));
+        }
         initFilmState(film);
         filmsRepository.save(film);
         return film;
@@ -98,6 +105,9 @@ public class FilmsServiceImpl implements FilmsService {
 
         filmDTO.setId(id);
         Film film = Film.fromFilmDTOModel(filmDTO);
+        for(Integer directorId: film.getDirectorsId()) {
+            film.getDirectors().add(directorsService.findDirectorById(directorId));
+        }
         film.setState(new ModifiedFilmState(film.getState()));
         filmsRepository.save(film);
         return film;

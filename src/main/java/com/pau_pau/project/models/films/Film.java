@@ -33,9 +33,8 @@ public class Film {
         film.title = filmDTO.getTitle();
         film.year = filmDTO.getYear();
         film.country = filmDTO.getCountry();
-        for (DirectorDTO director : filmDTO.getDirectors()) {
-            film.directors.add(Director.fromDirectorDTOModel(director));
-        }
+        /* после создания модели из DTO сет директоров БУДЕТ ПУСТОЙ!!! */
+        film.directorsId.addAll(filmDTO.getDirectorsId());
         film.genre = filmDTO.getGenre();
         film.release = filmDTO.getRelease();
         film.setCreationDate(filmDTO.getCreationDate());
@@ -68,6 +67,9 @@ public class Film {
             inverseJoinColumns = @JoinColumn(name = "director_id")
     )
     private Set<Director> directors = new HashSet<>();
+
+    @Transient
+    private Set<Integer> directorsId = new HashSet<>();
 
     @Column
     private String genre;
@@ -132,6 +134,14 @@ public class Film {
         this.directors = directors;
     }
 
+    public Set<Integer> getDirectorsId() {
+        return directorsId;
+    }
+
+    public void setDirectorsId(Set<Integer> directorsId) {
+        this.directorsId = directorsId;
+    }
+
     public String getGenre() {
         return genre;
     }
@@ -147,6 +157,7 @@ public class Film {
     public void setRelease(Date release) {
         this.release = release;
     }
+
 
     public String getPoster() {
         return poster;

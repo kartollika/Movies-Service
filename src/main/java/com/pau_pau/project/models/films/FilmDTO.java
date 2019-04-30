@@ -19,6 +19,7 @@ public class FilmDTO {
         filmDTO.country = film.getCountry();
         for (Director director : film.getDirectors()) {
             filmDTO.directors.add(DirectorDTO.fromDirectorModel(director));
+            filmDTO.getDirectorsId().add(director.getId());
         }
         filmDTO.genre = film.getGenre();
 
@@ -41,6 +42,8 @@ public class FilmDTO {
     private String country;
 
     private Set<DirectorDTO> directors = new HashSet<>();
+
+    private Set<Integer> directorsId = new HashSet<>();
 
     private String genre;
 
@@ -115,7 +118,6 @@ public class FilmDTO {
         this.release = release;
     }
 
-
     public String getPoster() {
         return poster;
     }
@@ -155,4 +157,13 @@ public class FilmDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Set<Integer> getDirectorsId() {
+        return directorsId;
+    }
+
+    public void setDirectorsId(Set<Integer> directorsId) {
+        this.directorsId = directorsId;
+    }
+
 }
