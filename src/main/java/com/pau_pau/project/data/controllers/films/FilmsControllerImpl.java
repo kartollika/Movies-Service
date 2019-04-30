@@ -31,34 +31,26 @@ public class FilmsControllerImpl implements FilmsController {
      ================================== */
 
     @Override
-    public List<FilmDTO> getFilms(String title, Date year, String country, String genre, Date releaseDate, Float budget) {
+    public List<FilmDTO> getFilms(String title, Date year, String country, String genre, Date releaseDate) {
         if (year == null) {
             year = DEFAULT_FILM_YEAR.getTime();
         }
         if (releaseDate == null) {
             releaseDate = DEFAULT_FILM_RELEASE_DATE.getTime();
         }
-        if (budget == null) {
-            budget = DEFAULT_FILM_BUDGET;
-        }
-
         List<Film> films = filmsService.findFilms(title, year, country, genre, releaseDate);
         return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
     }
 
     @Override
-    public List<FilmDTO> getActiveRequests(String title, Date year, String country, String genre, Date releaseDate, Float budget) {
+    public List<FilmDTO> getActiveRequests(String title, Date year, String country, String genre, Date releaseDate) {
         if (year == null) {
             year = DEFAULT_FILM_YEAR.getTime();
         }
         if (releaseDate == null) {
             releaseDate = DEFAULT_FILM_RELEASE_DATE.getTime();
         }
-        if (budget == null) {
-            budget = DEFAULT_FILM_BUDGET;
-        }
-
-        List<Film> films = filmsService.findActiveRequests(title, year, country, genre, releaseDate, budget);
+        List<Film> films = filmsService.findActiveRequests(title, year, country, genre, releaseDate);
         return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
     }
 

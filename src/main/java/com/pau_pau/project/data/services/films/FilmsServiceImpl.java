@@ -38,9 +38,13 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public List<Film> findActiveRequests(String title, Date year, String country, String genre, Date releaseDate, Float budget) {
+    public List<Film> findActiveRequests(String title,
+                                         Date year,
+                                         String country,
+                                         String genre,
+                                         Date releaseDate) {
         return filmsRepository
-                .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget)
+                .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()))
                 .stream()
                 .filter(film -> !film.isApproved())
                 .collect(Collectors.toList());

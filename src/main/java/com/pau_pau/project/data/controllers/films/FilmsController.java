@@ -32,8 +32,7 @@ public interface FilmsController {
                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date year,
                            @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
                            @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
-                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate,
-                           @RequestParam(required = false) Float budget);
+                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate);
 
     @ApiOperation(value = "Get list of active films requests. ", response = FilmDTO.class, responseContainer = "List")
     @GetMapping(value = ControllerConstants.FILMS_ACTIVE_REQUESTS)
@@ -42,8 +41,7 @@ public interface FilmsController {
                                     @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date year,
                                     @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
                                     @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
-                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate,
-                                    @RequestParam(required = false) Float budget);
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate);
 
 
     @ApiOperation(value = "Get film by id. Available for everyone. ", response = FilmDTO.class)
