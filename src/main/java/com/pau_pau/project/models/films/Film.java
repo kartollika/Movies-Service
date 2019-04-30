@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.directors.Director;
-import com.pau_pau.project.models.directors.DirectorDTO;
 import com.pau_pau.project.models.states.FilmState;
 import com.pau_pau.project.models.states.FilmStatus;
 import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
@@ -182,6 +181,7 @@ public class Film {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
     public FilmState getState() {
         return state;
     }
@@ -204,6 +204,7 @@ public class Film {
 
         if (permissionsLevel.equals(Role.EDITOR)) {
             state = new NewlyFilmState(account);
+            return;
         }
 
         throw new NoPermissionException("Denied");
