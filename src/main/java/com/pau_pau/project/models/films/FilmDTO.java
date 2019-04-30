@@ -152,13 +152,6 @@ public class FilmDTO {
         this.creationDate = creationDate;
     }
 
-    public Date getRelease() {
-        return release;
-    }
-
-    public void setRelease(Date release) {
-        this.release = release;
-    }
     public void setDescription(String description) {
         this.description = description;
     }

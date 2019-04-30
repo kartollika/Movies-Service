@@ -31,12 +31,13 @@ public class FilmsServiceImpl implements FilmsService {
                                 Date releaseDate) {
         List<Film> films = filmsRepository
                 .findFilms(title,
-                Timestamp.from(year.toInstant()),
-                country, genre,
-                Timestamp.from(releaseDate.toInstant()))
+                        Timestamp.from(year.toInstant()),
+                        country, genre,
+                        Timestamp.from(releaseDate.toInstant()))
                 .stream()
                 .filter(Film::isApproved)
                 .collect(Collectors.toList());
+        return getLatestFilmsFirst(films);
     }
 
     @Override
@@ -50,8 +51,6 @@ public class FilmsServiceImpl implements FilmsService {
                 .stream()
                 .filter(film -> !film.isApproved())
                 .collect(Collectors.toList());
-
-        return getLatestFilmsFirst(films);
     }
 
     private List<Film> getLatestFilmsFirst(List<Film> films) {
