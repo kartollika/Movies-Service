@@ -4,38 +4,14 @@
         <div class="content-container">
             <div class="content">
                 <h3>Результаты поиска по запросу: <b>{{$route.params.query}}</b></h3>
-                <div v-show="filmsEmpty && directorsEmpty">По запросу <b>{{$route.params.query}}</b> ничего не найдено
+                <div v-show="films.length === 0 && directors.length === 0">
+                    По запросу <b>{{$route.params.query}}</b> ничего не найдено
                 </div>
-                <div v-show="!filmsEmpty" :class=filmSearchClass>
+                <div v-show="!(films.length === 0)" :class=filmSearchClass>
                     <h4>Фильмы: <b>(Результатов: {{films.length}})</b></h4>
                     <div v-for="(film, index) in filmsPaginatedData" :key="film.id">
                         <div v-if="index < filmsPagination.size">
-                            <div class="item-poster-container">
-                                <a :href="/film/ + film.id">
-                                    <img class="item-poster" :src=film.poster>
-                                </a>
-                            </div>
-                            <div class="item-content">
-                                <div class="item-title">
-                                    <a :href="/film/ + film.id"><b>{{film.title}}</b></a>
-                                </div>
-                                <br><br>
-                                <div class="item-description">
-                                    <div><b>Год:</b> {{film.year}}</div>
-                                    <div><b>Страна:</b> {{film.country}}</div>
-                                    <div><b>Жанр:</b> {{film.genre}}</div>
-                                    <div><b>Режиссер: </b>
-                                        <span class="film-directors" v-for="(director, index) in film.directors" :key="director.id">
-                                            <span v-if="index !== film.directors.length - 1">
-                                                <a :href="/director/ + director.id">{{director.name}}</a>,
-                                            </span>
-                                            <span v-else>
-                                                <a :href="/director/ + director.id">{{director.name}}</a>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                            <film :next-film = film></film>
                         </div>
                     </div>
                     <div v-if="films.length > filmsPagination.size && filmsPagination.size !== 9" class="films-show-all-button">
@@ -54,25 +30,11 @@
                     </div>
                 </div>
 
-                <div v-show="!this.directorsEmpty" :class=directorSearchClass>
+                <div v-show="!(directors.length === 0)" :class=directorSearchClass>
                     <h4>Режиссеры: <b>(Результатов: {{directors.length}})</b></h4>
                     <div v-for="(director, index) in directorsPaginatedData" :key="director.id">
                         <div v-if="index < directorsPagination.size">
-                            <div class="item-poster-container">
-                                <a :href="/director/ + director.id">
-                                    <img class="item-poster" src="../../public/img/posters/Марсианин.jpg">
-                                </a>
-                            </div>
-                            <div class="item-content">
-                                <div class="item-title">
-                                    <a :href="/director/ + director.id"><b>{{director.name}}</b></a>
-                                </div>
-                                <br><br>
-                                <div class="item-description">
-                                    <div><b>Страна:</b> {{director.country}}</div>
-                                    <div><b>Фильмы:</b></div>
-                                </div>
-                            </div>
+                            <director :next-director="director"></director>
                         </div>
                     </div>
                     <div v-if="directors.length > directorsPagination.size && directorsPagination.size !== 9" class="films-show-all-button">
@@ -97,29 +59,35 @@
 
 <script>
     import axios from 'axios'
+    import Film from '../components/item_card/FilmCard'
+    import Director from '../components/item_card/DirectorCard'
 
     export default {
         name: "SearchPage",
+        components: {
+            Film,
+            Director
+        },
         data() {
             return {
                 films: [],
                 directors: [],
-                authorization: localStorage.getItem("Authorization"),
-                filmsEmpty: true,
-                directorsEmpty: true,
                 filmsPagination: {
                     pageNumber: 1,
-                    size: 3,
+                    size: 3
                 },
+
                 directorsPagination: {
                     pageNumber: 1,
-                    size: 3,
+                    size: 3
                 },
+
                 filmSearchClass: 'film-search-less',
                 directorSearchClass: 'director-search-less'
             }
         },
         mounted() {
+            document.title = "Поиск";
             axios.defaults.headers = {
                 'Content-Type': 'application/json',
                 Authorization: this.authorization
@@ -131,9 +99,6 @@
                 }
             }).then((response) => {
                 this.films = response.data;
-                if (this.films.length !== 0) {
-                    this.filmsEmpty = false;
-                }
                 this.films.forEach(function (film) {
                     film.year = film.year.substring(0, 4);
                     film.release = film.release.substring(0, 10);
@@ -146,11 +111,9 @@
                 }
             }).then((response) => {
                 this.directors = response.data;
-                if (this.directors.length !== 0) {
-                    this.directorsEmpty = false;
-                }
             });
         },
+
         computed: {
             filmsPaginatedData() {
                 const start = (this.filmsPagination.pageNumber - 1) * this.filmsPagination.size,
@@ -164,6 +127,7 @@
                 return this.directors.slice(start, end);
             }
         },
+
         methods: {
             showAllFilms() {
                 this.filmsPagination.size = 9;

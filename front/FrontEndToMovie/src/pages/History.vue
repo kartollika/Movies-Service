@@ -3,39 +3,10 @@
         <Header></Header>
         <div class="content-container">
             <div class="content">
-                <div v-if="!historyEmpty">
+                <div v-if="!(films.length === 0)">
                     <h4>Просмотренные фильмы:</h4>
                     <div v-for="film in paginatedData" :key="film.id">
-                        <div>
-                            <div class="item-poster-container">
-                                <a :href="/film/ + film.id">
-                                    <img class="item-poster" src="../../public/img/posters/Марсианин.jpg">
-                                </a>
-                            </div>
-                            <div class="item-content">
-                                <div class="item-title">
-                                    <a :href="/film/ + film.id">
-                                        <b>{{film.title}}</b>
-                                    </a>
-                                </div>
-                                <br><br>
-                                <div class="item-description">
-                                    <div><b>Год: </b>{{film.year}}</div>
-                                    <div><b>Страна: </b>{{film.country}}</div>
-                                    <div><b>Жанр: </b>{{film.genre}}</div>
-                                    <div><b>Режиссер: </b>
-                                        <span class="film-directors" v-for="(director, index) in film.directors" :key="director.id">
-                                            <span v-if="index !== film.directors.length - 1">
-                                                <a :href="/director/ + director.id">{{director.name}}</a>,
-                                            </span>
-                                            <span v-else>
-                                                <a :href="/director/ + director.id">{{director.name}}</a>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <film :next-film = film></film>
                     </div>
                     <div class="pagination-container">
                         <base-pagination :page-count="Math.ceil(films.length / pagination.size)"
@@ -52,13 +23,14 @@
 
 <script>
     import axios from "axios";
-
+    import Film from "../components/item_card/FilmCard"
     export default {
         name: "History",
+        components: {
+            Film
+        },
         data() {
             return {
-                historyEmpty: true,
-                authorization: localStorage.getItem("Authorization"),
                 films: [],
                 pagination: {
                     pageNumber: 1,
@@ -67,30 +39,25 @@
             };
         },
         mounted() {
+            document.title = "История просмотров";
             axios.defaults.headers = {
                 "Content-Type": "application/json",
                 Authorization: this.authorization
             };
 
-            this.getHistory();
+            axios.get(this.url + "/api/account/history").then(response => {
+                this.films = response.data;
+                this.films.forEach(function (film) {
+                    film.year = film.year.substring(0, 4);
+                    film.release = film.release.substring(0, 10);
+                });
+            });
         },
         methods: {
-            getHistory() {
-                axios.get(this.url + "/api/account/history").then(response => {
-                    this.films = response.data;
-                    if (this.films.length !== 0) {
-                        this.historyEmpty = false;
-                    }
-                    this.films.forEach(function (film) {
-                        film.year = film.year.substring(0, 4);
-                        film.release = film.release.substring(0, 10);
-                    });
-                });
-            },
-
             nextPage() {
                 this.pagination.pageNumber++;
             },
+
             prevPage() {
                 this.pagination.pageNumber--;
             }

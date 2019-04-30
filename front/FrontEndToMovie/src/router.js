@@ -2,13 +2,14 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Home from "@/pages/Home.vue"
-import Admin from "@/pages/Admin.vue"
-import SearchPage from "@/pages/Search.vue"
-import Film from "../src/pages/Film"
-import Director from "../src/pages/Director"
+import Admin from "@/pages/AdminPage.vue"
+import Search from "@/pages/Search.vue"
+import nextFilm from "./pages/FilmPage"
+import nextDirector from "./pages/DirectorPage"
 import Genre from "../src/pages/Genre"
 import WishList from "./pages/WishList";
 import History from "./pages/History";
+import Random from "./pages/Random";
 
 Vue.use(Router);
 
@@ -28,15 +29,15 @@ export default new Router({
         },
         {
             path: '/search/:query',
-            component: SearchPage
+            component: Search
         },
         {
             path: '/film/:id',
-            component: Film
+            component: nextFilm
         },
         {
             path: '/director/:id',
-            component: Director
+            component: nextDirector
         },
         {
             path: '/genre/:name',
@@ -49,6 +50,10 @@ export default new Router({
         {
             path: '/history',
             component: History
+        },
+        {
+            path: '/random',
+            component: Random
         }
         
     ]

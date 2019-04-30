@@ -1,16 +1,16 @@
-import Badge from "../components/Base/Badge";
-import BaseAlert from "../components/Base/BaseAlert";
-import BaseButton from "../components/Base/BaseButton";
-import BaseCheckbox from "../components/Base/BaseCheckbox";
-import BaseInput from "../components/Base/BaseInput";
-import BasePagination from "../components/Base/BasePagination";
-import BaseProgress from "../components/Base/BaseProgress";
-import BaseRadio from "../components/Base/BaseRadio";
-import BaseSlider from "../components/Base/BaseSlider";
-import BaseSwitch from "../components/Base/BaseSwitch";
-import Card from "../components/Base/Card";
-import Icon from "../components/Base/Icon";
-import Header from "../components/Header/Header"
+import Badge from "../components/base_components/Badge";
+import BaseAlert from "../components/base_components/BaseAlert";
+import BaseButton from "../components/base_components/BaseButton";
+import BaseCheckbox from "../components/base_components/BaseCheckbox";
+import BaseInput from "../components/base_components/BaseInput";
+import BasePagination from "../components/base_components/BasePagination";
+import BaseProgress from "../components/base_components/BaseProgress";
+import BaseRadio from "../components/base_components/BaseRadio";
+import BaseSlider from "../components/base_components/BaseSlider";
+import BaseSwitch from "../components/base_components/BaseSwitch";
+import Card from "../components/base_components/Card";
+import Icon from "../components/base_components/Icon";
+import Header from "../components/header/Header"
 
 export default {
   install(Vue) {

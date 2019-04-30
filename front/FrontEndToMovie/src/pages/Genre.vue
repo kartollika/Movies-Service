@@ -3,37 +3,11 @@
         <Header></Header>
         <div class="content-container">
             <div class="content">
-                <div v-if="!this.filmsEmpty">
+                <div v-if="!(films.length === 0)">
                     <h4>Фильмы жанра <b>{{genre}}</b>:</h4>
                     <h5>Найдено фильмов: <b>{{films.length}}</b></h5>
                     <div v-for="film in paginatedData" :key="film.id">
-                        <div>
-                            <div class="item-poster-container">
-                                <img class="item-poster" :src=film.poster>
-                            </div>
-                            <div class="item-content">
-                                <div class="item-title">
-                                    <a :href="/film/ + film.id"><b>{{film.title}}</b></a>
-                                </div>
-                                <br><br>
-                                <div class="item-description">
-                                    <div><b>Год:</b> {{film.year}}</div>
-                                    <div><b>Страна:</b> {{film.country}}</div>
-                                    <div><b>Жанр:</b> {{film.genre}}</div>
-                                    <div><b>Режиссер: </b>
-                                        <span class="film-directors" v-for="(director, index) in film.directors"
-                                              :key="director.id">
-                                            <span v-if="index !== film.directors.length - 1">
-                                                <a :href="/director/ + director.id">{{director.name}}</a>,
-                                            </span>
-                                            <span v-else>
-                                                <a :href="/director/ + director.id">{{director.name}}</a>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       <film :next-film = film></film>
                     </div>
                     <div class="pagination-container">
                         <base-pagination :page-count="Math.ceil(films.length / pagination.size)"
@@ -41,7 +15,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <h4>Не найдено ни одного фильма жанра <b>{{genre}}</b></h4>
+                    <h4>Не найдено ни одного фильма жанра: <b>{{genre}}</b></h4>
                 </div>
             </div>
         </div>
@@ -50,14 +24,15 @@
 
 <script>
     import axios from 'axios'
-
+    import Film from '../components/item_card/FilmCard'
     export default {
         name: "Genre",
+        components: {
+            Film
+        },
         data() {
             return {
                 films: [],
-                authorization: localStorage.getItem("Authorization"),
-                filmsEmpty: true,
                 genre: '',
                 pagination: {
                     pageNumber: 1,
@@ -78,14 +53,13 @@
                 }
             }).then((response) => {
                 this.films = response.data;
-                if (this.films.length !== 0) {
-                    this.filmsEmpty = false;
-                }
                 this.films.forEach(function (film) {
                     film.year = film.year.substring(0, 4);
                     film.release = film.release.substring(0, 10);
                 });
             });
+
+            document.title = this.genre;
         },
 
         computed: {
