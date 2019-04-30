@@ -24,8 +24,11 @@ public class FilmDTO {
             filmDTO.directors.add(DirectorDTO.fromDirectorModel(director));
         }
         filmDTO.genre = film.getGenre();
-        filmDTO.budget = film.getBudget();
+
         filmDTO.release = film.getRelease();
+        filmDTO.actors = film.getActors();
+        filmDTO.description = film.getDescription();
+        filmDTO.poster = film.getPoster();
         return filmDTO;
     }
 
@@ -45,7 +48,12 @@ public class FilmDTO {
 
     private Date release;
 
-    private float budget;
+    private String poster;
+
+    private String actors;
+
+    private String description;
+
 
     public int getId() {
         return id;
@@ -103,12 +111,28 @@ public class FilmDTO {
         this.release = release;
     }
 
-    public float getBudget() {
-        return budget;
+
+    public String getPoster() {
+        return poster;
     }
 
-    public void setBudget(float budget) {
-        this.budget = budget;
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
+@CrossOrigin
 @Api(tags = "Accounts", value = "Accounts", description = "Api for operations with accounts")
 @RequestMapping(ControllerConstants.ACCOUNT_URL)
 

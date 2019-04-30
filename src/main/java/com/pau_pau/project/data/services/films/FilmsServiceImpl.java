@@ -31,9 +31,8 @@ public class FilmsServiceImpl implements FilmsService {
                                 Date year,
                                 String country,
                                 String genre,
-                                Date releaseDate,
-                                Float budget) {
-        return filmsRepository.findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()), budget);
+                                Date releaseDate) {
+        return filmsRepository.findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()));
     }
 
     @Override

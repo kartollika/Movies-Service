@@ -3,6 +3,7 @@ package com.pau_pau.project.data.controllers.directors;
 import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.models.directors.DirectorDTO;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,17 +25,17 @@ public interface DirectorsController {
     @ResponseStatus(HttpStatus.OK)
     DirectorDTO getDirectorById(@PathVariable(name = ControllerConstants.DIRECTOR_PATH_ID) int directorId);
 
-    @ApiOperation(value = "Add new director", response = DirectorDTO.class)
+    @ApiOperation(value = "Add new director", response = DirectorDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     DirectorDTO addDirector(@RequestBody DirectorDTO director);
 
-    @ApiOperation(value = "Update existing director", response = DirectorDTO.class)
+    @ApiOperation(value = "Update existing director", response = DirectorDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(ControllerConstants.DIRECTOR_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     DirectorDTO updateDirector(@PathVariable(name = ControllerConstants.DIRECTOR_PATH_ID) int directorId, @RequestBody DirectorDTO director);
 
-    @ApiOperation(value = "Delete director", response = DirectorDTO.class)
+    @ApiOperation(value = "Delete director", response = DirectorDTO.class, authorizations = @Authorization(value = "Bearer"))
     @DeleteMapping(ControllerConstants.DIRECTOR_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     DirectorDTO deleteDirector(@PathVariable(name = ControllerConstants.DIRECTOR_PATH_ID) int directorId);
