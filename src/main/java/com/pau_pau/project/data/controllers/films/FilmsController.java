@@ -32,10 +32,19 @@ public interface FilmsController {
                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date year,
                            @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
                            @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
-                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate,
-                           @RequestParam(required = false) Float budget);
+                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate);
 
-    @ApiOperation(value = "Get film by id ", response = FilmDTO.class)
+    @ApiOperation(value = "Get list of active films requests. ", response = FilmDTO.class, responseContainer = "List")
+    @GetMapping(value = ControllerConstants.FILMS_ACTIVE_REQUESTS)
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getActiveRequests(@RequestParam(defaultValue = DEFAULT_FILM_TITLE) String title,
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date year,
+                                    @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
+                                    @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate);
+
+
+    @ApiOperation(value = "Get film by id. Available for everyone. ", response = FilmDTO.class)
     @GetMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO getFilmById(@PathVariable(name = FILM_PATH_ID) int filmId);
@@ -43,7 +52,7 @@ public interface FilmsController {
     @ApiOperation(value = "Add new film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    FilmDTO addFilm(@RequestBody FilmDTO film);
+    FilmDTO addFilm(@RequestBody FilmDTO film) throws Exception;
 
     @ApiOperation(value = "Update existing film", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.FILM_URL_BY_ID)
@@ -54,4 +63,16 @@ public interface FilmsController {
     @DeleteMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deleteFilm(@PathVariable(name = FILM_PATH_ID) int filmId);
+
+    @ApiOperation(value = "Publish the film by ID", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
+    @PutMapping(value = ControllerConstants.FILM_PUBLISH)
+    @ResponseStatus(HttpStatus.OK)
+    FilmDTO publishFilm(@PathVariable(name = FILM_PATH_ID) int filmId) throws Exception;
+
+    @ApiOperation(value = "Rejects the film to be added to common list", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
+    @PutMapping(value = ControllerConstants.FILM_REJECT)
+    @ResponseStatus(HttpStatus.OK)
+    FilmDTO rejectFilm(@PathVariable(name = FILM_PATH_ID) int filmId, @RequestParam(name = "comment", required = false) String comment) throws Exception;
+
+
 }
