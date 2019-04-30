@@ -88,7 +88,7 @@ public class FilmsServiceImpl implements FilmsService {
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        Film film = filmsRepository.findById(id).orElseThrow();
+        Film film = filmsRepository.findById(id).orElseThrow(null);
         if (film != null){
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -105,7 +105,7 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public Film addFilm(FilmDTO filmDTO) throws InstanceNotFoundException {
+    public Film addFilm(FilmDTO filmDTO) throws Exception {
         Film film = Film.fromFilmDTOModel(filmDTO);
         for(Integer directorId: film.getDirectorsId()) {
             film.getDirectors().add(directorsService.findDirectorById(directorId));

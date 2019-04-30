@@ -23,7 +23,7 @@ public interface FilmsService {
 
     Film findFilmById(int id) throws InstanceNotFoundException;
 
-    Film addFilm(FilmDTO film) throws InstanceNotFoundException;
+    Film addFilm(FilmDTO film) throws Exception;
 
     Film updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException;
 
