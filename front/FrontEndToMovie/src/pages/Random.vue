@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     getRandom() {
-      axios.get(this.url + "/random").then(response => {
+      axios.get(this.url + "/api/film/random").then(response => {
         console.log(response.data)
         this.film = response.data;
         if (this.film.length !== 0) {

@@ -20,40 +20,49 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: Home,
+            meta: { title: 'Главная страница' }
         },
         {
             path: '/admin',
             name: 'admin',
-            component: Admin
+            component: Admin,
+            meta: { title: 'Панель админа' }
         },
         {
             path: '/search/:query',
-            component: SearchPage
+            component: SearchPage,
+            meta: { title: 'Поиск' }
         },
         {
             path: '/film/:id',
-            component: Film
+            component: Film,
+            meta: { title: 'Фильм' }
         },
         {
             path: '/director/:id',
-            component: Director
+            component: Director,
+            meta: { title: 'Режиссер' }
         },
         {
             path: '/genre/:name',
-            component: Genre
+            component: Genre,
+            meta: { title: 'Жанр' }
         },
         {
             path: '/wishlist',
-            component: WishList
+            component: WishList,
+            meta: { title: 'Список желаний' }
         },
         {
             path: '/history',
-            component: History
+            component: History,
+            meta: { title: 'Главная страница' }
         },
         {
             path: '/random',
-            component: Random
+            component: Random,
+            meta: { title: 'Случайный фильм' }
         }
         
     ]
