@@ -102,6 +102,11 @@ public class FilmsControllerImpl implements FilmsController {
     }
 
     @Override
+    public FilmDTO getRandomFilm() {
+        return FilmDTO.fromFilmModel(filmsService.getRandomFilm());
+    }
+
+    @Override
     public FilmDTO publishFilm(int filmId) throws Exception {
         return FilmDTO.fromFilmModel(filmsService.publishFilm(filmId));
     }

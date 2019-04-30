@@ -68,6 +68,10 @@ public interface FilmsController {
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deleteFilm(@PathVariable(name = FILM_PATH_ID) int filmId);
 
+    @ApiOperation(value = "Get random film", response = FilmDTO.class)
+    @GetMapping(value = ControllerConstants.FILM_RANDOM)
+    FilmDTO getRandomFilm();
+
     @ApiOperation(value = "Publish the film by ID", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.FILM_PUBLISH)
     @ResponseStatus(HttpStatus.OK)

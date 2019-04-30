@@ -91,6 +91,11 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
+    public Film getRandomFilm() {
+        return filmsRepository.getRandomFilm();
+    }
+
+    @Override
     public Film publishFilm(int id) throws Exception {
         Account account = accountService.getAccount();
 
