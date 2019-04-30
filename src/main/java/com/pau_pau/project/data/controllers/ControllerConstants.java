@@ -5,6 +5,9 @@ public class ControllerConstants {
     public static final String FILM_URL = "/film/";
     public static final String FILM_PATH_ID = "id";
     public static final String FILM_URL_BY_ID = FILM_URL + "{" + FILM_PATH_ID + "}";
+    public static final String FILM_PUBLISH = "/publish/{id}";
+    public static final String FILM_REJECT = "/reject/{id}";
+    public static final String FILMS_ACTIVE_REQUESTS = "/requests";
     public static final String FILM_RANDOM = "/random";
 
 
@@ -19,4 +22,9 @@ public class ControllerConstants {
     public static final String CHANGE_ROLE = "/role/{username}";
 
     public static final String WISHLIST_WITH_AUTHENTICATION = "/wishlist";
+
+    // Describing availability
+    public static final String AVAILABLE_EDITOR_ADMIN = "Available for Editor and Admin";
+    public static final String AVAILABLE_ADMIN = "Available for Admin";
+    public static final String AVAILABLE_EVERYONE = "Available for everyone";
 }
