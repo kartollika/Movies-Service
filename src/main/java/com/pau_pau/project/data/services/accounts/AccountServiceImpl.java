@@ -84,6 +84,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public List<Film> getAllActiveRequests() {
+        return filmsService.findActiveRequests();
+    }
+
+    @Override
     public List<Film> getActiveRequestsForAccount(int id) {
         return filmsService.findActiveRequestsForAccount(id);
     }

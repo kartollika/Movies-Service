@@ -61,8 +61,14 @@ public interface AccountController {
     @ResponseStatus(HttpStatus.OK)
     AccountDto getAccountInfoById(@PathVariable int id);
 
-    @ApiOperation(value = "Get active requests for account. " + AVAILABLE_EDITOR_ADMIN, response = FilmDTO.class, responseContainer = "List",  authorizations = @Authorization(value = "Bearer"))
-    @GetMapping(value = ControllerConstants.FILMS_ACTIVE_REQUESTS)
+    @ApiOperation(value = "Get all active requests. " + AVAILABLE_ADMIN, response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ADMIN_ACTIVE_REQUESTS)
+    @Secured("ROLE_ADMIN")
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getActiveRequests();
+
+    @ApiOperation(value = "Get active requests for account. " + AVAILABLE_EDITOR_ADMIN, response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ControllerConstants.ACCOUNT_ACTIVE_REQUESTS)
     @Secured({"ROLE_EDITOR", "ROLE_ADMIN"})
     @ResponseStatus(HttpStatus.OK)
     List<FilmDTO> getActiveRequestsForAccount() throws Exception;

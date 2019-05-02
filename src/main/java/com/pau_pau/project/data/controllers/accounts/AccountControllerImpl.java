@@ -145,6 +145,14 @@ public class AccountControllerImpl implements AccountController {
     }
 
     @Override
+    public List<FilmDTO> getActiveRequests() {
+        return accountService.getAllActiveRequests()
+                .stream()
+                .map(FilmDTO::fromFilmModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<FilmDTO> getActiveRequestsForAccount() throws Exception {
         Account account = accountService.getAccount();
         int id = account.getId();

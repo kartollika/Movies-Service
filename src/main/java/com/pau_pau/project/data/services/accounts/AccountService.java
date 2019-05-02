@@ -22,5 +22,7 @@ public interface AccountService {
 
     Account findById(int id) throws Exception;
 
+    List<Film> getAllActiveRequests();
+
     List<Film> getActiveRequestsForAccount(int id);
 }

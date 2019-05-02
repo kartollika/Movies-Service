@@ -7,7 +7,8 @@ public class ControllerConstants {
     public static final String FILM_URL_BY_ID = FILM_URL + "{" + FILM_PATH_ID + "}";
     public static final String FILM_PUBLISH = "/publish/{id}";
     public static final String FILM_REJECT = "/reject/{id}";
-    public static final String FILMS_ACTIVE_REQUESTS = "/requests";
+    public static final String ACCOUNT_ACTIVE_REQUESTS = "/requests";
+    public static final String ADMIN_ACTIVE_REQUESTS = "/admin/requests";
     public static final String FILM_RANDOM = "/random";
 
 
