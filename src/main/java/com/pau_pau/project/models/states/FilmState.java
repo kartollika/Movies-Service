@@ -39,6 +39,30 @@ public abstract class FilmState {
         ownerId = oldState.ownerId;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Film getFilm() {
+        return film;
+    }
+
+    public void setFilm(Film film) {
+        this.film = film;
+    }
+
     public abstract void publish(Account account) throws Exception;
 
     public abstract void reject(Account account, String comment) throws NoPermissionException;

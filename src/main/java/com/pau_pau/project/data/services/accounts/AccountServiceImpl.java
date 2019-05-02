@@ -83,4 +83,8 @@ public class AccountServiceImpl implements AccountService {
         return accountsRepository.findById(id).orElseThrow(Exception::new);
     }
 
+    @Override
+    public List<Film> getActiveRequestsForAccount(int id) {
+        return filmsService.findActiveRequestsForAccount(id);
+    }
 }

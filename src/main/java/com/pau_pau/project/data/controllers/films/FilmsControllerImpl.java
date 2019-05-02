@@ -42,17 +42,11 @@ public class FilmsControllerImpl implements FilmsController {
         return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
     }
 
-    @Override
-    public List<FilmDTO> getActiveRequests(String title, Date year, String country, String genre, Date releaseDate) {
-        if (year == null) {
-            year = DEFAULT_FILM_YEAR.getTime();
-        }
-        if (releaseDate == null) {
-            releaseDate = DEFAULT_FILM_RELEASE_DATE.getTime();
-        }
-        List<Film> films = filmsService.findActiveRequests(title, year, country, genre, releaseDate);
-        return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<FilmDTO> getActiveRequests() {
+//        List<Film> films = filmsService.findActiveRequests();
+//        return films.stream().map(FilmDTO::fromFilmModel).collect(Collectors.toList());
+//    }
 
     @Override
     public FilmDTO getFilmById(int filmId) {
@@ -81,7 +75,7 @@ public class FilmsControllerImpl implements FilmsController {
     public FilmDTO updateFilm(int filmId, FilmDTO film) {
         try {
             return FilmDTO.fromFilmModel(filmsService.updateFilm(filmId, film));
-        } catch (InstanceNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }

@@ -142,8 +142,15 @@ public class AccountControllerImpl implements AccountController {
         account.setPassword(accountDto.getPassword());
         account.setPermissionsLevel(accountDto.getPermissionsLevel());
         return account;
-
     }
 
-
+    @Override
+    public List<FilmDTO> getActiveRequestsForAccount() throws Exception {
+        Account account = accountService.getAccount();
+        int id = account.getId();
+        return accountService.getActiveRequestsForAccount(id)
+                .stream()
+                .map(FilmDTO::fromFilmModel)
+                .collect(Collectors.toList());
+    }
 }
