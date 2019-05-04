@@ -116,7 +116,7 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public Film updateFilm(int id, FilmDTO filmDTO) throws InstanceNotFoundException {
+    public Film updateFilm(int id, FilmDTO filmDTO) throws Exception {
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
@@ -126,7 +126,11 @@ public class FilmsServiceImpl implements FilmsService {
         for (Integer directorId : film.getDirectorsId()) {
             film.getDirectors().add(directorsService.findDirectorById(directorId));
         }
-        film.setState(new ModifiedFilmState(film.getState()));
+
+        Film oldFilm = filmsRepository.findById(id).get();
+        film.setState(new ModifiedFilmState(oldFilm.getState()));
+        film.setCreationDate(oldFilm.getCreationDate());
+
         filmsRepository.save(film);
         return film;
     }

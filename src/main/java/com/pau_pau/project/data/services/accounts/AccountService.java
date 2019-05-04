@@ -19,4 +19,6 @@ public interface AccountService {
     Account getAccount() throws Exception;
 
     Film addToHistory(String username, int filmId) throws Exception;
+
+    Account findById(int id) throws Exception;
 }

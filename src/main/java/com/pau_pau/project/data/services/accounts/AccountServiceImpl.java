@@ -99,4 +99,9 @@ public class AccountServiceImpl implements AccountService {
         return findByUsername(authentication.getName());
     }
 
+    @Override
+    public Account findById(int id) throws Exception {
+        return accountsRepository.findById(id).orElseThrow(Exception::new);
+    }
+
 }

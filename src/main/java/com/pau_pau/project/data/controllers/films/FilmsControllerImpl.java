@@ -81,7 +81,7 @@ public class FilmsControllerImpl implements FilmsController {
     public FilmDTO updateFilm(int filmId, FilmDTO film) {
         try {
             return FilmDTO.fromFilmModel(filmsService.updateFilm(filmId, film));
-        } catch (InstanceNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }

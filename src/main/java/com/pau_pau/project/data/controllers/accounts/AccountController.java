@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.pau_pau.project.data.controllers.ControllerConstants.AVAILABLE_ADMIN;
-import static com.pau_pau.project.data.controllers.ControllerConstants.AVAILABLE_EVERYONE;
+import static com.pau_pau.project.data.controllers.ControllerConstants.*;
 
 public interface AccountController {
 
@@ -61,5 +60,11 @@ public interface AccountController {
     @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId);
+
+    @ApiOperation(value = "Get account information by id. " + AVAILABLE_EDITOR_ADMIN, response = AccountDto.class, authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ControllerConstants.ACCOUNT_ID)
+    @Secured({"ROLE_EDITOR", "ROLE_ADMIN"})
+    @ResponseStatus(HttpStatus.OK)
+    AccountDto getAccountInfoById(@PathVariable int id);
 
 }

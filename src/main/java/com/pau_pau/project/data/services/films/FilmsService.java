@@ -3,7 +3,6 @@ package com.pau_pau.project.data.services.films;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
 
-import javax.management.InstanceAlreadyExistsException;
 import javax.management.InstanceNotFoundException;
 import java.util.Date;
 
@@ -25,7 +24,7 @@ public interface FilmsService {
 
     Film addFilm(FilmDTO film) throws Exception;
 
-    Film updateFilm(int id, FilmDTO film) throws InstanceAlreadyExistsException, InstanceNotFoundException;
+    Film updateFilm(int id, FilmDTO film) throws Exception;
 
     Film deleteFilmById(int id) throws InstanceNotFoundException;
 
