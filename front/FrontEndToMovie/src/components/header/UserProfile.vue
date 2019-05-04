@@ -7,7 +7,8 @@
             </a>
             <a class="dropdown-item" href="/history/">История просмотров</a>
             <a class="dropdown-item" href="/wishlist/">Список желаний</a><hr>
-            <div v-show="user.permissionsLevel === 'ADMIN'"><a class="dropdown-item" href="/admin/">Панель администратора</a><hr></div>
+            <div v-show="user.permissionsLevel === 'ADMIN'"><a class="dropdown-item" href="/admin/requests">Панель администратора</a><hr></div>
+            <div v-show="user.permissionsLevel === 'EDITOR'"><a class="dropdown-item" href="/editor/requests">Панель модератора</a><hr></div>
             <a class="dropdown-item" href="#" @click="logout">Выйти</a>
         </base-dropdown>
     </div>
@@ -79,4 +80,5 @@
         margin-top: 5px;
         margin-bottom: 5px;
     }
+
 </style>

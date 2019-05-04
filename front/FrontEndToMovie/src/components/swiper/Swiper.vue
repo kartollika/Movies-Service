@@ -39,12 +39,8 @@
                 Authorization: this.authorization
             };
 
-            axios.get(this.url + "/api/films", {
-                params: {
-                    genre: "comedy",
-                }
-            }).then((response) => {
-                this.films = response.data;
+            axios.get(this.url + "/api/films").then((response) => {
+                this.films = response.data.slice(0, 18);
                 this.films.forEach(function (film) {
                     film.year = film.year.substring(0, 4);
                     film.release = film.release.substring(0, 10);

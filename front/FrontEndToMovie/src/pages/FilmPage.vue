@@ -14,6 +14,9 @@
                         <div class="wish-button" v-if="wishList">
                             <base-button size="sm" type="danger" icon="ni ni-favourite-28" @click="delWish">Удалить&nbsp;&nbsp;&nbsp;</base-button>
                         </div>
+                        <div class="edit-button" v-if="wishList">
+                            <base-button size="sm" type="danger" icon="ni ni-favourite-28" @click="delWish">Удалить&nbsp;&nbsp;&nbsp;</base-button>
+                        </div>
                         <div class="wish-button" v-else>
                             <base-button size="sm" type="success" icon="ni ni-favourite-28"
                                          @click="addWish">В избранное

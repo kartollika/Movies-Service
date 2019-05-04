@@ -2,7 +2,7 @@
     <div>
         <Header/>
         <div class="content-container">
-            <div class="content">
+            <div :class = content>
                 <h3 class="home-h3">Новинки</h3>
                 <Swiper></Swiper>
             </div>
@@ -16,6 +16,11 @@
     export default {
         components: {
             Swiper
+        },
+        data() {
+            return {
+                content: 'content'
+            }
         },
         mounted() {
             document.title = "Главная";
