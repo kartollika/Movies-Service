@@ -27,5 +27,4 @@ public interface FilmsRepository extends CrudRepository<Film, Integer> {
 
     @Query(value = "SELECT * FROM films ORDER BY RANDOM() DESC LIMIT 1", nativeQuery = true)
     Film getRandomFilm();
-                         @Param("release") Date release);
 }
