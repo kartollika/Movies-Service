@@ -55,6 +55,16 @@ public class AccountControllerImpl implements AccountController {
         }
     }
 
+
+    public AccountDto getAccountInfoById(int id) {
+        try {
+            return AccountDto.dtoFromAccount(accountService.findById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
     public List<FilmDTO> getWishlistByAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();

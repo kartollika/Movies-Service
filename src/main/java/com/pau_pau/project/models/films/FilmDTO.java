@@ -2,9 +2,9 @@ package com.pau_pau.project.models.films;
 
 import com.pau_pau.project.models.directors.Director;
 import com.pau_pau.project.models.directors.DirectorDTO;
+import com.pau_pau.project.models.states.FilmStateDTO;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,10 +19,16 @@ public class FilmDTO {
         filmDTO.country = film.getCountry();
         for (Director director : film.getDirectors()) {
             filmDTO.directors.add(DirectorDTO.fromDirectorModel(director));
+            filmDTO.getDirectorsId().add(director.getId());
         }
         filmDTO.genre = film.getGenre();
 
         filmDTO.release = film.getRelease();
+        filmDTO.setCreationDate(film.getCreationDate());
+        filmDTO.state = FilmStateDTO.fromFilmModel(film.getState());
+        filmDTO.actors = film.getActors();
+        filmDTO.description = film.getDescription();
+        filmDTO.poster = film.getPoster();
         filmDTO.actors = film.getActors();
         filmDTO.description = film.getDescription();
         filmDTO.poster = film.getPoster();
@@ -40,10 +46,24 @@ public class FilmDTO {
 
     private Set<DirectorDTO> directors = new HashSet<>();
 
+    private Set<Integer> directorsId = new HashSet<>();
+
     private String genre;
 
     private Date release;
 
+    private String poster;
+
+    private String actors;
+
+    private String description;
+
+
+    @ApiModelProperty(readOnly = true)
+    private Date creationDate;
+
+    @ApiModelProperty(readOnly = true)
+    private FilmStateDTO state;
     private String poster;
 
     private String actors;
@@ -103,10 +123,9 @@ public class FilmDTO {
         return release;
     }
 
-    public void setRelease(Timestamp release) {
+    public void setRelease(Date release) {
         this.release = release;
     }
-
 
     public String getPoster() {
         return poster;
@@ -124,6 +143,51 @@ public class FilmDTO {
         this.actors = actors;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public FilmStateDTO getState() {
+        return state;
+    }
+
+    public void setState(FilmStateDTO state) {
+        this.state = state;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Integer> getDirectorsId() {
+        return directorsId;
+    }
+
+    public void setDirectorsId(Set<Integer> directorsId) {
+        this.directorsId = directorsId;
     public String getDescription() {
         return description;
     }
