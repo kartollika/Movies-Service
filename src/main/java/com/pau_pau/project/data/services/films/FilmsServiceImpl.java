@@ -89,19 +89,24 @@ public class FilmsServiceImpl implements FilmsService {
             throw new InstanceNotFoundException();
         }
         Film film = filmsRepository.findById(id).orElseThrow(null);
-        if (film != null){
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-           try {
-                Account account = accountService.findByUsername(username);
-                accountService.addToHistory(username, id);
-                account.addFilmToHistory(film);
-            } catch (Exception e){
-                e.printStackTrace();
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            }
-        }
+        addFilmToHistory(film, id);
         return film;
+    }
+
+    private void addFilmToHistory(Film film, int id){
+        if (film == null) {
+            return;
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        try {
+            Account account = accountService.findByUsername(username);
+            accountService.addToHistory(username, id);
+            account.addFilmToHistory(film);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,16 +76,20 @@ public class AccountControllerImpl implements AccountController {
         }
     }
 
+    private List<FilmDTO> filmDTOListFromFilms(List<Film> films){
+        List<FilmDTO> filmDTOS = new ArrayList<>();
+        for(Film film : films){
+            filmDTOS.add(filmDTOS.size(), FilmDTO.fromFilmModel(film));
+        }
+        return filmDTOS;
+    }
+
     public List<FilmDTO> getHistoryByAuthentication(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try{
-            return accountService
-                    .findByUsername(username)
-                    .getHistory()
-                    .stream()
-                    .map(FilmDTO::fromFilmModel)
-                    .collect(Collectors.toList());
+            List<Film> filmList = accountService.findByUsername(username).getHistory();
+            return filmDTOListFromFilms(filmList);
         }catch (Exception e){
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);

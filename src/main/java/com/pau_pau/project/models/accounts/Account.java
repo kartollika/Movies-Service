@@ -117,9 +117,12 @@ public class Account {
 
     public void addFilmToHistory(Film film){
         int size = history.size();
-        history.add(1, film);
+        if (history.contains(film)){
+            history.remove(film);
+        }
+        history.add(0, film);
         if (size == MAX_HISTORY_SIZE){
-            history.remove(0);
+            history.remove(size - 1);
         }
     }
 }

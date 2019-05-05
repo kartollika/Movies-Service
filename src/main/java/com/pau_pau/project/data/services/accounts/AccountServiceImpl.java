@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.pau_pau.project.data.controllers.ControllerConstants.MAX_HISTORY_SIZE;
-
 @Component
 public class AccountServiceImpl implements AccountService {
 
@@ -80,16 +78,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Film addToHistory(String username, int filmId) throws Exception{
-        //System.out.println("AccountService addToHistory");
         Account account = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
         Film film = filmsRepository.findById(filmId).orElseThrow(Exception::new);
-        List<Film> filmList = account.getHistory();
-        filmList.add(film);
-        int size = filmList.size();
-        if (size == MAX_HISTORY_SIZE + 1){
-            filmList.remove(0);
-        }
-        account.setHistory(filmList);
+        account.addFilmToHistory(film);
         accountsRepository.save(account);
         return film;
     }

@@ -35,7 +35,6 @@ public class Film {
         film.country = filmDTO.getCountry();
         /* после создания модели из DTO сет директоров БУДЕТ ПУСТОЙ!!! */
         film.directorsId.addAll(filmDTO.getDirectorsId());
-        film.genre = filmDTO.getGenre();
         film.release = filmDTO.getRelease();
         film.setCreationDate(filmDTO.getCreationDate());
         film.actors = filmDTO.getActors();
@@ -219,11 +218,9 @@ public class Film {
         Film otherObj = (Film) other;
 
         //TODO are you sure that this is right (above)? If you can improve, do it
-        boolean res = true;
-        res = res && this.country.equals(otherObj.country);
+        boolean res = this.country.equals(otherObj.country);
         res = res && (this.genre.equals(otherObj.genre));
         res = res && (this.title.equals(otherObj.title));
-        //TODO need to fix different hours
 //        res = res && (this.release.equals(otherObj.release));
 //        System.out.println(this.release + " \n" + otherObj.release);
 //        System.out.println("res4 = " + res);
