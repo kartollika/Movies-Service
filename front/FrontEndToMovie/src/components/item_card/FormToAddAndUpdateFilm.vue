@@ -1,4 +1,5 @@
 <template>
+<div>
     <div>
         <div class="film-poster-container">
             <img class="film-poster" :src=film.poster>
@@ -49,18 +50,26 @@
             </div>
         </div>
     </div>
+    <div class="form-notification">
+        <notification :show-notification="showNotification" :type="typeOfNotification"> {{notificationMessage}}</notification>
+    </div>
+</div>
 </template>
 
 <script>
     import axios from 'axios'
-
+    import Notification from '../notification/Notification'
     export default {
         name: "FormToAddAndUpdateFilm",
+        components: {
+            Notification
+        },
         props: {
             film: {
                 type: Object,
                 default() {
                     return {
+                        id: '',
                         title: '',
                         country: '',
                         description: '',
@@ -68,29 +77,50 @@
                         genre: '',
                         year: '',
                         release: '',
-                        actors: '',
-                        // directors: []
+                        actors: ''
                     }
                 }
             },
             type: {
                 type: String,
                 default: "add"
+            },
+            permissionsLevel: {
+                type: String
+            }
+        },
+
+        data() {
+            return {
+                typeOfNotification: 'success', // success || warning
+                showNotification: false,
+                notificationMessage: ''
+            }
+        },
+
+        computed: {
+            getCorrectYear() {
+                return this.film.year.substring(0, 4);
             }
         },
 
         methods: {
             save() {
                 if (this.type === "add") {
-                    this.film.year = this.film.year + "-01-01";
+                    this.film.year = this.getCorrectYear + "-01-01";
                     axios.post(this.url + "/api/films/", this.film).then(() => {
+                        if (this.permissionsLevel === 'ADMIN') {
+                            this.pushNotification("Фильм добавлен", 'success');
+                        } else if (this.permissionsLevel === 'EDITOR') {
+                            this.pushNotification("Запрос на добавление фильма отправлен администратору", 'success');
+                        }
                         this.clear();
                     });
+
                 } else if (this.type === "update") {
-                    this.film.year = this.film.year + "-01-01";
+                    this.film.year = this.getCorrectYear + "-01-01";
                     axios.put(this.url + "/api/films/film/" + this.film.id, this.film).then(() => {
-                        this.clear();
-                        window.location.reload();
+                        this.$emit('film-edited', true);
                     })
                 }
             },
@@ -104,7 +134,15 @@
                 this.film.year = '';
                 this.film.description = '';
                 this.film.actors = '';
-                this.film.directors = ''
+            },
+
+            pushNotification(message, type) {
+                this.typeOfNotification = type;
+                this.notificationMessage = message;
+                this.showNotification = true;
+                setTimeout(() => {
+                    this.showNotification = false;
+                }, 5000);
             },
         }
     }
@@ -144,5 +182,14 @@
         float: right;
         margin-left: 5px;
     }
+
+    .form-notification {
+        position: absolute;
+        top: -70px;
+        right: -110px;
+        width: 500px;
+        height: 55px;
+    }
+
 
 </style>

@@ -11,6 +11,7 @@
     <a class="dropdown-item" href="/genre/thriller/">Триллер</a>
     <a class="dropdown-item" href="/genre/biography/">Биография</a>
     <a class="dropdown-item" href="/genre/history/">Историческое</a>
+    <a class="dropdown-item" href="/genre/animation/">Мультфильмы</a>
   </base-dropdown>
 </template>
 

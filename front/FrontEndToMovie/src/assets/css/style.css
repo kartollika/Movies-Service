@@ -164,4 +164,25 @@ h4, h3, h5 {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
+.notification {
+    position: fixed;
+    top: 80px;
+    right: 0px;
+    width: 500px;
+    height: 55px;
+}
+
+/*Это анимация а не пустые стили - удалять не нужно*/
+.notification-enter-active {
+    transition: all 1s ease;
+}
+
+.notification-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.notification-enter, .notification-leave-to {
+    transform: translateX(1500px);
+    opacity: 0;
+}
 

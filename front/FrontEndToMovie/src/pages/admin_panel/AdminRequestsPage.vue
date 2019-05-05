@@ -71,7 +71,7 @@
                     <card type="secondary" class="border-0 film-form-content">
                         <template>
                             <h4>Добавление фильма</h4>
-                            <film-form></film-form>
+                            <film-form :permissions-level = "'ADMIN'"></film-form>
                         </template>
                     </card>
                 </modal>
@@ -80,18 +80,23 @@
                 <h4>У вас нет прав для доступа к этой странице</h4>
             </div>
         </div>
+        <div class="notification">
+            <notification :show-notification="showNotification"> {{notificationMessage}}</notification>
+        </div>
     </div>
 </template>
 
 <script>
     import Modal from '../../components/base_components/Modal'
     import FilmForm from '../../components/item_card/FormToAddAndUpdateFilm'
+    import Notification from '../../components/notification/Notification'
     import axios from "axios"
 
     export default {
         components: {
             Modal,
             FilmForm,
+            Notification
         },
         data() {
             return {
@@ -100,7 +105,9 @@
                 showCommentField: '',
                 showAdminButtons: true,
                 comment: '',
-                showFilmFormToAdd: false
+                showFilmFormToAdd: false,
+                showNotification: false,
+                notificationMessage: ''
             }
         },
         mounted() {
@@ -134,6 +141,7 @@
             publishFilm(id) {
                 axios.put(this.url + "/api/films/publish/" + id).then(() => {
                     this.getRequests();
+                    this.pushNotification("Фильм добавлен");
                 })
             },
 
@@ -142,6 +150,7 @@
                     this.comment = '';
                     this.showAdminButtons = true;
                     this.getRequests();
+                    this.pushNotification("Запрос отклонен");
                 })
             },
 
@@ -149,6 +158,14 @@
                 this.showCommentField = '';
                 this.comment = '';
                 this.showAdminButtons = true;
+            },
+
+            pushNotification(message) {
+                this.notificationMessage = message;
+                this.showNotification = true;
+                setTimeout(() => {
+                    this.showNotification = false;
+                }, 5000);
             }
         }
     };

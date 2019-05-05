@@ -62,7 +62,8 @@
                         <card type="secondary" class="border-0 film-form-content">
                             <template>
                                 <h4>Редактирование фильма</h4>
-                                <film-form :film=film type="update"></film-form>
+                                <film-form :film=film type="update" :permissions-level="'EDITOR'"
+                                           @film-edited="checkRequestToEdit"></film-form>
                             </template>
                         </card>
                     </modal>
@@ -71,7 +72,7 @@
                         <card type="secondary" class="border-0 film-form-content">
                             <template>
                                 <h4>Добавление фильма</h4>
-                                <film-form></film-form>
+                                <film-form :permissions-level="'EDITOR'"></film-form>
                             </template>
                         </card>
                     </modal>
@@ -81,6 +82,9 @@
                 <h4>У вас нет прав для доступа к этой странице</h4>
             </div>
         </div>
+        <div class="notification">
+            <notification :show-notification="showNotification"> {{notificationMessage}}</notification>
+        </div>
     </div>
 </template>
 
@@ -88,12 +92,14 @@
     import axios from 'axios';
     import Modal from '../components/base_components/Modal'
     import FilmForm from '../components/item_card/FormToAddAndUpdateFilm'
+    import Notification from '../components/notification/Notification'
 
     export default {
         name: "EditorPage",
         components: {
             FilmForm,
-            Modal
+            Modal,
+            Notification
         },
         data() {
             return {
@@ -111,49 +117,36 @@
                 },
                 requests: [],
                 showFilmFormToEdit: false,
-                showFilmFormToAdd: false
+                showFilmFormToAdd: false,
+                showNotification: false,
+                notificationMessage: ''
             }
         },
         mounted() {
             document.title = "Панель модератора";
             axios.get(this.url + "/api/account").then((response) => {
                 this.user = response.data;
-                this.getRequests(this.user);
+                this.getRequests();
             });
         },
 
         methods: {
-            getRequests(user) {
+            getRequests() {
                 axios.get(this.url + "/api/films/requests").then((response) => {
                     let tmp = [];
-                    let url = this.url;
                     response.data.forEach(function (request) {
-                        axios.get(url + "/api/account/id/" + request.state.ownerId).then((response) => {
-                            if (response.data.username === user.username) {
-                                request.year = request.year.substring(0, 4);
-                                request.release = request.release.substring(0, 10);
-                                tmp.push(request);
-                            }
-                        });
+                        request.year = request.year.substring(0, 4);
+                        request.release = request.release.substring(0, 10);
+                        tmp.push(request);
                     });
                     this.requests = tmp;
                 });
             },
 
-            clearFields() {
-                this.film.poster = '';
-                this.film.title = '';
-                this.film.country = '';
-                this.film.genre = '';
-                this.film.release = '';
-                this.film.year = '';
-                this.film.description = '';
-            },
-
             publishFilm(id) {
                 axios.put(this.url + "/api/films/publish/" + id,).then(() => {
-                    this.clearFields();
-                    window.location.reload();
+                    this.getRequests();
+                    this.pushNotification("Запрос повторно отаправлен администратору");
                 })
             },
 
@@ -168,6 +161,22 @@
                 this.film.year = year;
                 this.film.description = description;
                 this.film.actors = actors;
+            },
+
+            checkRequestToEdit(data) {
+                if (data === true) {
+                    this.showFilmFormToEdit = false;
+                    this.getRequests();
+                    this.pushNotification("Запрос изменен и повторно отправлен администратору");
+                }
+            },
+
+            pushNotification(message) {
+                this.notificationMessage = message;
+                this.showNotification = true;
+                setTimeout(() => {
+                    this.showNotification = false;
+                }, 5000);
             }
         }
 
