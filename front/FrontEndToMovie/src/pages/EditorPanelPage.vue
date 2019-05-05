@@ -9,7 +9,7 @@
                 </div>
                 <div></div>
                 <br><br>
-                <div class="requests-container">
+                <div class="requests-container" :style="{height : requests.length * 300 + 'px'}">
                     <div v-show="requests.length === 0"><h5>Список пуст</h5></div>
                     <div v-for="request in requests" :key="request.id">
                         <div class="request-poster-container">

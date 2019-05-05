@@ -38,11 +38,6 @@
                 axios.get(this.url + "/api/account").then((response) => {
                     this.user = response.data;
                 });
-
-                axios.get(this.url + "/api/account/wishlist").then((response) => {
-                    let serialObj = JSON.stringify(response.data);
-                    localStorage.setItem("wishlist", serialObj);
-                });
             }
         },
 

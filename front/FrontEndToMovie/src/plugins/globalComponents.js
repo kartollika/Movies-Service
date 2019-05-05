@@ -11,6 +11,7 @@ import BaseSwitch from "../components/base_components/BaseSwitch";
 import Card from "../components/base_components/Card";
 import Icon from "../components/base_components/Icon";
 import Header from "../components/header/Header"
+import UnAuthorizedError from "../components/notification/UnAuthorizedError"
 
 export default {
   install(Vue) {
@@ -27,5 +28,6 @@ export default {
     Vue.component(Card.name, Card);
     Vue.component(Icon.name, Icon);
     Vue.component(Header.name, Header);
+    Vue.component(UnAuthorizedError.name, UnAuthorizedError);
   }
 };

@@ -2,9 +2,12 @@
     <div>
         <Header/>
         <div class="content-container">
-            <div :class = content>
+            <div :class = content v-if="authorization !== null">
                 <h3 class="home-h3">Новинки</h3>
                 <Swiper></Swiper>
+            </div>
+            <div v-else class="content">
+                <un-authorized-error></un-authorized-error>
             </div>
         </div>
     </div>

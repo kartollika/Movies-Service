@@ -2,7 +2,7 @@
     <div>
         <Header></Header>
         <div class="content-container">
-            <div class="content">
+            <div class="content" v-if="authorization !== null">
                 <div v-if="!(films.length === 0)">
                     <h4>Фильмы жанра <b>{{genre}}</b>:</h4>
                     <h5>Найдено фильмов: <b>{{films.length}}</b></h5>
@@ -17,6 +17,9 @@
                 <div v-else>
                     <h4>Не найдено ни одного фильма жанра: <b>{{genre}}</b></h4>
                 </div>
+            </div>
+            <div v-else class="content">
+                <un-authorized-error></un-authorized-error>
             </div>
         </div>
     </div>
@@ -82,4 +85,5 @@
 </script>
 
 <style>
+
 </style>

@@ -20,7 +20,7 @@
                     <form @submit="search">
                         <input placeholder="Поиск..." type="search" v-model="searchQuery">
                         <span class="search-icon">
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <i class="fa fa-search" aria-hidden="true" @click="search"></i>
                         </span>
                     </form>
                 </div>
@@ -119,5 +119,8 @@
         background-image: url(../../assets/images/shapka.png);
         background-size: cover;
 
+    }
+    .fa.fa-search:hover {
+        cursor: pointer;
     }
 </style>

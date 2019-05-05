@@ -2,7 +2,7 @@
     <div>
         <Header></Header>
         <div class="content-container">
-            <div class="content">
+            <div class="content" v-if="authorization !== null">
                 <div class="big-item-poster-container">
                     <img class="big-poster" src="../assets/images/iphone360_22260.jpg">
                 </div>
@@ -16,6 +16,9 @@
                         <div><b>Фильмы: </b></div>
                     </div>
                 </div>
+            </div>
+            <div v-else class="content">
+               <un-authorized-error></un-authorized-error>
             </div>
         </div>
     </div>

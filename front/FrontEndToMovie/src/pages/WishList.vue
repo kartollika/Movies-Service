@@ -6,7 +6,7 @@
                 <div v-if="!(films.length === 0)">
                     <h4>Избранные фильмы:</h4>
                     <div v-for="film in paginatedData" :key="film.id">
-                        <film :next-film = film></film>
+                        <film :next-film = film @updateWishlist = "reload"></film>
                     </div>
                     <div class="pagination-container">
                         <base-pagination :page-count="Math.ceil(films.length / pagination.size)" v-model="pagination.pageNumber" align="center"></base-pagination>
@@ -50,16 +50,6 @@
         },
 
         methods: {
-            delWish(id) {
-                axios.delete(this.url + "/api/account/wishlist", {
-                    params: {
-                        filmId: id
-                    }
-                }).then(() => {
-                    this.getWishList();
-                })
-            },
-
             getWishList() {
                 axios.get(this.url + "/api/account/wishlist").then((response) => {
                     this.films = response.data;
@@ -76,6 +66,12 @@
 
             prevPage() {
                 this.pagination.pageNumber--;
+            },
+
+            reload(data) {
+                if (data === true) {
+                    this.getWishList();
+                }
             }
         },
 

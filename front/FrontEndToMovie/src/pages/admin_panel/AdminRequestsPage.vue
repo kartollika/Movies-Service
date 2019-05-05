@@ -3,13 +3,9 @@
         <Header/>
         <div class="content-container">
             <div class="content" v-if="userRole === 'ADMIN'">
-                <div>
-                    <span class="admin-menu"><a href="/admin/requests">Запросы на изменения</a></span>
-                    <span class="admin-menu"><a href="/admin/change">Измение роли пользователя</a></span>
-                    <span class="admin-menu"><a @click="showFilmFormToAdd = true" href="#">Добавление фильма</a></span>
-                </div>
+                <admin-menu></admin-menu>
                 <br><br>
-                <div class="requests-container">
+                <div class="requests-container" :style="{height : requests.length * 320 + 'px'}">
                     <div v-for="request in requests" :key="request.id">
                         <div class="request-poster-container">
                             <img class="request-poster" :src=request.poster>
@@ -66,15 +62,6 @@
                         </div>
                     </div>
                 </div>
-                <modal :show.sync="showFilmFormToAdd" body-classes="p-0" modal-classes="modal-dialog modal-sm"
-                       class="film-form-background">
-                    <card type="secondary" class="border-0 film-form-content">
-                        <template>
-                            <h4>Добавление фильма</h4>
-                            <film-form :permissions-level = "'ADMIN'"></film-form>
-                        </template>
-                    </card>
-                </modal>
             </div>
             <div v-else class="content">
                 <h4>У вас нет прав для доступа к этой странице</h4>
@@ -87,15 +74,13 @@
 </template>
 
 <script>
-    import Modal from '../../components/base_components/Modal'
-    import FilmForm from '../../components/item_card/FormToAddAndUpdateFilm'
     import Notification from '../../components/notification/Notification'
     import axios from "axios"
+    import AdminMenu from "../../components/admin_panel/AdminMenu";
 
     export default {
         components: {
-            Modal,
-            FilmForm,
+            AdminMenu,
             Notification
         },
         data() {

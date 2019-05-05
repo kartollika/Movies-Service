@@ -2,7 +2,7 @@
     <div>
         <Header></Header>
         <div class="content-container">
-            <div class="content">
+            <div class="content" v-if="authorization !== null">
                 <h3>Результаты поиска по запросу: <b>{{$route.params.query}}</b></h3>
                 <div v-show="films.length === 0 && directors.length === 0">
                     По запросу <b>{{$route.params.query}}</b> ничего не найдено
@@ -52,6 +52,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div v-else class="content">
+                <un-authorized-error></un-authorized-error>
             </div>
         </div>
     </div>

@@ -2,75 +2,80 @@
     <div>
         <Header></Header>
         <div class="content-container">
-            <div class="content" v-if="film !== ''">
-                <div></div>
-                <div class="big-item-poster-container">
-                    <img class="big-poster" :src=film.poster>
-                </div>
-                <div class="big-item-content">
-                    <div>
-                        <div>
-                            <h3>{{film.title}}</h3>
-                        </div>
-                        <div class="wish-button" v-if="inWishList">
-                            <base-button size="sm" type="warning" icon="ni ni-favourite-28" @click="deleteWish">Удалить из
-                                избранного&nbsp;&nbsp;&nbsp;
-                            </base-button>
-                        </div>
-                        <div class="wish-button" v-else>
-                            <base-button size="sm" type="success" icon="ni ni-favourite-28"
-                                         @click="addWish">В избранное
-                            </base-button>
-                        </div>
-
-                        <div v-show="userPermissionsLevel === 'ADMIN'" class="edit-film-button">
-                            <base-button size="sm" type="danger"
-                                         @click="deleteFilm">Удалить
-                            </base-button>
-                        </div>
-                        <div v-show="userPermissionsLevel === 'ADMIN' || userPermissionsLevel === 'EDITOR'"
-                             class="edit-film-button">
-                            <base-button size="sm" type="info"
-                                         @click="showFilmFormToEdit = true">Редактировать
-                            </base-button>
-                        </div>
+            <div class="content" v-if="authorization !== null">
+                <div v-if="film !== ''">
+                    <div class="big-item-poster-container">
+                        <img class="big-poster" :src=film.poster>
                     </div>
-
-                    <div class="big-item-description">
-                        <div><b>Год: </b> {{film.year}}</div>
-                        <div><b>Страна: </b> {{film.country}}</div>
-                        <div><b>Жанр: </b> {{film.genre}}</div>
+                    <div class="big-item-content">
                         <div>
-                            <div><b>Режиссер: </b>
-                                <span class="film-directors" v-for="(director, index) in film.directors"
-                                      :key="director.id">
+                            <div>
+                                <h3>{{film.title}}</h3>
+                            </div>
+                            <div class="wish-button" v-if="inWishList">
+                                <base-button size="sm" type="warning" icon="ni ni-favourite-28" @click="deleteWish">
+                                    Удалить из
+                                    избранного&nbsp;&nbsp;&nbsp;
+                                </base-button>
+                            </div>
+                            <div class="wish-button" v-else>
+                                <base-button size="sm" type="success" icon="ni ni-favourite-28"
+                                             @click="addWish">В избранное
+                                </base-button>
+                            </div>
+
+                            <div v-show="userPermissionsLevel === 'ADMIN'" class="edit-film-button">
+                                <base-button size="sm" type="danger"
+                                             @click="deleteFilm">Удалить
+                                </base-button>
+                            </div>
+                            <div v-show="userPermissionsLevel === 'ADMIN' || userPermissionsLevel === 'EDITOR'"
+                                 class="edit-film-button">
+                                <base-button size="sm" type="info"
+                                             @click="showFilmFormToEdit = true">Редактировать
+                                </base-button>
+                            </div>
+                        </div>
+
+                        <div class="big-item-description">
+                            <div><b>Год: </b> {{film.year}}</div>
+                            <div><b>Страна: </b> {{film.country}}</div>
+                            <div><b>Жанр: </b> {{film.genre}}</div>
+                            <div>
+                                <div><b>Режиссер: </b>
+                                    <span class="film-directors" v-for="(director, index) in film.directors"
+                                          :key="director.id">
                                 <span v-if="index !== film.directors.length - 1"><a :href="/director/ + director.id">{{director.name}}</a>,
                                 </span>
                                 <span v-else><a :href="/director/ + director.id">{{director.name}}</a></span>
                             </span>
+                                </div>
                             </div>
+                            <div><b>Актеры: </b> {{film.actors}}</div>
+                            <div><b>Дата выхода: </b> {{changeDateFormat}}</div>
+                            <div><b>Описание: </b>{{film.description}}</div>
                         </div>
-                        <div><b>Актеры: </b> {{film.actors}}</div>
-                        <div><b>Дата выхода: </b> {{changeDateFormat}}</div>
-                        <div><b>Описание: </b>{{film.description}}</div>
                     </div>
+                </div>
+                <div v-else>
+                    <h5>Фильм не найден</h5>
                 </div>
                 <modal :show.sync="showFilmFormToEdit" body-classes="p-0" modal-classes="modal-dialog modal-sm"
                        class="film-form-background">
                     <card type="secondary" class="border-0 film-form-content">
                         <template>
                             <h4>Изменение фильма</h4>
-                            <film-form :film="film" type="update" @film-edited = "checkFilmToEdited"></film-form>
+                            <film-form :film="film" type="update" @film-edited="checkFilmToEdited"></film-form>
                         </template>
                     </card>
                 </modal>
             </div>
             <div v-else class="content">
-                <h5>Фильм не найден</h5>
+                <un-authorized-error></un-authorized-error>
             </div>
         </div>
         <div class="notification">
-           <notification :show-notification="showNotification"> {{notificationMessage}}</notification>
+            <notification :show-notification="showNotification"> {{notificationMessage}}</notification>
         </div>
     </div>
 </template>
@@ -125,16 +130,9 @@
                 this.film.year = this.film.year.substring(0, 4);
                 this.film.release = this.film.release.substring(0, 10);
 
-                //В дальнейшем замеить запросом на бэкенд
-                let list = JSON.parse(localStorage.getItem("wishlist"));
-                let checkInWishlist = false;
-                list.forEach(function (film) {
-                    if (film.id === response.data.id) {
-                        checkInWishlist = true;
-                    }
+                axios.get(this.url + "/api/account/wishlist/contains?filmId=" + this.film.id).then((response) => {
+                    this.inWishList = response.data
                 });
-                this.inWishList = checkInWishlist;
-                //******************************************************
             });
         },
 
@@ -172,15 +170,15 @@
             pushNotification(message) {
                 this.notificationMessage = message;
                 this.showNotification = true;
-                    setTimeout(() => {
-                        this.showNotification = false;
-                    }, 5000);
+                setTimeout(() => {
+                    this.showNotification = false;
+                }, 5000);
             },
 
             checkFilmToEdited(data) {
                 if (data === true) {
                     this.showFilmFormToEdit = false;
-                    if(this.userPermissionsLevel === 'ADMIN') {
+                    if (this.userPermissionsLevel === 'ADMIN') {
                         this.pushNotification("Фильм изменен");
                     } else if (this.userPermissionsLevel === 'EDITOR') {
                         this.pushNotification("Запрос на изменение фильма отправлен администратору")

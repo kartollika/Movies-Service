@@ -13,26 +13,10 @@
         class="border-0"
       >
         <template>
-          <div class="text-muted text-center mb-3">
-            <small>Войти через</small>
-          </div>
-          <div class="btn-wrapper text-center">
-            <base-button type="neutral">
-              <img slot="icon" src="/img/icons/common/github.svg">
-              Github
-            </base-button>
-
-            <base-button type="neutral">
-              <img slot="icon" src="/img/icons/common/google.svg">
-              Google
-            </base-button>
-          </div>
-        </template>
-        <template>
           <div class="text-center text-muted mb-4">
-            <small>Или с помощью почты</small>
+            <small>Вход</small>
           </div>
-          <form role="form">
+          <form role="form" @submit.prevent="loginForm">
             <base-input
               alternative
               class="mb-3"
@@ -51,7 +35,7 @@
               <strong>Error!</strong> Неверное имя пользователя или пароль
             </base-alert>
             <div class="text-center">
-              <base-button @click="loginForm" type="primary" size="lg" class="my-4">Войти</base-button>
+              <base-button @click="loginForm" native-type="submit" type="primary" size="lg" class="my-4">Войти</base-button>
             </div>
           </form>
         </template>
@@ -75,7 +59,7 @@
           </div>
         </template>
         <template>
-          <form role="form">
+          <form role="form" @submit.prevent="registrationForm">
             <base-input alternative class="mb-3" placeholder="Имя" v-model="newUser.name"></base-input>
             <base-alert type="warning" v-show="nameError">
               <strong>Ошибка!</strong> Недопустимое имя
@@ -103,6 +87,7 @@
             <div class="text-center">
               <base-button
                 @click="registrationForm"
+                native-type="submit"
                 type="primary"
                 size="lg"
                 class="my-4"
