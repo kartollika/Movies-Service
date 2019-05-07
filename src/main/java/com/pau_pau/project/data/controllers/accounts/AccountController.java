@@ -28,8 +28,7 @@ public interface AccountController {
     @ResponseStatus(HttpStatus.OK)
     AccountDto getAccountInfoByUsername(@PathVariable String username);
 
-    @ApiOperation(value = "Account registration. " + AVAILABLE_EVERYONE)
-    @ApiOperation(value = "Get user's wish list by authentication", response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    @ApiOperation(value = "Get user's wish list by authentication" + AVAILABLE_EVERYONE, response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
     @GetMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
     List<FilmDTO> getWishlistByAuthentication();

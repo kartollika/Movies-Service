@@ -95,13 +95,6 @@ public class Film {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "state_id", referencedColumnName = "id")
     private FilmState state;
-    private String poster;
-
-    @Column
-    private String actors;
-
-    @Column
-    private String description;
 
     public int getId() {
         return id;
@@ -174,20 +167,12 @@ public class Film {
 
     public void setPoster(String poster) {
         this.poster = poster;
-    public String getPoster() {
-        return poster;
-    }
-
-    public void setPoster(String poster) {
-        this.poster = poster;
     }
 
     public String getActors() {
         return actors;
     }
 
-    public String getActors() {
-        return actors;
     @Override
     public boolean equals(Object other){
         if (this == other) return true;
