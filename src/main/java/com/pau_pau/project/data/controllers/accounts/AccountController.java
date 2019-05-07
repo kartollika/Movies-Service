@@ -29,6 +29,12 @@ public interface AccountController {
     AccountDto getAccountInfoByUsername(@PathVariable String username);
 
     @ApiOperation(value = "Account registration. " + AVAILABLE_EVERYONE)
+    @ApiOperation(value = "Get user's wish list by authentication", response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getWishlistByAuthentication();
+
+    @ApiOperation(value = "Account registration")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     AccountDto registration(@RequestBody AccountDto accountDto);
@@ -40,17 +46,13 @@ public interface AccountController {
     AccountDto updateAccountRole(@PathVariable String username,
                                  @RequestParam Role newRole);
 
-    @ApiOperation(value = "Get user's wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class, responseContainer = "List")
-    @GetMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
-    @ResponseStatus(HttpStatus.OK)
-    List<FilmDTO> getWishlistByAuthentication();
-
     @ApiOperation(value = "Add film in wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @PutMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.CREATED)
     FilmDTO addToWishlistByAuthentication(@RequestParam int filmId);
 
-    @ApiOperation(value = "Delete film from wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class)
+
+    @ApiOperation(value = "Delete film from wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId);
@@ -60,6 +62,11 @@ public interface AccountController {
     @Secured({"ROLE_EDITOR", "ROLE_ADMIN"})
     @ResponseStatus(HttpStatus.OK)
     AccountDto getAccountInfoById(@PathVariable int id);
+
+    @ApiOperation(value = "Check if wishlist contains film", response = boolean.class, authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ControllerConstants.CONTAINS_IN_WISHLIST)
+    @ResponseStatus(HttpStatus.OK)
+    boolean containsInWishlist(@RequestParam int filmId);
 
     @ApiOperation(value = "Get all active requests. " + AVAILABLE_ADMIN, response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
     @GetMapping(value = ADMIN_ACTIVE_REQUESTS)

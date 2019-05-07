@@ -29,6 +29,9 @@ public class FilmDTO {
         filmDTO.actors = film.getActors();
         filmDTO.description = film.getDescription();
         filmDTO.poster = film.getPoster();
+        filmDTO.actors = film.getActors();
+        filmDTO.description = film.getDescription();
+        filmDTO.poster = film.getPoster();
         return filmDTO;
     }
 
@@ -61,6 +64,12 @@ public class FilmDTO {
 
     @ApiModelProperty(readOnly = true)
     private FilmStateDTO state;
+    private String poster;
+
+    private String actors;
+
+    private String description;
+
 
     public int getId() {
         return id;
@@ -152,6 +161,21 @@ public class FilmDTO {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
     }
 
     public void setDescription(String description) {
@@ -164,6 +188,11 @@ public class FilmDTO {
 
     public void setDirectorsId(Set<Integer> directorsId) {
         this.directorsId = directorsId;
+    public String getDescription() {
+        return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

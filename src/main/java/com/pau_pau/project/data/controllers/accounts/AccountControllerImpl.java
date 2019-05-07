@@ -2,6 +2,7 @@ package com.pau_pau.project.data.controllers.accounts;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.data.services.accounts.AccountService;
+import com.pau_pau.project.data.services.films.FilmsService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.AccountDto;
 import com.pau_pau.project.models.accounts.Role;
@@ -30,6 +31,9 @@ public class AccountControllerImpl implements AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private FilmsService filmsService;
 
     /* ================================
              GET METHODS
@@ -76,6 +80,22 @@ public class AccountControllerImpl implements AccountController {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
     }
+
+    public boolean containsInWishlist(int filmId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        try{
+            Film film = filmsService.findFilmById(filmId);
+            return accountService
+                    .findByUsername(username)
+                    .getWishlist()
+                    .contains(film);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
 
     /* ================================
                  POST METHODS

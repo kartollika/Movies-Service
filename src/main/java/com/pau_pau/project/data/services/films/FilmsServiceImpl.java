@@ -6,7 +6,6 @@ import com.pau_pau.project.data.services.directors.DirectorsService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
-import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
