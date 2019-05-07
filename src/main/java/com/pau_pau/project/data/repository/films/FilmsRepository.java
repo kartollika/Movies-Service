@@ -25,6 +25,8 @@ public interface FilmsRepository extends CrudRepository<Film, Integer> {
                          @Param("genre") String genre,
                          @Param("release") Date release);
 
+    List<Film> findAll();
+
     @Query(value = "SELECT * FROM films ORDER BY RANDOM() DESC LIMIT 1", nativeQuery = true)
     Film getRandomFilm();
 }

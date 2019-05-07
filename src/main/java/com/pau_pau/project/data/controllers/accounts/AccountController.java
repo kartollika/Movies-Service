@@ -52,7 +52,7 @@ public interface AccountController {
     FilmDTO addToWishlistByAuthentication(@RequestParam int filmId);
 
 
-    @ApiOperation(value = "Delete film from wish list by authentication", authorizations = @Authorization(value = "Bearer"))
+    @ApiOperation(value = "Delete film from wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO deteleFromWishlistByAuthentication(@RequestParam int filmId);
@@ -67,4 +67,16 @@ public interface AccountController {
     @GetMapping(value = ControllerConstants.CONTAINS_IN_WISHLIST)
     @ResponseStatus(HttpStatus.OK)
     boolean containsInWishlist(@RequestParam int filmId);
+
+    @ApiOperation(value = "Get all active requests. " + AVAILABLE_ADMIN, response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ADMIN_ACTIVE_REQUESTS)
+    @Secured("ROLE_ADMIN")
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getActiveRequests();
+
+    @ApiOperation(value = "Get active requests for account. " + AVAILABLE_EDITOR_ADMIN, response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = ControllerConstants.ACCOUNT_ACTIVE_REQUESTS)
+    @Secured({"ROLE_EDITOR", "ROLE_ADMIN"})
+    @ResponseStatus(HttpStatus.OK)
+    List<FilmDTO> getActiveRequestsForAccount() throws Exception;
 }
