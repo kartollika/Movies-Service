@@ -2,7 +2,7 @@
     <div>
         <div style="position: relative">
             <base-nav class="header-background" type="default" expand>
-                <a class="logo navbar-brand" href="/"><img src="../../assets/images/logo.png"></a>
+                <a slot="brand" class="logo navbar-brand" href="/"><img src="../../assets/images/logo.png"></a>
                 <div class="nav-menu">
                     <ul class="navbar-nav ml-lg-auto">
                         <li class="nav-item">
@@ -39,7 +39,7 @@
     import BaseNav from "../base_components/BaseNav";
     import LoginModal from "./LoginModal";
     import UserProfile from "./UserProfile";
-    import GenreDropdown from "./GenreDropdown.vue";
+    import GenreDropdown from "./GenreDropdown";
 
     export default {
         name: "Header",
@@ -70,9 +70,13 @@
 </script>
 
 <style>
+    .navbar-brand img {
+	height: 50px;
+    }
+
     .logo.navbar-brand {
-        float: left;
-        margin-left: -150px;
+	position: absolute;
+	left: 55px;
     }
 
     .nav-menu {
@@ -95,6 +99,7 @@
     }
 
     .search-nav {
+	position: relative;
         height: 10px;
         width: 300px;
         padding-bottom: 50px;
@@ -102,10 +107,10 @@
     }
 
     .search-icon {
-        position: absolute;
         color: #E9E7E8;
-        margin-left: 320px;
-        margin-top: -29px;
+	position: absolute;
+	top: 12px;
+	right: -40px;
     }
 
     .user-profile {
