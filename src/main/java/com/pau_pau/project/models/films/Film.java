@@ -10,7 +10,6 @@ import com.pau_pau.project.models.states.FilmStatus;
 import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
 import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -18,6 +17,7 @@ import javax.naming.NoPermissionException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -70,6 +70,14 @@ public class Film {
             inverseJoinColumns = @JoinColumn(name = "director_id")
     )
     private Set<Director> directors = new HashSet<>();
+
+    @PreRemove
+    private void deleteFilmFromWishlist() {
+        accounts.forEach((Account a) -> a.getWishlist().remove(this));
+    }
+
+    @ManyToMany(mappedBy = "wishlist")
+    private List<Account> accounts;
 
     @Transient
     private Set<Integer> directorsId = new HashSet<>();
@@ -243,5 +251,13 @@ public class Film {
     public int hashCode()
     {
         return 76+133*id;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 }
