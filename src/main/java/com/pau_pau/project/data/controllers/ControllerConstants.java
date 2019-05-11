@@ -7,7 +7,8 @@ public class ControllerConstants {
     public static final String FILM_URL_BY_ID = FILM_URL + "{" + FILM_PATH_ID + "}";
     public static final String FILM_PUBLISH = "/publish/{id}";
     public static final String FILM_REJECT = "/reject/{id}";
-    public static final String FILMS_ACTIVE_REQUESTS = "/requests";
+    public static final String ACCOUNT_ACTIVE_REQUESTS = "/requests";
+    public static final String ADMIN_ACTIVE_REQUESTS = "/admin/requests";
     public static final String FILM_RANDOM = "/random";
 
 
@@ -23,6 +24,7 @@ public class ControllerConstants {
     public static final String CHANGE_ROLE = "/role/{username}";
 
     public static final String WISHLIST_WITH_AUTHENTICATION = "/wishlist";
+    public static final String CONTAINS_IN_WISHLIST = WISHLIST_WITH_AUTHENTICATION + "/contains";
 
     public static final String HISTORY_WITH_AUTHENTICATION = "/history";
 

@@ -32,6 +32,9 @@ public class FilmDTO {
         filmDTO.actors = film.getActors();
         filmDTO.description = film.getDescription();
         filmDTO.poster = film.getPoster();
+        filmDTO.actors = film.getActors();
+        filmDTO.description = film.getDescription();
+        filmDTO.poster = film.getPoster();
         return filmDTO;
     }
 
@@ -157,6 +160,7 @@ public class FilmDTO {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
 
     public void setDescription(String description) {
         this.description = description;

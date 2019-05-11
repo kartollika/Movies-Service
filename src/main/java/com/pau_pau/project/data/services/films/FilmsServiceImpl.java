@@ -50,15 +50,19 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public List<Film> findActiveRequests(String title,
-                                         Date year,
-                                         String country,
-                                         String genre,
-                                         Date releaseDate) {
+    public List<Film> findActiveRequests() {
         return filmsRepository
-                .findFilms(title, Timestamp.from(year.toInstant()), country, genre, Timestamp.from(releaseDate.toInstant()))
+                .findAll()
                 .stream()
                 .filter(film -> !film.isApproved())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Film> findActiveRequestsForAccount(int accountId) {
+        return findActiveRequests()
+                .stream()
+                .filter(film -> film.getState().getOwnerId() == accountId)
                 .collect(Collectors.toList());
     }
 
@@ -88,6 +92,7 @@ public class FilmsServiceImpl implements FilmsService {
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
+        //return filmsRepository.findById(id).orElseThrow(null);
         Film film = filmsRepository.findById(id).orElseThrow(null);
         addFilmToHistory(film, id);
         return film;
@@ -122,6 +127,7 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public Film updateFilm(int id, FilmDTO filmDTO) throws Exception {
+        Account account = accountService.getAccount();
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
@@ -136,6 +142,7 @@ public class FilmsServiceImpl implements FilmsService {
         film.setState(new ModifiedFilmState(oldFilm.getState()));
         film.setCreationDate(oldFilm.getCreationDate());
 
+        autoPublishFilm(account, film);
         filmsRepository.save(film);
         return film;
     }
@@ -159,11 +166,8 @@ public class FilmsServiceImpl implements FilmsService {
     @Override
     public Film publishFilm(int id) throws Exception {
         Account account = accountService.getAccount();
-
         Film film = filmsRepository.findById(id).get();
-        film.getState().publish(account);
-        filmsRepository.save(film);
-
+        autoPublishFilm(account, film);
         return film;
     }
 
@@ -178,9 +182,12 @@ public class FilmsServiceImpl implements FilmsService {
         return film;
     }
 
-    private Film initFilmState(Film film) throws Exception {
+    private void autoPublishFilm(Account account, Film film) throws Exception {
+        film.getState().publish(account);
+    }
+
+    private void initFilmState(Film film) throws Exception {
         Account account = accountService.getAccount();
         film.initFilmState(account);
-        return film;
     }
 }
