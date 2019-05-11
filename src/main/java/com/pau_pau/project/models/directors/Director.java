@@ -33,7 +33,14 @@ public class Director {
     @Column
     private String country;
 
-    @ManyToMany(mappedBy = "directors")
+    @PreRemove
+    private void deleteDirectorsFromFilms() {
+        for (Film f: films) {
+            f.getDirectors().remove(this);
+        }
+    }
+
+    @ManyToMany(mappedBy = "directors", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Film> films;
 
     public int getId() {

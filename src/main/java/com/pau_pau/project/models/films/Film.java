@@ -10,6 +10,7 @@ import com.pau_pau.project.models.states.FilmStatus;
 import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
 import com.pau_pau.project.models.states.concretes.NewlyFilmState;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -61,8 +62,8 @@ public class Film {
     private String country;
 
     @Column
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.MERGE})
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),
