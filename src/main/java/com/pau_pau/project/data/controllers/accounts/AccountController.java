@@ -4,6 +4,7 @@ import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.models.accounts.AccountDto;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.FilmDTO;
+import com.pau_pau.project.models.films.OrderedFilmDTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.http.HttpStatus;
@@ -33,16 +34,15 @@ public interface AccountController {
     @ResponseStatus(HttpStatus.OK)
     List<FilmDTO> getWishlistByAuthentication();
 
-    @ApiOperation(value = "Account registration")
-    @ApiOperation(value = "Get user's wish list by authentication", response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
-    @GetMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
+    @ApiOperation(value = "Get user's history of films by authentication", response = OrderedFilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    @GetMapping(value = HISTORY_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
-    List<FilmDTO> getWishlistByAuthentication();
+    List<OrderedFilmDTO> getHistoryByAuth();
 
-    @ApiOperation(value = "Get user's history by authentication", response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
+    /*@ApiOperation(value = "Get user's history by authentication", response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
     @GetMapping(value = ControllerConstants.HISTORY_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
-    List<FilmDTO> getHistoryByAuthentication();
+    List<FilmDTO> getHistorySet();*/
 
     @ApiOperation(value = "Account registration. " + AVAILABLE_EVERYONE)
     @PostMapping
@@ -60,7 +60,6 @@ public interface AccountController {
     @PutMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.CREATED)
     FilmDTO addToWishlistByAuthentication(@RequestParam int filmId);
-
 
     @ApiOperation(value = "Delete film from wish list by authentication. " + AVAILABLE_EVERYONE, response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @DeleteMapping(value = ControllerConstants.WISHLIST_WITH_AUTHENTICATION)

@@ -4,6 +4,7 @@ import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.Film;
 
+import javax.management.InstanceNotFoundException;
 import java.util.List;
 
 public interface AccountService {
@@ -20,9 +21,9 @@ public interface AccountService {
 
     Account getAccount() throws Exception;
 
-    Film addToHistory(String username, int filmId) throws Exception;
-
     Account findById(int id) throws Exception;
+
+    Film addFilmToHistory(Film film) throws InstanceNotFoundException;
 
     List<Film> getAllActiveRequests();
 

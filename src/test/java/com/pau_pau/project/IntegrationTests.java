@@ -87,7 +87,6 @@ public class IntegrationTests extends Assert{
 //        System.out.println("JSON = " + stringJSON + " \n" + obj.getString("genre"));
         film.setGenre(obj.getString("genre"));
         film.setRelease(Timestamp.valueOf(prepareTimestamp(obj.getString("release"))));
-        film.setBudget((float)obj.getDouble("budget"));
         return film;
     }
 
@@ -113,7 +112,6 @@ public class IntegrationTests extends Assert{
         film.setTitle("Green Book");
         film.setId(2);
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
@@ -155,7 +153,6 @@ public class IntegrationTests extends Assert{
         Film film = new Film();
         film.setTitle("Yellow Book");
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
@@ -174,7 +171,6 @@ public class IntegrationTests extends Assert{
         film.setTitle("Yellow Book");
         //film.setId(2);
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
@@ -190,7 +186,6 @@ public class IntegrationTests extends Assert{
         film.setTitle("Yellow Book");
         film.setId(2);
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
@@ -236,39 +231,4 @@ public class IntegrationTests extends Assert{
         Assert.assertEquals(content, "");
 
     }
-
-
-
-
-
-
-
-   /*
-    @Autowired
-    private FilmsRepository subject;
-
-    @After
-    public void tearDown() throws Exception {
-        subject.deleteAll();
-    }
-
-    @Test
-    public void shouldSaveAndFetchPerson() throws Exception {
-        Film film = new Film();
-        film.setTitle("Yellow Book");
-        film.setId(2);
-        film.setGenre("Comedy");
-        film.setBudget(9999999);
-        film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
-        film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
-        film.setCountry("USA");
-        subject.save(film);
-
-        Optional<Film> maybeFilm = subject.findById(2);
-        assertEquals(false, maybeFilm.);
-        assertEquals(maybeFilm.get(), film);
-//        assertThat(maybePeter, is(Optional.of(film)));
-    }
-
-*/
 }

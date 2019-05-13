@@ -1,11 +1,13 @@
 package com.pau_pau.project.models.accounts;
 
+import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.models.films.Film;
+import com.pau_pau.project.models.history.History;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
-
-import static com.pau_pau.project.data.controllers.ControllerConstants.MAX_HISTORY_SIZE;
+import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
@@ -35,13 +37,45 @@ public class Account {
     )
     private List<Film> wishlist;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private Set<History> historySet = new HashSet<>();
+
+    public Set<History> getHistorySet() {
+        return historySet;
+    }
+
+
+    public void addFilmToHistory(Film film){
+        History history = History.containsInHistorySet(historySet, film);
+
+        if (history == null) {
+            int setSize = historySet.size();
+            if (setSize < ControllerConstants.MAX_HISTORY_SIZE){
+                historySet.add(new History(this, film, setSize + 1));
+            }else{
+                historySet.remove(History.getHistoryWithMaxOrder(historySet));
+                History.incAllGreaterOrder(historySet, setSize + 1);
+                historySet.add(new History(this, film, 1));
+            }
+        }else{
+            historySet.remove(history);
+            int order = history.getOrder();
+            history.setOrder(1);
+            History.incAllGreaterOrder(historySet, order);
+            historySet.add(history);
+        }
+    }
+
+    /*@ManyToMany
     @JoinTable(
-            name = "history",
+            name = "historySet",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "film_id")
+//            inverseJoinColumns = {@JoinColumn(name = "film_id"), @JoinColumn(name = "order")}
+//            inverseJoinColumns = @JoinColumns(value = {@JoinColumn(name = "film_id"),
+//            @JoinColumn(name = "order")})
     )
-    private List<Film> history;
+    private List<Film> historySet;*/
 
     public Account() {
         super();
@@ -107,22 +141,22 @@ public class Account {
         this.wishlist = wishlist;
     }
 
-    public List<Film> getHistory() {
-        return history;
+    /*public List<Film> getHistorySet() {
+        return historySet;
     }
 
-    public void setHistory(List<Film> history) {
-        this.history = history;
+    public void setHistory(List<Film> historySet) {
+        this.historySet = historySet;
     }
 
     public void addFilmToHistory(Film film){
-        int size = history.size();
-        if (history.contains(film)){
-            history.remove(film);
+        int size = historySet.size();
+        if (historySet.contains(film)){
+            historySet.remove(film);
         }
-        history.add(0, film);
+        historySet.add(0, film);
         if (size == MAX_HISTORY_SIZE){
-            history.remove(size - 1);
+            historySet.remove(size - 1);
         }
-    }
+    }*/
 }

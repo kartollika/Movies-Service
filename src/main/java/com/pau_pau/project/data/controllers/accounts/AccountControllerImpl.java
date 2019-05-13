@@ -8,6 +8,8 @@ import com.pau_pau.project.models.accounts.AccountDto;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
+import com.pau_pau.project.models.films.OrderedFilmDTO;
+import com.pau_pau.project.models.history.History;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -80,7 +83,28 @@ public class AccountControllerImpl implements AccountController {
         }
     }
 
-    private List<FilmDTO> filmDTOListFromFilms(List<Film> films){
+    private List<OrderedFilmDTO> getFilmsFromHistory(Set<History> historySet){
+        List<OrderedFilmDTO> films = new ArrayList<>();
+        for(History history: historySet){
+            films.add(new OrderedFilmDTO(FilmDTO.fromFilmModel(history.getFilm()), history.getOrder()));
+        }
+        return films;
+    }
+
+    public List<OrderedFilmDTO> getHistoryByAuth(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        try{
+            Set<History> history = accountService.findByUsername(username).getHistorySet();
+            System.out.println("SIZE OF SET = " + history.size());
+            return getFilmsFromHistory(history);
+        } catch(Exception e){
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    /*private List<FilmDTO> filmDTOListFromFilms(List<Film> films){
         List<FilmDTO> filmDTOS = new ArrayList<>();
         for(Film film : films){
             filmDTOS.add(filmDTOS.size(), FilmDTO.fromFilmModel(film));
@@ -88,17 +112,17 @@ public class AccountControllerImpl implements AccountController {
         return filmDTOS;
     }
 
-    public List<FilmDTO> getHistoryByAuthentication(){
+    public List<FilmDTO> getHistorySet(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try{
-            List<Film> filmList = accountService.findByUsername(username).getHistory();
+            List<Film> filmList = accountService.findByUsername(username).getHistorySet();
             return filmDTOListFromFilms(filmList);
         }catch (Exception e){
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
-    }
+    }*/
 
     public boolean containsInWishlist(int filmId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -1,6 +1,7 @@
 package com.pau_pau.project.data.controllers.films;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
+import com.pau_pau.project.data.services.accounts.AccountServiceImpl;
 import com.pau_pau.project.data.services.films.FilmsServiceImpl;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
@@ -25,6 +26,9 @@ public class FilmsControllerImpl implements FilmsController {
 
     @Autowired
     private FilmsServiceImpl filmsService;
+
+    @Autowired
+    private AccountServiceImpl accountService;
 
     /* ================================
                  GET METHODS
@@ -51,7 +55,9 @@ public class FilmsControllerImpl implements FilmsController {
     @Override
     public FilmDTO getFilmById(int filmId) {
         try {
-            return FilmDTO.fromFilmModel(filmsService.findFilmById(filmId));
+            Film film = filmsService.findFilmById(filmId);
+            accountService.addFilmToHistory(film);
+            return FilmDTO.fromFilmModel(film);
         } catch (InstanceNotFoundException e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);

@@ -29,7 +29,6 @@ public class FilmDTO {
         filmDTO.release = film.getRelease();
         filmDTO.setCreationDate(film.getCreationDate());
         filmDTO.state = FilmStateDTO.fromFilmModel(film.getState());
-        filmDTO.actors = film.getActors();
         filmDTO.description = film.getDescription();
         filmDTO.poster = film.getPoster();
         filmDTO.actors = film.getActors();
@@ -174,4 +173,23 @@ public class FilmDTO {
         this.directorsId = directorsId;
     }
 
+    @Override
+    public boolean equals(Object other){
+        if (this == other) return true;
+        if (other == null) return false;
+        if(this.getClass() != other.getClass()) return false;
+        FilmDTO otherObj = (FilmDTO) other;
+
+        //TODO are you sure that this is right (above)? If you can improve, do it
+        boolean res = this.country.equals(otherObj.country);
+        res = res && (this.genre.equals(otherObj.genre));
+        res = res && (this.title.equals(otherObj.title));
+        return res;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return 76+133*id;
+    }
 }

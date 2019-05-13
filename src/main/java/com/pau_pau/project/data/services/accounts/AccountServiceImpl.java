@@ -2,7 +2,6 @@ package com.pau_pau.project.data.services.accounts;
 
 import com.pau_pau.project.common.utils.PasswordEncoderUtil;
 import com.pau_pau.project.data.repository.accounts.AccountsRepository;
-import com.pau_pau.project.data.repository.films.FilmsRepository;
 import com.pau_pau.project.data.services.films.FilmsService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
@@ -12,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import javax.management.InstanceNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,9 +21,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountsRepository accountsRepository;
-
-    @Autowired
-    private FilmsRepository filmsRepository;
 
     @Autowired
     private FilmsService filmsService;
@@ -52,6 +49,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Film addFilmToHistory(Film film) throws InstanceNotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Account account = accountsRepository.findByUsername(username).orElseThrow(InstanceNotFoundException::new);
+        account.addFilmToHistory(film);
+        accountsRepository.save(account);
+        return film;
+    }
+
+    @Override
     public Film addToWishlist(String username, int filmId) throws Exception {
         Account holder = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
         Film filmById = filmsService.findFilmById(filmId);
@@ -76,14 +83,19 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    @Override
-    public Film addToHistory(String username, int filmId) throws Exception{
-        Account account = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
-        Film film = filmsRepository.findById(filmId).orElseThrow(Exception::new);
-        account.addFilmToHistory(film);
-        accountsRepository.save(account);
-        return film;
-    }
+        /*try {
+            //Account account = findByUsername(username);
+            System.out.println("USERNAME = " + username);
+            Account account = accountsRepository.findByUsername(username).orElseThrow(Exception::new);
+            Film film = filmsRepository.findById(filmId).orElseThrow(Exception::new);
+            account.addFilmToHistory(film);
+            accountsRepository.save(account);
+            return film;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }*/
+
     @Override
     public Account getAccount() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

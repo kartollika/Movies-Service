@@ -1,5 +1,6 @@
 package com.pau_pau.project.data.services.films;
 
+import com.pau_pau.project.data.repository.accounts.AccountsRepository;
 import com.pau_pau.project.data.repository.films.FilmsRepository;
 import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.data.services.directors.DirectorsService;
@@ -8,11 +9,7 @@ import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
 import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.management.InstanceNotFoundException;
 import java.sql.Timestamp;
@@ -31,6 +28,8 @@ public class FilmsServiceImpl implements FilmsService {
     @Autowired
     private DirectorsService directorsService;
 
+    @Autowired
+    private AccountsRepository accountsRepository;
 
     @Override
     public List<Film> findFilms(String title,
@@ -87,18 +86,24 @@ public class FilmsServiceImpl implements FilmsService {
         return newsOrderedFilms;
     }
 
+    /*@Override
+    public Film addFilmToHistory(String username, Film film) throws InstanceNotFoundException {
+        Account account = accountsRepository.findByUsername(username).orElseThrow(InstanceNotFoundException::new);
+        account.addFilmToHistory(film);
+        accountsRepository.save(account);
+        return film;
+    }*/
+
     @Override
     public Film findFilmById(int id) throws InstanceNotFoundException{
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-        //return filmsRepository.findById(id).orElseThrow(null);
         Film film = filmsRepository.findById(id).orElseThrow(null);
-        addFilmToHistory(film, id);
         return film;
     }
 
-    private void addFilmToHistory(Film film, int id){
+    /*private void addFilmToHistory(Film film, int id){
         if (film == null) {
             return;
         }
@@ -112,7 +117,7 @@ public class FilmsServiceImpl implements FilmsService {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
     @Override
     public Film addFilm(FilmDTO filmDTO) throws Exception {
