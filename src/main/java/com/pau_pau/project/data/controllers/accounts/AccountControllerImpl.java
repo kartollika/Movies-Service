@@ -86,7 +86,7 @@ public class AccountControllerImpl implements AccountController {
     private List<OrderedFilmDTO> getFilmsFromHistory(Set<History> historySet){
         List<OrderedFilmDTO> films = new ArrayList<>();
         for(History history: historySet){
-            films.add(new OrderedFilmDTO(FilmDTO.fromFilmModel(history.getFilm()), history.getOrder()));
+            films.add(new OrderedFilmDTO(FilmDTO.fromFilmModel(history.getFilm()), history.getFilmOrder()));
         }
         return films;
     }
@@ -103,26 +103,6 @@ public class AccountControllerImpl implements AccountController {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
     }
-
-    /*private List<FilmDTO> filmDTOListFromFilms(List<Film> films){
-        List<FilmDTO> filmDTOS = new ArrayList<>();
-        for(Film film : films){
-            filmDTOS.add(filmDTOS.size(), FilmDTO.fromFilmModel(film));
-        }
-        return filmDTOS;
-    }
-
-    public List<FilmDTO> getHistorySet(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        try{
-            List<Film> filmList = accountService.findByUsername(username).getHistorySet();
-            return filmDTOListFromFilms(filmList);
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
-    }*/
 
     public boolean containsInWishlist(int filmId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
