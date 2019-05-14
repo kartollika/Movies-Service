@@ -96,7 +96,6 @@ public class AccountControllerImpl implements AccountController {
         String username = authentication.getName();
         try{
             Set<History> history = accountService.findByUsername(username).getHistorySet();
-            System.out.println("SIZE OF SET = " + history.size());
             return getFilmsFromHistory(history);
         } catch(Exception e){
             e.printStackTrace();

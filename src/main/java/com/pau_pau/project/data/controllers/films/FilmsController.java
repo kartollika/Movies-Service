@@ -24,7 +24,6 @@ public interface FilmsController {
     String DEFAULT_FILM_COUNTRY = "";
     String DEFAULT_FILM_GENRE = "";
     GregorianCalendar DEFAULT_FILM_RELEASE_DATE = new GregorianCalendar(0, Calendar.JANUARY, 0);
-    float DEFAULT_FILM_BUDGET = 0f;
 
     @ApiOperation(value = "Get list of Movies. " + AVAILABLE_EVERYONE, response = FilmDTO.class, responseContainer = "List")
     @GetMapping
