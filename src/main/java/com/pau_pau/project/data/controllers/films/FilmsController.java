@@ -35,16 +35,6 @@ public interface FilmsController {
                            @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate);
 
-    @ApiOperation(value = "Get film by id " + AVAILABLE_EVERYONE, response = FilmDTO.class, responseContainer = "List")
-    @GetMapping(value = ControllerConstants.FILMS_ACTIVE_REQUESTS)
-    @ResponseStatus(HttpStatus.OK)
-    List<FilmDTO> getActiveRequests(@RequestParam(defaultValue = DEFAULT_FILM_TITLE) String title,
-                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date year,
-                                    @RequestParam(defaultValue = DEFAULT_FILM_COUNTRY) String country,
-                                    @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
-                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate);
-
-
     @ApiOperation(value = "Get film by id. Available for everyone. ", response = FilmDTO.class)
     @GetMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
