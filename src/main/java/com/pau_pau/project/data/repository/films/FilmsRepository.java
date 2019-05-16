@@ -18,12 +18,15 @@ public interface FilmsRepository extends CrudRepository<Film, Integer> {
             "Upper(f.country) like concat('%', upper(:country), '%') and " +
             "f.year >= :year and " +
             "f.release >= :release and " +
-            "upper(f.genre) like concat('%', upper(:genre), '%') " +
-            "and f.budget >= :budget")
+            "upper(f.genre) like concat('%', upper(:genre), '%') ")
     List<Film> findFilms(@Param("title") String title,
                          @Param("year") Date year,
                          @Param("country") String country,
                          @Param("genre") String genre,
-                         @Param("release") Date release,
-                         @Param("budget") float budget);
+                         @Param("release") Date release);
+
+    List<Film> findAll();
+
+    @Query(value = "SELECT * FROM films ORDER BY RANDOM() DESC LIMIT 1", nativeQuery = true)
+    Film getRandomFilm();
 }

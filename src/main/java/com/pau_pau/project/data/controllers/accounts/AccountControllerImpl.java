@@ -2,6 +2,7 @@ package com.pau_pau.project.data.controllers.accounts;
 
 import com.pau_pau.project.data.controllers.ControllerConstants;
 import com.pau_pau.project.data.services.accounts.AccountService;
+import com.pau_pau.project.data.services.films.FilmsService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.AccountDto;
 import com.pau_pau.project.models.accounts.Role;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
+@CrossOrigin
 @Api(tags = "Accounts", value = "Accounts", description = "Api for operations with accounts")
 @RequestMapping(ControllerConstants.ACCOUNT_URL)
 
@@ -28,6 +31,9 @@ public class AccountControllerImpl implements AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private FilmsService filmsService;
 
     /* ================================
              GET METHODS
@@ -49,6 +55,16 @@ public class AccountControllerImpl implements AccountController {
         }
     }
 
+
+    public AccountDto getAccountInfoById(int id) {
+        try {
+            return AccountDto.dtoFromAccount(accountService.findById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
     public List<FilmDTO> getWishlistByAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -64,6 +80,22 @@ public class AccountControllerImpl implements AccountController {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }
     }
+
+    public boolean containsInWishlist(int filmId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        try{
+            Film film = filmsService.findFilmById(filmId);
+            return accountService
+                    .findByUsername(username)
+                    .getWishlist()
+                    .contains(film);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
 
     /* ================================
                  POST METHODS
@@ -130,8 +162,23 @@ public class AccountControllerImpl implements AccountController {
         account.setPassword(accountDto.getPassword());
         account.setPermissionsLevel(accountDto.getPermissionsLevel());
         return account;
-
     }
 
+    @Override
+    public List<FilmDTO> getActiveRequests() {
+        return accountService.getAllActiveRequests()
+                .stream()
+                .map(FilmDTO::fromFilmModel)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public List<FilmDTO> getActiveRequestsForAccount() throws Exception {
+        Account account = accountService.getAccount();
+        int id = account.getId();
+        return accountService.getActiveRequestsForAccount(id)
+                .stream()
+                .map(FilmDTO::fromFilmModel)
+                .collect(Collectors.toList());
+    }
 }
