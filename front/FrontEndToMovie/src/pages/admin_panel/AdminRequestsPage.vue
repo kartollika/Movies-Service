@@ -36,7 +36,7 @@
                                           :key="director.id"
                                     >
                                                 <span v-if="index !== request.directors.length - 1"><a
-                                                        :href="/director/ + director.id">{{director.name}}</a>,</span>
+                                                        :href="/director/ + director.id">{{director.name}}</a>,&nbsp;</span>
                                                 <span v-else><a
                                                         :href="/director/ + director.id">{{director.name}}</a></span>
                                         </span>
@@ -110,7 +110,7 @@
         },
         methods: {
             getRequests() {
-                axios.get(this.url + "/api/films/requests").then((response) => {
+                axios.get(this.url + "/api/account/admin/requests").then((response) => {
                     let tmp = [];
                     response.data.forEach(function (request) {
                         if (request.state.status !== "REJECTED") {
@@ -124,6 +124,7 @@
             },
 
             publishFilm(id) {
+                console.log(id);
                 axios.put(this.url + "/api/films/publish/" + id).then(() => {
                     this.getRequests();
                     this.pushNotification("Фильм добавлен");

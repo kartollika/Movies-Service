@@ -22,7 +22,7 @@
                                 </base-button>
                                 <base-button class="change-film-button" size="sm" type="success"
                                              @click="editFilm(request.id, request.title, request.country, request.description, request.poster,
-                                   request.genre, request.year, request.release, request.actors)">Изменить
+                                   request.genre, request.year, request.release, request.actors, request.directors)">Изменить
                                 </base-button>
                             </div>
                             <div class="request-status">
@@ -132,7 +132,7 @@
 
         methods: {
             getRequests() {
-                axios.get(this.url + "/api/films/requests").then((response) => {
+                axios.get(this.url + "/api/account/requests").then((response) => {
                     let tmp = [];
                     response.data.forEach(function (request) {
                         request.year = request.year.substring(0, 4);
@@ -144,13 +144,13 @@
             },
 
             publishFilm(id) {
-                axios.put(this.url + "/api/films/publish/" + id,).then(() => {
+                axios.put(this.url + "/api/films/publish/" + id).then(() => {
                     this.getRequests();
-                    this.pushNotification("Запрос повторно отаправлен администратору");
+                    this.pushNotification("Запрос повторно отправлен администратору");
                 })
             },
 
-            editFilm(id, title, country, description, poster, genre, year, release, actors) {
+            editFilm(id, title, country, description, poster, genre, year, release, actors, directors) {
                 this.showFilmFormToEdit = true;
                 this.film.id = id;
                 this.film.poster = poster;
@@ -161,6 +161,7 @@
                 this.film.year = year;
                 this.film.description = description;
                 this.film.actors = actors;
+                this.film.directors = directors;
             },
 
             checkRequestToEdit(data) {

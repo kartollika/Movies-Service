@@ -46,11 +46,20 @@
             };
 
             axios.get(this.url + "/api/account/history").then(response => {
-                this.films = response.data;
-                this.films.forEach(function (film) {
-                    film.year = film.year.substring(0, 4);
-                    film.release = film.release.substring(0, 10);
+                console.log(response.data);
+                let tmp = response.data;
+                let a = [];
+                tmp.forEach(function (film) {
+                    a.push(film.filmDTO);
                 });
+                this.films = a.reverse();
+                // let tmp;
+                // let sortByOrder = function (film1, film2) {return (film1.filmOrder > film2.filmOrder) ? 1 : -1;};
+               // tmp = response.data.sort(sortByOrder);
+                // this.films.forEach(function (film) {
+                //     film.year = film.year.substring(0, 4);
+                //     film.release = film.release.substring(0, 10);
+                // });
             });
         },
         methods: {

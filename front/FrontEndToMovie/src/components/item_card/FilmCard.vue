@@ -39,12 +39,12 @@
           >
             <span
               v-if="index < (maxDirectors < nextFilm.directors.length ? maxDirectors : nextFilm.directors.length) - 1"
-            >
+            >&nbsp;
               <a :href="/director/ + director.id">{{director.name}}</a>,
             </span>
             <span
               v-else-if="index === (maxDirectors < nextFilm.directors.length ? maxDirectors : nextFilm.directors.length) - 1"
-            >
+            >&nbsp;
               <a :href="/director/ + director.id">{{director.name}}</a>
               <span v-if="maxDirectors < nextFilm.directors.length">, ...</span>
             </span>
