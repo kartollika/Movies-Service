@@ -43,7 +43,7 @@ public class IntegrationTests extends Assert{
 
     private MockMvc mockMvc;
     @Before
-    public void setup() throws Exception {
+    public void setup(){
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
@@ -87,7 +87,6 @@ public class IntegrationTests extends Assert{
 //        System.out.println("JSON = " + stringJSON + " \n" + obj.getString("genre"));
         film.setGenre(obj.getString("genre"));
         film.setRelease(Timestamp.valueOf(prepareTimestamp(obj.getString("release"))));
-        film.setBudget((float)obj.getDouble("budget"));
         return film;
     }
 
@@ -113,10 +112,12 @@ public class IntegrationTests extends Assert{
         film.setTitle("Green Book");
         film.setId(2);
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
+        film.setActors("Mahershala Ali");
+        film.setDescription("description");
+        film.setPoster("poster");
         Assert.assertEquals(film, filmObj);
     }
 
@@ -124,6 +125,7 @@ public class IntegrationTests extends Assert{
     @Sql(scripts = {"classpath:empty_films_table.sql"})
     @Test
     public void getFilmById_FindNonExistingFilm_ContentEqualsEmptyStringStatus204() throws Exception{
+
         MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8080/api/films/film/1"))
                 .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
                 .andReturn();
@@ -136,6 +138,9 @@ public class IntegrationTests extends Assert{
     @Sql(scripts = {"classpath:empty_films_table.sql"})
     @Test
     public void deleteFilm_deleteRowInEmptyTable_Status500() throws Exception{
+        String header = mockMvc.perform(get("http://localhost:8080/login?username=admin&password=admin")).andReturn().getResponse().getHeader("Authorization");
+        System.out.println(header);
+        mockMvc.perform(get("http://localhost:8080/api/films").header("Authorization", header)).andReturn().getResponse().getContentAsString();
         this.mockMvc.perform(delete("http://localhost:8080/api/films/film/1"))
                 .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 //                .andExpect(status().is(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()));
@@ -155,7 +160,6 @@ public class IntegrationTests extends Assert{
         Film film = new Film();
         film.setTitle("Yellow Book");
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
@@ -174,7 +178,6 @@ public class IntegrationTests extends Assert{
         film.setTitle("Yellow Book");
         //film.setId(2);
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
@@ -190,7 +193,6 @@ public class IntegrationTests extends Assert{
         film.setTitle("Yellow Book");
         film.setId(2);
         film.setGenre("Comedy");
-        film.setBudget(9999999);
         film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
         film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
         film.setCountry("USA");
@@ -236,39 +238,4 @@ public class IntegrationTests extends Assert{
         Assert.assertEquals(content, "");
 
     }
-
-
-
-
-
-
-
-   /*
-    @Autowired
-    private FilmsRepository subject;
-
-    @After
-    public void tearDown() throws Exception {
-        subject.deleteAll();
-    }
-
-    @Test
-    public void shouldSaveAndFetchPerson() throws Exception {
-        Film film = new Film();
-        film.setTitle("Yellow Book");
-        film.setId(2);
-        film.setGenre("Comedy");
-        film.setBudget(9999999);
-        film.setYear(Timestamp.valueOf("2018-09-11 19:44:48.241000"));
-        film.setRelease(Timestamp.valueOf("2019-02-25 19:44:59.903000"));
-        film.setCountry("USA");
-        subject.save(film);
-
-        Optional<Film> maybeFilm = subject.findById(2);
-        assertEquals(false, maybeFilm.);
-        assertEquals(maybeFilm.get(), film);
-//        assertThat(maybePeter, is(Optional.of(film)));
-    }
-
-*/
 }

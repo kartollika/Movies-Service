@@ -1,1 +1,1 @@
-DELETE FROM directors;
+DELETE FROM "movies-service".public.directors;

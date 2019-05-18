@@ -181,14 +181,30 @@ public class Film {
         if(this.getClass() != other.getClass()) return false;
         Film otherObj = (Film) other;
 
-        //TODO are you sure that this is right (above)? If you can improve, do it
-        boolean res = true;
-        res = res && this.country.equals(otherObj.country);
-        double eps = 10e-10;
-        //res = res && (Math.abs(this.budget - otherObj.budget) <= eps);
-        res = res && (this.genre.equals(otherObj.genre));
-        res = res && (this.title.equals(otherObj.title));
-        return res;
+        if (this.directors.size() != otherObj.directors.size()){
+            return false;
+        }
+        for (Director director : this.directors){
+            if (!otherObj.directors.contains(director)){
+                return false;
+            }
+        }
+
+        if (this.directorsId.size() != otherObj.directorsId.size()){
+            return false;
+        }
+        for(Integer directorId : this.directorsId){
+            if (!otherObj.directorsId.contains(directorId)){
+                return false;
+            }
+        }
+
+
+        return this.country.equals(otherObj.country) && ((this.actors == null) || this.actors.equals(otherObj.actors))
+                && this.creationDate.equals(otherObj.creationDate) && this.description.equals(otherObj.description)
+                && ((this.genre == null) || this.genre.equals(otherObj.genre)) && this.id == otherObj.id
+                && this.poster.equals(otherObj.poster) && this.release.equals(otherObj.release)
+                && this.title.equals(otherObj.title) && this.year.equals(otherObj.year) && ((this.state == null) || this.state.equals(otherObj.state));
     }
 
     public void setActors(String actors) {

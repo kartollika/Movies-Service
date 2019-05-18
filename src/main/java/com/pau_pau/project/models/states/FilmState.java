@@ -23,6 +23,23 @@ public abstract class FilmState {
     @OneToOne(mappedBy = "state", cascade = CascadeType.ALL)
     protected Film film;
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null) return false;
+        if (this.getClass() != other.getClass()) return false;
+        FilmState otherObj = (FilmState) other;
+        return this.film.getTitle().equals(otherObj.film.getTitle()) && this.id == otherObj.id
+                && this.ownerId == otherObj.ownerId;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return 76+133*id;
+    }
+
+
     public FilmState() {
     }
 
