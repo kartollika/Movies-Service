@@ -10,8 +10,10 @@
 </template>
 
 <script>
-    import axios from 'axios'
     export default {
+        props: {
+            films: Array
+        },
         data() {
             return {
                 authorization: localStorage.getItem("Authorization"),
@@ -29,32 +31,15 @@
                         nextEl: ".swiper-button-next",
                         prevEl: ".swiper-button-prev"
                     }
-                },
-                films: []
+                }
             }
-        },
-        mounted() {
-            axios.defaults.headers = {
-                'Content-Type': 'application/json',
-                Authorization: this.authorization
-            };
-
-            axios.get(this.url + "/api/films").then((response) => {
-                this.films = response.data.slice(0, 18);
-                this.films.forEach(function (film) {
-                    film.year = film.year.substring(0, 4);
-                    film.release = film.release.substring(0, 10);
-                });
-            });
         }
     };
 </script>
 
 <style>
     .container.col-lg-10.mb-lg-auto.align-items-center {
-        position: relative;
         margin-left: 17px;
-        float: left;
     }
 
     .swiper-container {
