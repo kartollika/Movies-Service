@@ -49,12 +49,12 @@
                         <br>
                         <input type="text" v-model="directorName" @keyup="getAvailableDirectors" style="width: 200px;">
                         <div class="available-directors" v-show="availableDirectors.length !== 0">
-                            <div v-for="(director, index) in availableDirectors">
+                            <div v-for="(director, index) in availableDirectors" :key="index">
                                 <div class="directors-item" @click="addDirector(index)">{{director.name}}</div>
                             </div>
                         </div>
                     </label>
-                    <span v-for="(director, index) in film.directors">
+                    <span v-for="(director, index) in film.directors" :key="index">
                         {{director.name}}
                         <i class="fa fa-times"
                            aria-hidden="true"

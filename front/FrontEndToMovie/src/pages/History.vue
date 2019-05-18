@@ -46,7 +46,6 @@
             };
 
             axios.get(this.url + "/api/account/history").then(response => {
-                console.log(response.data);
                 let tmp = response.data;
                 let a = [];
                 tmp.forEach(function (film) {

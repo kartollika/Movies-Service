@@ -124,7 +124,6 @@
             },
 
             publishFilm(id) {
-                console.log(id);
                 axios.put(this.url + "/api/films/publish/" + id).then(() => {
                     this.getRequests();
                     this.pushNotification("Фильм добавлен");
