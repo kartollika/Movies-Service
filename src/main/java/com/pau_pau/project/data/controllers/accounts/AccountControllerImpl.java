@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -96,7 +94,10 @@ public class AccountControllerImpl implements AccountController {
         String username = authentication.getName();
         try{
             Set<History> history = accountService.findByUsername(username).getHistorySet();
-            return getFilmsFromHistory(history);
+            List<OrderedFilmDTO> orderedFilmDTOS = getFilmsFromHistory(history);
+
+            orderedFilmDTOS.sort((o1, o2) -> o2.getOrder() - o1.getOrder());
+            return orderedFilmDTOS;
         } catch(Exception e){
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
