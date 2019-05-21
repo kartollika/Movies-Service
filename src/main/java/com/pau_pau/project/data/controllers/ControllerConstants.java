@@ -28,7 +28,7 @@ public class ControllerConstants {
 
     public static final String HISTORY_WITH_AUTHENTICATION = "/history";
 
-    public static final int MAX_HISTORY_SIZE = 15;
+    public static final int MAX_HISTORY_SIZE = 9;
 
     // Describing availability
     public static final String AVAILABLE_EDITOR_ADMIN = "Available for Editor and Admin";
