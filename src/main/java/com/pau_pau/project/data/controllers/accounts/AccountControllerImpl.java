@@ -89,7 +89,15 @@ public class AccountControllerImpl implements AccountController {
         return films;
     }
 
-    public List<OrderedFilmDTO> getHistoryByAuth(){
+    private List<FilmDTO> getFilmDTOFromOrderedFilmDTO(List<OrderedFilmDTO> orderedFilmDTOS){
+        List<FilmDTO> filmDTOList = new ArrayList<>();
+        for (OrderedFilmDTO orderedFilmDTO : orderedFilmDTOS){
+            filmDTOList.add(orderedFilmDTO.getFilmDTO());
+        }
+        return filmDTOList;
+    }
+
+    public List<FilmDTO> getHistoryByAuth(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         try{
@@ -97,7 +105,7 @@ public class AccountControllerImpl implements AccountController {
             List<OrderedFilmDTO> orderedFilmDTOS = getFilmsFromHistory(history);
 
             orderedFilmDTOS.sort((o1, o2) -> o2.getOrder() - o1.getOrder());
-            return orderedFilmDTOS;
+            return getFilmDTOFromOrderedFilmDTO(orderedFilmDTOS);
         } catch(Exception e){
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);

@@ -37,7 +37,7 @@ public interface AccountController {
     @ApiOperation(value = "Get user's history of films by authentication", response = OrderedFilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
     @GetMapping(value = HISTORY_WITH_AUTHENTICATION)
     @ResponseStatus(HttpStatus.OK)
-    List<OrderedFilmDTO> getHistoryByAuth();
+    List<FilmDTO> getHistoryByAuth();
 
     /*@ApiOperation(value = "Get user's history by authentication", response = FilmDTO.class, responseContainer = "List", authorizations = @Authorization(value = "Bearer"))
     @GetMapping(value = ControllerConstants.HISTORY_WITH_AUTHENTICATION)

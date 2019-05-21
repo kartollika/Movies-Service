@@ -87,14 +87,6 @@ public class FilmsServiceImpl implements FilmsService {
         return newsOrderedFilms;
     }
 
-    /*@Override
-    public Film addFilmToHistory(String username, Film film) throws InstanceNotFoundException {
-        Account account = accountsRepository.findByUsername(username).orElseThrow(InstanceNotFoundException::new);
-        account.addFilmToHistory(film);
-        accountsRepository.save(account);
-        return film;
-    }*/
-
     @Override
     public Film findFilmById(int id) throws InstanceNotFoundException{
         if (!filmsRepository.existsById(id)) {
@@ -108,22 +100,6 @@ public class FilmsServiceImpl implements FilmsService {
             return null;
         }
     }
-
-    /*private void addFilmToHistory(Film film, int id){
-        if (film == null) {
-            return;
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        try {
-            Account account = accountService.findByUsername(username);
-            accountService.addToHistory(username, id);
-            account.addFilmToHistory(film);
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-    }*/
 
     @Override
     public Film addFilm(FilmDTO filmDTO) throws Exception {
