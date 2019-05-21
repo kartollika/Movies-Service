@@ -17,6 +17,7 @@ import javax.naming.NoPermissionException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -61,14 +62,22 @@ public class Film {
     private String country;
 
     @Column
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.MERGE})
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "director_id")
     )
     private Set<Director> directors = new HashSet<>();
+
+    @PreRemove
+    private void deleteFilmFromWishlist() {
+        accounts.forEach((Account a) -> a.getWishlist().remove(this));
+    }
+
+    @ManyToMany(mappedBy = "wishlist")
+    private List<Account> accounts;
 
     @Transient
     private Set<Integer> directorsId = new HashSet<>();
@@ -232,6 +241,14 @@ public class Film {
     public int hashCode()
     {
         return 76+133*id;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public String getDescription() {
