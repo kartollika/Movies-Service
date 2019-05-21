@@ -144,6 +144,7 @@ public class FilmsServiceImpl implements FilmsService {
         Account account = accountService.getAccount();
         Film film = filmsRepository.findById(id).get();
         autoPublishFilm(account, film);
+        filmsRepository.save(film);
         return film;
     }
 
