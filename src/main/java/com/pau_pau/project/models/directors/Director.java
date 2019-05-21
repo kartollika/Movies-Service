@@ -68,6 +68,17 @@ public class Director {
         this.films = films;
     }
 
+    public Director(){
+
+    }
+
+    public Director(int id, String name, String country, Set<Film> films){
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.films = films;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

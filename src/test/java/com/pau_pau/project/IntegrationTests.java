@@ -122,7 +122,7 @@ public class IntegrationTests extends Assert{
     }
 
 
-    @Sql(scripts = {"classpath:empty_films_table.sql"})
+    @Sql(scripts = {"classpath:empty_tables.sql"})
     @Test
     public void getFilmById_FindNonExistingFilm_ContentEqualsEmptyStringStatus204() throws Exception{
 
@@ -135,7 +135,7 @@ public class IntegrationTests extends Assert{
     }
 
     // TODO why in Swagger status is 415, but here status is 405 ???
-    @Sql(scripts = {"classpath:empty_films_table.sql"})
+    @Sql(scripts = {"classpath:empty_tables.sql"})
     @Test
     public void deleteFilm_deleteRowInEmptyTable_Status500() throws Exception{
         String header = mockMvc.perform(get("http://localhost:8080/login?username=admin&password=admin")).andReturn().getResponse().getHeader("Authorization");
@@ -154,7 +154,7 @@ public class IntegrationTests extends Assert{
 
     }
 
-    @Sql(scripts = {"classpath:empty_films_table.sql"})
+    @Sql(scripts = {"classpath:empty_tables.sql"})
     @Test
     public void addFilm_AddNonexistingFilm_StatusOk() throws Exception{
         Film film = new Film();

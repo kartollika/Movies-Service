@@ -2,6 +2,7 @@ package com.pau_pau.project.models.films;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.gson.Gson;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.directors.Director;
@@ -35,10 +36,8 @@ public class Film {
         film.country = filmDTO.getCountry();
         /* после создания модели из DTO сет директоров БУДЕТ ПУСТОЙ!!! */
         film.directorsId.addAll(filmDTO.getDirectorsId());
-        film.genre = filmDTO.getGenre();
         film.release = filmDTO.getRelease();
         film.setCreationDate(filmDTO.getCreationDate());
-        film.actors = filmDTO.getActors();
         film.description = filmDTO.getDescription();
         film.poster = filmDTO.getPoster();
         film.actors = filmDTO.getActors();
@@ -259,5 +258,11 @@ public class Film {
     public int hashCode()
     {
         return 76+133*id;
+    }
+
+    @Override
+    public String toString(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
