@@ -74,4 +74,20 @@ public class Director {
     public void setFilms(Set<Film> films) {
         this.films = films;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null) return false;
+        if(this.getClass() != other.getClass()) return false;
+        Director otherObj = (Director) other;
+
+        return this.country.equals(otherObj.country) && this.name.equals(otherObj.name);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return 76+133*id;
+    }
 }

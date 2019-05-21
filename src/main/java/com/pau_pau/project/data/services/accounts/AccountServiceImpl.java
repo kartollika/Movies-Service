@@ -1,18 +1,23 @@
 package com.pau_pau.project.data.services.accounts;
 
 import com.pau_pau.project.common.utils.PasswordEncoderUtil;
+import com.pau_pau.project.data.controllers.ControllerConstants;
+import com.pau_pau.project.data.repository.histories.HistoryRepository;
 import com.pau_pau.project.data.repository.accounts.AccountsRepository;
 import com.pau_pau.project.data.services.films.FilmsService;
 import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.Film;
+import com.pau_pau.project.models.history.History;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import javax.management.InstanceNotFoundException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,6 +25,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountsRepository accountsRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @Autowired
     private FilmsService filmsService;
@@ -45,6 +53,58 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account findByUsername(String username) throws Exception {
         return accountsRepository.findByUsername(username).orElseThrow(Exception::new);
+    }
+
+    @Override
+    public Film addFilmToHistory(Film film){
+        try {
+            String username = getAccount().getUsername();
+            Account account = accountsRepository.findByUsername(username).orElseThrow(InstanceNotFoundException::new);
+            Set<History> historySet = account.getHistorySet();
+            int setSize = historySet.size();
+            History foundHistory = null;
+            for(History history : historySet){
+                if (history.getFilm().equals(film)){
+                    foundHistory = history;
+                    break;
+                }
+            }
+            if (foundHistory == null){
+                if (setSize < ControllerConstants.MAX_HISTORY_SIZE) {
+                    History historyToAdd = new History(account, film, setSize + 1);
+                    historySet.add(historyToAdd);
+                    historyRepository.save(historyToAdd);
+                }else{
+                    History historyMinOrder = History.getHistoryWithMinOrder(historySet);
+                    historySet.remove(historyMinOrder);
+                    historyRepository.delete(historyMinOrder);
+                    for (History history : historySet){
+                        history.setFilmOrder(history.getFilmOrder() - 1);
+                        historyRepository.save(history);
+                    }
+                    History historyToAdd = new History(account, film, ControllerConstants.MAX_HISTORY_SIZE) ;
+                    historySet.add(historyToAdd);
+                    historyRepository.save(historyToAdd);
+                }
+            }else{
+                int order = foundHistory.getFilmOrder();
+                historySet.remove(foundHistory);
+                historyRepository.delete(foundHistory);
+                for(History history : historySet){
+                    if (history.getFilmOrder() > order){
+                        historyRepository.delete(history);
+                        history.setFilmOrder(history.getFilmOrder() - 1);
+                        historyRepository.save(history);
+                    }
+                }
+                History historyToAdd = new History(account, film, historySet.size() + 1) ;
+                historySet.add(historyToAdd);
+                historyRepository.save(historyToAdd);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return film;
     }
 
     @Override
@@ -75,7 +135,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getAccount() throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return findByUsername(authentication.getName());
+        String usermame = authentication.getName();
+        return findByUsername(usermame);
     }
 
     @Override

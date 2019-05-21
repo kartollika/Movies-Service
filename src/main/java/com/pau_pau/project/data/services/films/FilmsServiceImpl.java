@@ -1,5 +1,6 @@
 package com.pau_pau.project.data.services.films;
 
+import com.pau_pau.project.data.repository.accounts.AccountsRepository;
 import com.pau_pau.project.data.repository.films.FilmsRepository;
 import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.data.services.directors.DirectorsService;
@@ -23,10 +24,13 @@ public class FilmsServiceImpl implements FilmsService {
     private FilmsRepository filmsRepository;
 
     @Autowired
+    private AccountService accountService;
+
+    @Autowired
     private DirectorsService directorsService;
 
     @Autowired
-    private AccountService accountService;
+    private AccountsRepository accountsRepository;
 
     @Override
     public List<Film> findFilms(String title,
@@ -84,7 +88,7 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public Film findFilmById(int id) throws InstanceNotFoundException {
+    public Film findFilmById(int id) throws InstanceNotFoundException{
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
@@ -120,11 +124,11 @@ public class FilmsServiceImpl implements FilmsService {
         for (Integer directorId : film.getDirectorsId()) {
             film.getDirectors().add(directorsService.findDirectorById(directorId));
         }
-      
+
         Film oldFilm = filmsRepository.findById(id).get();
         film.setState(new ModifiedFilmState(oldFilm.getState()));
         film.setCreationDate(oldFilm.getCreationDate());
-      
+
         autoPublishFilm(account, film);
         filmsRepository.save(film);
         return film;
