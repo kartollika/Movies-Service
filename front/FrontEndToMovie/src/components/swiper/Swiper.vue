@@ -19,7 +19,7 @@
                 authorization: localStorage.getItem("Authorization"),
                 swiperOption: {
                     slidesPerView: 6,
-                    spaceBetween: 10,
+                    spaceBetween: 5,
                     slidesPerGroup: 6,
                     loop: true,
                     loopFillGroupWithBlank: true,
@@ -39,15 +39,15 @@
 
 <style>
     .container.col-lg-10.mb-lg-auto.align-items-center {
-        margin-left: 17px;
+        margin-left: -10px;
     }
 
     .swiper-container {
-        width: 985px;
+        width: 1039px;
     }
     .swiper-container img {
-        width: 157px;
-        height: 230px;
+        width: 170px;
+        height: 250px;
         border-radius: 5px;
     }
 </style>

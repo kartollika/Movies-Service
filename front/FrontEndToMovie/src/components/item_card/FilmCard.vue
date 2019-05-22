@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="item">
     <div class="item-poster-container">
       <a :href="/film/ + nextFilm.id">
         <img class="item-poster" :src="nextFilm.poster">

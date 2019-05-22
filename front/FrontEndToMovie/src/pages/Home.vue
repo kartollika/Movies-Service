@@ -4,10 +4,12 @@
         <div class="content-container">
             <div class="content" v-if="authorization !== null">
                 <h3 class="home-h3">Новинки</h3>
-                <Swiper v-bind:films="swiperFilms"></Swiper>
+                <Swiper v-bind:films="swiperFilms"></Swiper><hr>
                 <h3 class="home-h3">Популярное</h3>
-                <div v-for="film in films" :key="film.id">
-                   <film :next-film = film></film>
+                <div class="popular">
+                    <div v-for="film in films" :key="film.id">
+                        <film :next-film=film></film>
+                    </div>
                 </div>
             </div>
             <div v-else class="content">
@@ -58,5 +60,9 @@
 <style>
     .home-h3 {
         margin-left: 30px;
+    }
+
+    .popular {
+        height: 600px;
     }
 </style>
