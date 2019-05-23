@@ -90,7 +90,7 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public Film findFilmById(int id) throws InstanceNotFoundException{
+    public Film findFilmById(int id) throws InstanceNotFoundException {
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
@@ -121,6 +121,10 @@ public class FilmsServiceImpl implements FilmsService {
         }
         filmDTO.setId(id);
         Film film = Film.fromFilmDTOModel(filmDTO);
+
+        Film film1 = filmsRepository.findById(id).get();
+        film.setCreationDate(film1.getCreationDate());
+
         for (Integer directorId : film.getDirectorsId()) {
             film.getDirectors().add(directorsService.findDirectorById(directorId));
         }
@@ -130,8 +134,6 @@ public class FilmsServiceImpl implements FilmsService {
         } else if (accountService.getAccount().getPermissionsLevel().equals(Role.ADMIN)) {
             film.setState(new ApprovedFilmState(accountService.getAccount()));
         }
-
-        filmsRepository.deleteById(id);
         filmsRepository.save(film);
         return film;
     }
