@@ -40,9 +40,6 @@ public class Film {
         film.actors = filmDTO.getActors();
         film.description = filmDTO.getDescription();
         film.poster = filmDTO.getPoster();
-        film.actors = filmDTO.getActors();
-        film.description = filmDTO.getDescription();
-        film.poster = filmDTO.getPoster();
         return film;
     }
 
@@ -160,7 +157,6 @@ public class Film {
         this.release = release;
     }
 
-
     public String getPoster() {
         return poster;
     }
@@ -173,11 +169,19 @@ public class Film {
         return actors;
     }
 
+    public void publish(Account account) throws Exception {
+        getState().publish(account);
+    }
+
+    public void reject(Account account, String comment) throws Exception {
+        getState().reject(account, comment);
+    }
+
     @Override
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if (this == other) return true;
         if (other == null) return false;
-        if(this.getClass() != other.getClass()) return false;
+        if (this.getClass() != other.getClass()) return false;
         Film otherObj = (Film) other;
 
         //TODO are you sure that this is right (above)? If you can improve, do it
@@ -237,10 +241,10 @@ public class Film {
     public void setDescription(String description) {
         this.description = description;
     }
+
     //TODO need improvement?
     @Override
-    public int hashCode()
-    {
-        return 76+133*id;
+    public int hashCode() {
+        return 76 + 133 * id;
     }
 }

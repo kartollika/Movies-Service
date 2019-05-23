@@ -4,9 +4,11 @@ import com.pau_pau.project.data.repository.films.FilmsRepository;
 import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.data.services.directors.DirectorsService;
 import com.pau_pau.project.models.accounts.Account;
+import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
 import com.pau_pau.project.models.states.FilmStatus;
+import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
 import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -110,22 +112,22 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public Film updateFilm(int id, FilmDTO filmDTO) throws Exception {
-        Account account = accountService.getAccount();
         if (!filmsRepository.existsById(id)) {
             throw new InstanceNotFoundException();
         }
-
         filmDTO.setId(id);
         Film film = Film.fromFilmDTOModel(filmDTO);
         for (Integer directorId : film.getDirectorsId()) {
             film.getDirectors().add(directorsService.findDirectorById(directorId));
         }
-      
-        Film oldFilm = filmsRepository.findById(id).get();
-        film.setState(new ModifiedFilmState(oldFilm.getState()));
-        film.setCreationDate(oldFilm.getCreationDate());
-      
-        autoPublishFilm(account, film);
+
+        if (accountService.getAccount().getPermissionsLevel().equals(Role.EDITOR)) {
+            film.setState(new ModifiedFilmState(accountService.getAccount()));
+        } else if (accountService.getAccount().getPermissionsLevel().equals(Role.ADMIN)) {
+            film.setState(new ApprovedFilmState(accountService.getAccount()));
+        }
+
+        filmsRepository.deleteById(id);
         filmsRepository.save(film);
         return film;
     }
@@ -150,7 +152,7 @@ public class FilmsServiceImpl implements FilmsService {
     public Film publishFilm(int id) throws Exception {
         Account account = accountService.getAccount();
         Film film = filmsRepository.findById(id).get();
-        autoPublishFilm(account, film);
+        film.publish(account);
         return film;
     }
 
@@ -166,7 +168,11 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     private void autoPublishFilm(Account account, Film film) throws Exception {
-        film.getState().publish(account);
+        try {
+            film.publish(account);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initFilmState(Film film) throws Exception {
