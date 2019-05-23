@@ -27,6 +27,8 @@ public interface FilmsService {
 
     Film deleteFilmById(int id) throws InstanceNotFoundException;
 
+//    Film addFilmToHistory(String username, Film film) throws Exception;
+
     Film getRandomFilm();
 
     Film publishFilm(int id) throws Exception;

@@ -46,8 +46,12 @@ public class RejectedFilmState extends FilmState implements Commentable {
     }
 
     @Override
-    public void reject(Account account, String comment) {
-        causeDeadEndException();
+    public void reject(Account account, String comment) throws NoPermissionException {
+        if (account.getPermissionsLevel().equals(Role.ADMIN)) {
+            ((RejectedFilmState) film.getState()).comment = comment;
+            return;
+        }
+        causeDeniedException();
     }
 
     @Override

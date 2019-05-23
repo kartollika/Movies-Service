@@ -26,6 +26,10 @@ public class ControllerConstants {
     public static final String WISHLIST_WITH_AUTHENTICATION = "/wishlist";
     public static final String CONTAINS_IN_WISHLIST = WISHLIST_WITH_AUTHENTICATION + "/contains";
 
+    public static final String HISTORY_WITH_AUTHENTICATION = "/history";
+
+    public static final int MAX_HISTORY_SIZE = 15;
+
     // Describing availability
     public static final String AVAILABLE_EDITOR_ADMIN = "Available for Editor and Admin";
     public static final String AVAILABLE_ADMIN = "Available for Admin";
