@@ -8,6 +8,8 @@ import com.pau_pau.project.models.accounts.AccountDto;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
+import com.pau_pau.project.models.films.OrderedFilmDTO;
+import com.pau_pau.project.models.history.History;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-
-@RestController
 @CrossOrigin
+@RestController
 @Api(tags = "Accounts", value = "Accounts", description = "Api for operations with accounts")
 @RequestMapping(ControllerConstants.ACCOUNT_URL)
 
@@ -46,7 +47,6 @@ public class AccountControllerImpl implements AccountController {
     }
 
     public AccountDto getAccountInfoByUsername(String username) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             return AccountDto.dtoFromAccount(accountService.findByUsername(username));
         } catch (Exception e) {
@@ -76,6 +76,37 @@ public class AccountControllerImpl implements AccountController {
                     .map(FilmDTO::fromFilmModel)
                     .collect(Collectors.toList());
         } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    private List<OrderedFilmDTO> getFilmsFromHistory(Set<History> historySet){
+        List<OrderedFilmDTO> films = new ArrayList<>();
+        for(History history: historySet){
+            films.add(new OrderedFilmDTO(FilmDTO.fromFilmModel(history.getFilm()), history.getFilmOrder()));
+        }
+        return films;
+    }
+
+    private List<FilmDTO> getFilmDTOFromOrderedFilmDTO(List<OrderedFilmDTO> orderedFilmDTOS){
+        List<FilmDTO> filmDTOList = new ArrayList<>();
+        for (OrderedFilmDTO orderedFilmDTO : orderedFilmDTOS){
+            filmDTOList.add(orderedFilmDTO.getFilmDTO());
+        }
+        return filmDTOList;
+    }
+
+    public List<FilmDTO> getHistoryByAuth(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        try{
+            Set<History> history = accountService.findByUsername(username).getHistorySet();
+            List<OrderedFilmDTO> orderedFilmDTOS = getFilmsFromHistory(history);
+
+            orderedFilmDTOS.sort((o1, o2) -> o2.getOrder() - o1.getOrder());
+            return getFilmDTOFromOrderedFilmDTO(orderedFilmDTOS);
+        } catch(Exception e){
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         }

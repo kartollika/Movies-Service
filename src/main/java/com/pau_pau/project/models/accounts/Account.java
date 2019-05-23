@@ -1,14 +1,16 @@
 package com.pau_pau.project.models.accounts;
 
 import com.pau_pau.project.models.films.Film;
+import com.pau_pau.project.models.history.History;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
 public class Account {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -33,6 +35,17 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "film_id")
     )
     private List<Film> wishlist;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private Set<History> historySet = new HashSet<>();
+
+    public Set<History> getHistorySet() {
+        return historySet;
+    }
+
+    public void setHistorySet(Set<History> historySet){
+        this.historySet = historySet;
+    }
 
     public Account() {
         super();

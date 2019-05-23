@@ -24,7 +24,6 @@ public interface FilmsController {
     String DEFAULT_FILM_COUNTRY = "";
     String DEFAULT_FILM_GENRE = "";
     GregorianCalendar DEFAULT_FILM_RELEASE_DATE = new GregorianCalendar(0, Calendar.JANUARY, 0);
-    float DEFAULT_FILM_BUDGET = 0f;
 
     @ApiOperation(value = "Get list of Movies. " + AVAILABLE_EVERYONE, response = FilmDTO.class, responseContainer = "List")
     @GetMapping
@@ -35,7 +34,7 @@ public interface FilmsController {
                            @RequestParam(defaultValue = DEFAULT_FILM_GENRE) String genre,
                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate);
 
-    @ApiOperation(value = "Get film by id. Available for everyone. ", response = FilmDTO.class)
+    @ApiOperation(value = "Get film by id. Available for everyone. ", response = FilmDTO.class, authorizations = @Authorization(value = "Bearer"))
     @GetMapping(value = ControllerConstants.FILM_URL_BY_ID)
     @ResponseStatus(HttpStatus.OK)
     FilmDTO getFilmById(@PathVariable(name = FILM_PATH_ID) int filmId);

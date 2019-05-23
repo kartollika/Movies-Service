@@ -17,6 +17,7 @@ import javax.naming.NoPermissionException;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,11 +31,11 @@ public class Film {
         Film film = new Film();
         film.id = filmDTO.getId();
         film.title = filmDTO.getTitle();
+        film.genre = filmDTO.getGenre();
         film.year = filmDTO.getYear();
         film.country = filmDTO.getCountry();
         /* после создания модели из DTO сет директоров БУДЕТ ПУСТОЙ!!! */
         film.directorsId.addAll(filmDTO.getDirectorsId());
-        film.genre = filmDTO.getGenre();
         film.release = filmDTO.getRelease();
         film.setCreationDate(filmDTO.getCreationDate());
         film.actors = filmDTO.getActors();
@@ -61,14 +62,22 @@ public class Film {
     private String country;
 
     @Column
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade({org.hibernate.annotations.CascadeType.MERGE})
     @JoinTable(
             name = "films_directors",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "director_id")
     )
     private Set<Director> directors = new HashSet<>();
+
+    @PreRemove
+    private void deleteFilmFromWishlist() {
+        accounts.forEach((Account a) -> a.getWishlist().remove(this));
+    }
+
+    @ManyToMany(mappedBy = "wishlist")
+    private List<Account> accounts;
 
     @Transient
     private Set<Integer> directorsId = new HashSet<>();
@@ -173,23 +182,6 @@ public class Film {
         return actors;
     }
 
-    @Override
-    public boolean equals(Object other){
-        if (this == other) return true;
-        if (other == null) return false;
-        if(this.getClass() != other.getClass()) return false;
-        Film otherObj = (Film) other;
-
-        //TODO are you sure that this is right (above)? If you can improve, do it
-        boolean res = true;
-        res = res && this.country.equals(otherObj.country);
-        double eps = 10e-10;
-        //res = res && (Math.abs(this.budget - otherObj.budget) <= eps);
-        res = res && (this.genre.equals(otherObj.genre));
-        res = res && (this.title.equals(otherObj.title));
-        return res;
-    }
-
     public void setActors(String actors) {
         this.actors = actors;
     }
@@ -230,17 +222,40 @@ public class Film {
         throw new NoPermissionException("Denied");
     }
 
+    //TODO need improvement?
+    @Override
+    public boolean equals(Object other){
+        if (this == other) return true;
+        if (other == null) return false;
+        if(this.getClass() != other.getClass()) return false;
+        Film otherObj = (Film) other;
+
+        //TODO are you sure that this is right (above)? If you can improve, do it
+        boolean res = this.country.equals(otherObj.country);
+        res = res && (this.genre.equals(otherObj.genre));
+        res = res && (this.title.equals(otherObj.title));
+        return res;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return 76+133*id;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-    //TODO need improvement?
-    @Override
-    public int hashCode()
-    {
-        return 76+133*id;
     }
 }
