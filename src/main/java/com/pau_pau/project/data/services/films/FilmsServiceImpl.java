@@ -9,6 +9,7 @@ import com.pau_pau.project.models.accounts.Account;
 import com.pau_pau.project.models.accounts.Role;
 import com.pau_pau.project.models.films.Film;
 import com.pau_pau.project.models.films.FilmDTO;
+import com.pau_pau.project.models.history.History;
 import com.pau_pau.project.models.states.FilmStatus;
 import com.pau_pau.project.models.states.concretes.ApprovedFilmState;
 import com.pau_pau.project.models.states.concretes.ModifiedFilmState;
@@ -147,7 +148,7 @@ public class FilmsServiceImpl implements FilmsService {
         }
 
         Film film = filmsRepository.findById(id).get();
-        historyRepository.deleteByFilmId(id);
+        historyRepository.getByFilmId(id).forEach((History history) -> historyRepository.delete(history));
         filmsRepository.deleteById(id);
         return film;
     }
