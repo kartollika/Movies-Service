@@ -243,29 +243,6 @@ public class Film {
         throw new NoPermissionException("Denied");
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    //TODO need improvement?
-    @Override
-    public boolean equals(Object other){
-        if (this == other) return true;
-        if (other == null) return false;
-        if(this.getClass() != other.getClass()) return false;
-        Film otherObj = (Film) other;
-
-        //TODO are you sure that this is right (above)? If you can improve, do it
-        boolean res = this.country.equals(otherObj.country);
-        res = res && (this.genre.equals(otherObj.genre));
-        res = res && (this.title.equals(otherObj.title));
-        return res;
-    }
-
     @Override
     public int hashCode() {
         return 76 + 133 * id;
