@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 
 
 Vue.prototype.url = "http://" + window.location.hostname + ":8080";
-
+Vue.prototype.authorization = localStorage.getItem("Authorization");
 
 const app = new Vue({
   router,

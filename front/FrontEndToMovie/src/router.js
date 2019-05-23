@@ -1,14 +1,17 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Home from "@/pages/Home.vue"
-import Admin from "@/pages/Admin.vue"
-import SearchPage from "@/pages/Search.vue"
-import Film from "../src/pages/Film"
-import Director from "../src/pages/Director"
-import Genre from "../src/pages/Genre"
+import Home from "./pages/Home.vue"
+import AdminRequests from "./pages/admin_panel/AdminRequestsPage.vue"
+import AdminChangeLevel from "./pages/admin_panel/AdminChangePermissionsLevelPage"
+import Search from "./pages/Search.vue"
+import request from "./pages/FilmPage"
+import nextDirector from "./pages/DirectorPage"
+import Genre from "./pages/Genre"
 import WishList from "./pages/WishList";
 import History from "./pages/History";
+import Random from "./pages/Random";
+import EditorPage from "./pages/EditorPanelPage";
 
 Vue.use(Router);
 
@@ -22,21 +25,26 @@ export default new Router({
             component: Home
         },
         {
-            path: '/admin',
-            name: 'admin',
-            component: Admin
+            path: '/admin/requests',
+            name: 'admin-requests',
+            component: AdminRequests
+        },
+        {
+            path: '/admin/change',
+            name: 'admin-change',
+            component: AdminChangeLevel
         },
         {
             path: '/search/:query',
-            component: SearchPage
+            component: Search
         },
         {
             path: '/film/:id',
-            component: Film
+            component: request
         },
         {
             path: '/director/:id',
-            component: Director
+            component: nextDirector
         },
         {
             path: '/genre/:name',
@@ -49,6 +57,14 @@ export default new Router({
         {
             path: '/history',
             component: History
+        },
+        {
+            path: '/random',
+            component: Random
+        },
+        {
+            path: '/editor/requests',
+            component: EditorPage
         }
         
     ]
