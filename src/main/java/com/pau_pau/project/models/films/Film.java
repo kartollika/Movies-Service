@@ -41,9 +41,6 @@ public class Film {
         film.actors = filmDTO.getActors();
         film.description = filmDTO.getDescription();
         film.poster = filmDTO.getPoster();
-        film.actors = filmDTO.getActors();
-        film.description = filmDTO.getDescription();
-        film.poster = filmDTO.getPoster();
         return film;
     }
 
@@ -169,7 +166,6 @@ public class Film {
         this.release = release;
     }
 
-
     public String getPoster() {
         return poster;
     }
@@ -180,6 +176,31 @@ public class Film {
 
     public String getActors() {
         return actors;
+    }
+
+    public void publish(Account account) throws Exception {
+        getState().publish(account);
+    }
+
+    public void reject(Account account, String comment) throws Exception {
+        getState().reject(account, comment);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null) return false;
+        if (this.getClass() != other.getClass()) return false;
+        Film otherObj = (Film) other;
+
+        //TODO are you sure that this is right (above)? If you can improve, do it
+        boolean res = true;
+        res = res && this.country.equals(otherObj.country);
+        double eps = 10e-10;
+        //res = res && (Math.abs(this.budget - otherObj.budget) <= eps);
+        res = res && (this.genre.equals(otherObj.genre));
+        res = res && (this.title.equals(otherObj.title));
+        return res;
     }
 
     public void setActors(String actors) {
@@ -222,6 +243,14 @@ public class Film {
         throw new NoPermissionException("Denied");
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     //TODO need improvement?
     @Override
     public boolean equals(Object other){
@@ -238,9 +267,8 @@ public class Film {
     }
 
     @Override
-    public int hashCode()
-    {
-        return 76+133*id;
+    public int hashCode() {
+        return 76 + 133 * id;
     }
 
     public List<Account> getAccounts() {

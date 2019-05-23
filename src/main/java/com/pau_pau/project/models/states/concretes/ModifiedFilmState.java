@@ -20,6 +20,10 @@ public class ModifiedFilmState extends FilmState {
         super(oldState);
     }
 
+    public ModifiedFilmState(Account account) {
+        super(account);
+    }
+
     @Override
     public void publish(Account account) throws NoPermissionException {
         if (account.getPermissionsLevel().equals(Role.ADMIN)) {

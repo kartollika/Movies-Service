@@ -35,6 +35,7 @@ public abstract class FilmState {
     }
 
     public FilmState(FilmState oldState) {
+        film = oldState.film;
         id = oldState.id;
         ownerId = oldState.ownerId;
     }
