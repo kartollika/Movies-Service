@@ -2,6 +2,7 @@ package com.pau_pau.project.data.services.films;
 
 import com.pau_pau.project.data.repository.accounts.AccountsRepository;
 import com.pau_pau.project.data.repository.films.FilmsRepository;
+import com.pau_pau.project.data.repository.histories.HistoryRepository;
 import com.pau_pau.project.data.services.accounts.AccountService;
 import com.pau_pau.project.data.services.directors.DirectorsService;
 import com.pau_pau.project.models.accounts.Account;
@@ -33,6 +34,9 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Autowired
     private AccountsRepository accountsRepository;
+
+    @Autowired
+    private HistoryRepository historyRepository;
 
     @Override
     public List<Film> findFilms(String title,
@@ -143,6 +147,7 @@ public class FilmsServiceImpl implements FilmsService {
         }
 
         Film film = filmsRepository.findById(id).get();
+        historyRepository.deleteByFilmId(id);
         filmsRepository.deleteById(id);
         return film;
     }
